@@ -19,23 +19,43 @@ import shutil
 from datetime import datetime
 import json
 import logging
+import sys
+
+# 添加UNI路径
+sys.path.append('./UNI')
+try:
+    from uni import get_encoder
+    UNI_AVAILABLE = True
+except ImportError:
+    UNI_AVAILABLE = False
+    print("Warning: UNI not available. Only CONCH model will be used.")
 
 # ===================== Parameter Settings =====================
 class Config:
     # Dataset parameters
     dataset_name = "tcga-brca"
     
-    # WSI filtering parameters - 只考虑hosp和label
+    # WSI filtering parameters - 考虑hosp、label和其他条件
     accept_label = ["IDC", "ILC"]            # Labels to be balanced
-    accept_hosp_list = ["AR", "A2", "D8"]   # Only accept these hosp sources
+    accept_hosp_list = ["AR", "A2", "D8", "BH"]   # Only accept these hosp sources
     n_per_hosp = 10                          # Number of WSIs to select per hosp
     num_sampled_patches = 100                # Maximum number of patches per WSI
     patch_size = 256
+    
+    # Additional filtering conditions
+    accept_age_groups = ["60-69", "70-79"]  # Age groups to accept (None for all)
+    accept_sex = ["female"]                  # Gender to accept (None for all)
+    accept_race = ["white"]                  # Race to accept (None for all)
     
     # Path configuration
     coord_dir = "/raid/mengliang/wsi_process/tcga-brca_patch/patches/"
     wsi_dir = "/home/mxz3935/dataset_folder/tcga-brca/"
     label_file = "files/tcga-brca_label.csv"
+    
+    # Model configuration
+    # 零样本分类统一使用CONCH，特征提取可选择不同模型
+    zero_shot_model = "CONCH"  # 零样本分类模型（固定为CONCH）
+    feature_model = "UNI"    # 特征提取模型（可选：CONCH, UNI, UNI2-H）
     
     # CONCH model parameters
     checkpoint_path = './checkpoints/conch/pytorch_model.bin'
@@ -46,6 +66,10 @@ class Config:
     # Zero-shot classification parameters
     classes = ['invasive ductal carcinoma', 'invasive lobular carcinoma']
     prompts = ['an H&E image of invasive ductal carcinoma', 'an H&E image of invasive lobular carcinoma']
+    
+    # UNI model parameters (for feature extraction only)
+    uni_model_name = "uni2-h"  # Options: "uni", "uni2-h"
+    uni_checkpoint_path = "./UNI/assets/ckpts/"
     
     # TSNE parameters
     tsne_perplexity = 30
@@ -100,26 +124,40 @@ def save_parameters(config, output_dir, logger=None):
     param_content.append(f"Run time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     param_content.append("")
     
-    param_content.append("WSI filtering parameters (只考虑hosp和label):")
+    param_content.append("Model configuration:")
+    param_content.append(f"  Zero-shot model: {config.zero_shot_model} (fixed)")
+    param_content.append(f"  Feature extraction model: {config.feature_model}")
+    param_content.append("")
+    
+    param_content.append("CONCH model parameters:")
+    param_content.append(f"  CONCH model config: {config.model_cfg}")
+    param_content.append(f"  CONCH checkpoint: {config.checkpoint_path}")
+    param_content.append(f"  Probability threshold: {config.probability_threshold}")
+    param_content.append(f"  Classes: {config.classes}")
+    param_content.append(f"  Prompts: {config.prompts}")
+    param_content.append("")
+    
+    if config.feature_model.upper() in ["UNI", "UNI2-H"]:
+        param_content.append("UNI model parameters (for feature extraction):")
+        param_content.append(f"  UNI model name: {config.uni_model_name}")
+        param_content.append(f"  UNI checkpoint path: {config.uni_checkpoint_path}")
+        param_content.append("")
+    
+    param_content.append("WSI filtering parameters (考虑hosp、label和其他条件):")
     param_content.append(f"  Labels: {config.accept_label}")
     param_content.append(f"  Hosp sources: {config.accept_hosp_list}")
     param_content.append(f"  WSIs per hosp: {config.n_per_hosp}")
     param_content.append(f"  Patches per WSI: {config.num_sampled_patches}")
     param_content.append(f"  Patch size: {config.patch_size}")
-    param_content.append("")
-    
-    param_content.append("CONCH model parameters:")
-    param_content.append(f"  Model config: {config.model_cfg}")
-    param_content.append(f"  Probability threshold: {config.probability_threshold}")
-    param_content.append(f"  Classes: {config.classes}")
-    param_content.append(f"  Prompts: {config.prompts}")
+    param_content.append(f"  Age groups: {config.accept_age_groups}")
+    param_content.append(f"  Sex: {config.accept_sex}")
+    param_content.append(f"  Race: {config.accept_race}")
     param_content.append("")
     
     param_content.append("Path configuration:")
     param_content.append(f"  Coordinate directory: {config.coord_dir}")
     param_content.append(f"  WSI directory: {config.wsi_dir}")
     param_content.append(f"  Label file: {config.label_file}")
-    param_content.append(f"  Model checkpoint: {config.checkpoint_path}")
     
     # Save to file
     with open(param_file, 'w', encoding='utf-8') as f:
@@ -137,7 +175,7 @@ def save_parameters(config, output_dir, logger=None):
 
 # ===================== Step 1: WSI Selection and Patch Extraction =====================
 def step1_wsi_selection(config, output_dir, logger=None):
-    """Step 1: WSI selection and patch extraction - 只考虑hosp和label"""
+    """Step 1: WSI selection and patch extraction - 考虑hosp、label和其他条件"""
     step_title = "Step 1: WSI Selection and Patch Extraction"
     print("\n" + "="*60)
     print(step_title)
@@ -155,22 +193,67 @@ def step1_wsi_selection(config, output_dir, logger=None):
         logger.info("Loading label data...")
     df_label = pd.read_csv(config.label_file)
     df_label["source"] = df_label["filename"].str.extract(r"TCGA-([A-Z0-9]{2})-")
+    df_label["age_group"] = df_label["age"].apply(age_group)
     
     if logger:
         logger.info(f"Total WSI records loaded: {len(df_label)}")
     
-    # 只考虑hosp和label的过滤
+    # 构建过滤条件
     if logger:
-        logger.info("Applying hosp and label filtering...")
+        logger.info("Applying multi-condition filtering...")
+    
+    # 基础过滤条件
     mask = (
         df_label["source"].isin(config.accept_hosp_list) &
         df_label["label"].isin(config.accept_label)
     )
+    
+    # 添加年龄组过滤
+    if config.accept_age_groups is not None:
+        mask = mask & df_label["age_group"].isin(config.accept_age_groups)
+        if logger:
+            logger.info(f"Filtering by age groups: {config.accept_age_groups}")
+    
+    # 添加性别过滤
+    if config.accept_sex is not None:
+        mask = mask & df_label["gender"].isin(config.accept_sex)
+        if logger:
+            logger.info(f"Filtering by sex: {config.accept_sex}")
+    
+    # 添加种族过滤
+    if config.accept_race is not None:
+        mask = mask & df_label["race"].isin(config.accept_race)
+        if logger:
+            logger.info(f"Filtering by race: {config.accept_race}")
+    
     df_filtered = df_label[mask].copy()
     
     print(f"Filtered data count: {len(df_filtered)} WSIs")
     if logger:
         logger.info(f"Filtered data count: {len(df_filtered)} WSIs")
+    
+    # 显示过滤条件的统计信息
+    print(f"\n=== Filtering conditions applied ===")
+    if logger:
+        logger.info("=== Filtering conditions applied ===")
+    
+    if config.accept_age_groups is not None:
+        age_counts = df_filtered["age_group"].value_counts()
+        print(f"Age groups: {dict(age_counts)}")
+        if logger:
+            logger.info(f"Age groups: {dict(age_counts)}")
+    
+    if config.accept_sex is not None:
+        sex_counts = df_filtered["gender"].value_counts()
+        print(f"Gender: {dict(sex_counts)}")
+        if logger:
+            logger.info(f"Gender: {dict(sex_counts)}")
+    
+    if config.accept_race is not None:
+        race_counts = df_filtered["race"].value_counts()
+        print(f"Race: {dict(race_counts)}")
+        if logger:
+            logger.info(f"Race: {dict(race_counts)}")
     
     # 显示每个hosp下每个label的可用数量
     print(f"\n=== Available data distribution ===")
@@ -307,6 +390,29 @@ def step1_wsi_selection(config, output_dir, logger=None):
             print(f"{hosp}: {dict(hosp_label_counts)}")
             if logger:
                 logger.info(f"{hosp}: {dict(hosp_label_counts)}")
+
+    # 显示选中样本的人口统计学信息
+    print(f"\n=== Selected samples demographics ===")
+    if logger:
+        logger.info("=== Selected samples demographics ===")
+    
+    if "age_group" in df_selected.columns:
+        age_dist = df_selected["age_group"].value_counts()
+        print(f"Age distribution: {dict(age_dist)}")
+        if logger:
+            logger.info(f"Age distribution: {dict(age_dist)}")
+    
+    if "gender" in df_selected.columns:
+        gender_dist = df_selected["gender"].value_counts()
+        print(f"Gender distribution: {dict(gender_dist)}")
+        if logger:
+            logger.info(f"Gender distribution: {dict(gender_dist)}")
+    
+    if "race" in df_selected.columns:
+        race_dist = df_selected["race"].value_counts()
+        print(f"Race distribution: {dict(race_dist)}")
+        if logger:
+            logger.info(f"Race distribution: {dict(race_dist)}")
 
     df_selected["coord_path"] = df_selected["filename"].apply(lambda f: os.path.join(config.coord_dir, f"{f}.h5"))
     df_selected["wsi_path"] = df_selected["filename"].apply(lambda f: os.path.join(config.wsi_dir, f"{f}.svs"))
@@ -455,9 +561,9 @@ def step1_wsi_selection(config, output_dir, logger=None):
 
 # ===================== Step 2: CONCH Zero-shot Classification =====================
 def step2_conch_zero_shot(config, output_dir, patch_df, logger=None):
-    """Step 2: CONCH Zero-shot Classification"""
+    """Step 2: Zero-shot Classification (using CONCH)"""
     print("\n" + "="*60)
-    print("Step 2: CONCH Zero-shot Classification")
+    print("Step 2: Zero-shot Classification")
     print("="*60)
     
     # 确保输出目录存在
@@ -466,17 +572,8 @@ def step2_conch_zero_shot(config, output_dir, patch_df, logger=None):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
     
-    # Initialize model
-    model, preprocess = create_model_from_pretrained(config.model_cfg, config.checkpoint_path, device=device)
-    model.eval()
-    
-    tokenizer = get_tokenizer()
-    tokenized_prompts = tokenize(texts=config.prompts, tokenizer=tokenizer).to(device)
-    
-    label_map = {
-        'invasive ductal carcinoma': 'IDC',
-        'invasive lobular carcinoma': 'ILC'
-    }
+    # Initialize CONCH model for zero-shot classification
+    model, preprocess = initialize_model(config, device, logger, "zero_shot")
     
     print(f"Processing {len(patch_df)} patches...")
     
@@ -495,31 +592,17 @@ def step2_conch_zero_shot(config, output_dir, patch_df, logger=None):
             patch_np = np.load(npy_path)
             patch_image = Image.fromarray(patch_np)
             
-            # Preprocess image
-            image_tensor = preprocess(patch_image).unsqueeze(0).to(device)
+            # Perform zero-shot classification using CONCH
+            pred_label, pred_prob = zero_shot_classification_with_model(
+                model, preprocess, patch_image, device, "CONCH", config
+            )
             
-            # Get image features
-            with torch.no_grad():
-                image_features = model.encode_image(image_tensor)
-                text_features = model.encode_text(tokenized_prompts)
-                
-                # Calculate similarity using logit scale (same as 03_conch_zero-shot.py)
-                sim_scores = (image_features @ text_features.T * model.logit_scale.exp()).softmax(dim=-1)
-                
-                # Save raw similarity scores for debugging
-                raw_scores = sim_scores.cpu().numpy().flatten()
-                
-                # Get prediction results
-                pred_idx = torch.argmax(sim_scores, dim=-1).item()
-                pred_label = config.classes[pred_idx]
-                pred_prob = sim_scores[0][pred_idx].item()
-                
-                # Debug information (print every 100 patches)
-                if idx % 100 == 0:
-                    print(f"Patch {idx}: raw_scores={raw_scores}, probs={sim_scores.cpu().numpy().flatten()}, pred={pred_label}, prob={pred_prob:.3f}")
-                
-                labels.append(label_map[pred_label])
-                probabilities.append(pred_prob)
+            # Debug information (print every 100 patches)
+            if idx % 100 == 0:
+                print(f"Patch {idx}: pred={pred_label}, prob={pred_prob:.3f}")
+            
+            labels.append(pred_label)
+            probabilities.append(pred_prob)
                 
         except Exception as e:
             print(f"Error processing patch {idx}: {e}")
@@ -532,10 +615,7 @@ def step2_conch_zero_shot(config, output_dir, patch_df, logger=None):
     patch_df["patch_probability"] = probabilities
     
     # Filter high-quality patches
-    # Select patch_label with the highest probability, then filter patch_label and wsi_label consistent patches
     wsi_label_consistent = patch_df["label"] == patch_df["patch_label"]
-    
-    # Add probability threshold filtering
     high_probability = patch_df["patch_probability"] >= config.probability_threshold
     valid_patches = wsi_label_consistent & high_probability
     
@@ -578,9 +658,9 @@ def step2_conch_zero_shot(config, output_dir, patch_df, logger=None):
 
 # ===================== Step 3: CONCH Feature Extraction =====================
 def step3_conch_feature_extraction(config, output_dir, filtered_patches_df, logger=None):
-    """Step 3: CONCH Feature Extraction"""
+    """Step 3: Feature Extraction"""
     print("\n" + "="*60)
-    print("Step 3: CONCH Feature Extraction")
+    print("Step 3: Feature Extraction")
     print("="*60)
     
     # 确保输出目录存在
@@ -589,8 +669,7 @@ def step3_conch_feature_extraction(config, output_dir, filtered_patches_df, logg
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     
     # Initialize model
-    model, preprocess = create_model_from_pretrained(config.model_cfg, config.checkpoint_path, device=device)
-    model.eval()
+    model, preprocess = initialize_model(config, device, logger, "feature")
     
     # Process by WSI
     wsi_groups = filtered_patches_df.groupby("filename")
@@ -615,13 +694,9 @@ def step3_conch_feature_extraction(config, output_dir, filtered_patches_df, logg
                     patch_np = np.load(npy_path)
                     patch_image = Image.fromarray(patch_np)
                     
-                    # Preprocess image
-                    image_tensor = preprocess(patch_image).unsqueeze(0).to(device)
-                    
-                    # Extract features
-                    with torch.no_grad():
-                        image_features = model.encode_image(image_tensor)
-                        features = image_features.cpu()
+                    # Extract features using the specified model
+                    features = extract_features_with_model(model, preprocess, patch_image, device, config.feature_model)
+                    features = features.cpu()
                     
                     features_list.append(features)
                     
@@ -652,9 +727,9 @@ def step3_conch_feature_extraction(config, output_dir, filtered_patches_df, logg
                 patch_info_df.to_csv(patch_info_file, index=False)
                 
                 successful_wsi += 1
-                print(f"  ✓ {wsi_id}: Saved {len(features_list)} features")
+                print(f"  ✓ {wsi_id}: Saved {len(features_list)} features (dim: {features_tensor.shape[1]})")
                 if logger:
-                    logger.info(f"✓ {wsi_id}: Saved {len(features_list)} features")
+                    logger.info(f"✓ {wsi_id}: Saved {len(features_list)} features (dim: {features_tensor.shape[1]})")
             else:
                 failed_wsi += 1
                 print(f"  ✗ {wsi_id}: No valid features")
@@ -668,12 +743,14 @@ def step3_conch_feature_extraction(config, output_dir, filtered_patches_df, logg
                 logger.error(f"✗ {wsi_id}: Error - {e}")
     
     print(f"\n=== Feature extraction completed ===")
+    print(f"Model type: {config.feature_model}")
     print(f"Successful WSIs: {successful_wsi}")
     print(f"Failed WSIs: {failed_wsi}")
     print(f"Features saved to: {features_dir}")
     
     if logger:
         logger.info("=== Feature extraction completed ===")
+        logger.info(f"Model type: {config.feature_model}")
         logger.info(f"Successful WSIs: {successful_wsi}")
         logger.info(f"Failed WSIs: {failed_wsi}")
         logger.info(f"Features saved to: {features_dir}")
@@ -865,15 +942,135 @@ def step4_tsne_visualization(config, output_dir, features_dir, logger=None):
     print(f"Hospital distribution: {dict(pd.Series(all_hosps).value_counts())}")
     print(f"Label distribution: {dict(pd.Series([info['patch_label'] for info in all_patch_info]).value_counts())}")
 
+# ===================== Model Initialization Functions =====================
+def initialize_model(config, device, logger=None, model_type="feature"):
+    """Initialize model based on model_type"""
+    if model_type == "zero_shot":
+        # 零样本分类统一使用CONCH
+        return initialize_conch_model(config, device, logger)
+    elif model_type == "feature":
+        # 特征提取可选择不同模型
+        if config.feature_model.upper() == "CONCH":
+            return initialize_conch_model(config, device, logger)
+        elif config.feature_model.upper() in ["UNI", "UNI2-H"]:
+            return initialize_uni_model(config, device, logger)
+        else:
+            raise ValueError(f"Unsupported feature model: {config.feature_model}")
+    else:
+        raise ValueError(f"Unsupported model type: {model_type}")
+
+def initialize_conch_model(config, device, logger=None):
+    """Initialize CONCH model"""
+    if logger:
+        logger.info("Initializing CONCH model...")
+    
+    print("Initializing CONCH model...")
+    model, preprocess = create_model_from_pretrained(config.model_cfg, config.checkpoint_path, device=device)
+    model.eval()
+    
+    if logger:
+        logger.info("CONCH model initialized successfully")
+    print("CONCH model initialized successfully")
+    
+    return model, preprocess
+
+def initialize_uni_model(config, device, logger=None):
+    """Initialize UNI model"""
+    if not UNI_AVAILABLE:
+        raise ImportError("UNI is not available. Please install UNI first.")
+    
+    if logger:
+        logger.info(f"Initializing UNI model: {config.uni_model_name}...")
+    
+    print(f"Initializing UNI model: {config.uni_model_name}...")
+    
+    # 确定UNI模型名称
+    uni_model_name = config.uni_model_name
+    if config.feature_model.upper() == "UNI2-H":
+        uni_model_name = "uni2-h"
+    
+    # 初始化UNI模型
+    model, transform = get_encoder(
+        enc_name=uni_model_name,
+        device=device,
+        assets_dir=config.uni_checkpoint_path
+    )
+    
+    if model is None:
+        raise ValueError(f"Failed to initialize UNI model: {uni_model_name}")
+    
+    if logger:
+        logger.info(f"UNI model {uni_model_name} initialized successfully")
+    print(f"UNI model {uni_model_name} initialized successfully")
+    
+    return model, transform
+
+def extract_features_with_model(model, preprocess, image, device, model_type):
+    """Extract features using the specified model"""
+    if model_type.upper() == "CONCH":
+        # CONCH model feature extraction
+        image_tensor = preprocess(image).unsqueeze(0).to(device)
+        with torch.no_grad():
+            features = model.encode_image(image_tensor)
+        return features
+    
+    elif model_type.upper() in ["UNI", "UNI2-H"]:
+        # UNI model feature extraction
+        image_tensor = preprocess(image).unsqueeze(0).to(device)
+        with torch.no_grad():
+            features = model(image_tensor)
+        return features
+    
+    else:
+        raise ValueError(f"Unsupported model type for feature extraction: {model_type}")
+
+def zero_shot_classification_with_model(model, preprocess, image, device, model_type, config):
+    """Perform zero-shot classification using the specified model"""
+    if model_type.upper() == "CONCH":
+        # CONCH zero-shot classification
+        tokenizer = get_tokenizer()
+        tokenized_prompts = tokenize(texts=config.prompts, tokenizer=tokenizer).to(device)
+        
+        image_tensor = preprocess(image).unsqueeze(0).to(device)
+        
+        with torch.no_grad():
+            image_features = model.encode_image(image_tensor)
+            text_features = model.encode_text(tokenized_prompts)
+            sim_scores = (image_features @ text_features.T * model.logit_scale.exp()).softmax(dim=-1)
+        
+        pred_idx = torch.argmax(sim_scores, dim=-1).item()
+        pred_label = config.classes[pred_idx]
+        pred_prob = sim_scores[0][pred_idx].item()
+        
+        label_map = {
+            'invasive ductal carcinoma': 'IDC',
+            'invasive lobular carcinoma': 'ILC'
+        }
+        
+        return label_map.get(pred_label, pred_label), pred_prob
+    
+    else:
+        raise ValueError(f"Unsupported model type for zero-shot classification: {model_type}")
+
 # ===================== Main Function =====================
 def main():
     """Main function"""
     print("TCGA-BRCA Pipeline starting")
     print("="*60)
     
+    # 显示模型信息
+    print(f"Zero-shot model: {Config.zero_shot_model} (fixed)")
+    print(f"Feature extraction model: {Config.feature_model}")
+    
+    # 检查UNI模型是否可用（如果使用UNI进行特征提取）
+    if Config.feature_model.upper() in ["UNI", "UNI2-H"]:
+        if not UNI_AVAILABLE:
+            print("Error: UNI is not available. Please install UNI first.")
+            return
+    
     # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"results/{Config.dataset_name}_{timestamp}"
+    output_dir = f"results/{Config.dataset_name}_{Config.feature_model.lower()}_{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
     print(f"Output directory: {output_dir}")
     
@@ -885,10 +1082,10 @@ def main():
         # Step 1: WSI Selection and Patch Extraction
         patch_df = step1_wsi_selection(Config, output_dir, logger)
         
-        # Step 2: CONCH Zero-shot Classification
+        # Step 2: Zero-shot Classification (using CONCH)
         filtered_patches_df = step2_conch_zero_shot(Config, output_dir, patch_df, logger)
         
-        # Step 3: CONCH Feature Extraction
+        # Step 3: Feature Extraction (using selected model)
         features_dir = step3_conch_feature_extraction(Config, output_dir, filtered_patches_df, logger)
         
         # Step 4: TSNE Visualization
@@ -896,12 +1093,16 @@ def main():
         
         print("\n" + "="*60)
         print("Pipeline completed!")
+        print(f"Zero-shot model: {Config.zero_shot_model}")
+        print(f"Feature extraction model: {Config.feature_model}")
         print(f"All results saved: {output_dir}")
         print("="*60)
         
         if logger:
             logger.info("="*60)
             logger.info("Pipeline completed successfully!")
+            logger.info(f"Zero-shot model: {Config.zero_shot_model}")
+            logger.info(f"Feature extraction model: {Config.feature_model}")
             logger.info(f"All results saved: {output_dir}")
             logger.info("="*60)
         
@@ -916,4 +1117,4 @@ def main():
             logger.error("Full traceback:", exc_info=True)
 
 if __name__ == "__main__":
-    main() 
+    main()
