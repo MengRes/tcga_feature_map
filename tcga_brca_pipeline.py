@@ -30,9 +30,9 @@ class Config:
     accept_sex = ["female"]                  # Only accept these genders
     accept_race = ["white"]                  # Only accept these races
     accept_label = ["IDC", "ILC"]            # Labels to be balanced
-    accept_hosp_list = ["BH", "E2", "A2", "A8", "D8"]   # Only accept these hosp sources
+    accept_hosp_list = ["AR", "A2", "D8"]   # Only accept these hosp sources
     n_per_hosp = 10                          # Number of WSIs to select per hosp
-    num_sampled_patches = 200                # Maximum number of patches per WSI
+    num_sampled_patches = 100                # Maximum number of patches per WSI
     patch_size = 256
     
     # Path configuration
@@ -757,29 +757,65 @@ def step4_tsne_visualization(config, output_dir, features_dir, logger=None):
     plt.close()
     print(f"Hospital-grouped TSNE plot saved: {hosp_viz_file}")
     
-    # Visualize by label
-    df_tsne['Label'] = [info['patch_label'] for info in all_patch_info]
+    # ========== Draw t-SNE for each label separately (different color for each hospital, larger font) ==========
+    for label in sorted(set([info['patch_label'] for info in all_patch_info])):
+        # Only keep patches with the current label
+        mask = [info['patch_label'] == label for info in all_patch_info]
+        features_label = all_features[mask]
+        patch_info_label = [info for i, info in enumerate(all_patch_info) if mask[i]]
+        hosps_label = [info['hosp'] for info in patch_info_label]
+        if len(features_label) == 0:
+            continue
+        # t-SNE dimensionality reduction
+        tsne = TSNE(n_components=2, random_state=42, perplexity=config.tsne_perplexity, n_iter=config.tsne_n_iter)
+        features_2d = tsne.fit_transform(features_label)
+        # Plotting
+        df = pd.DataFrame({
+            'TSNE1': features_2d[:, 0],
+            'TSNE2': features_2d[:, 1],
+            'Hosp': hosps_label
+        })
+        unique_hosps = sorted(set(hosps_label))
+        colors = plt.cm.Set3(np.linspace(0, 1, len(unique_hosps)))
+        color_map = dict(zip(unique_hosps, colors))
+        plt.figure(figsize=(12, 10))
+        for hosp in unique_hosps:
+            mask_h = df['Hosp'] == hosp
+            plt.scatter(df[mask_h]['TSNE1'], df[mask_h]['TSNE2'],
+                        c=[color_map[hosp]], label=hosp, alpha=0.7, s=20)
+        plt.title(f't-SNE ({label}) - Grouped by Hospital', fontsize=22, fontweight='bold')
+        plt.xlabel('TSNE1', fontsize=18)
+        plt.ylabel('TSNE2', fontsize=18)
+        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=16)
+        plt.tight_layout()
+        label_hosp_viz_file = os.path.join(viz_dir, f"tsne_by_hosp_{label}.png")
+        plt.savefig(label_hosp_viz_file, dpi=300, bbox_inches='tight')
+        plt.close()
+        print(f"Label {label} hospital-grouped t-SNE plot saved: {label_hosp_viz_file}")
+        if logger:
+            logger.info(f"Label {label} hospital-grouped t-SNE plot saved: {label_hosp_viz_file}")
     
+    # Visualize by label (all labels together, color by label)
+    df_tsne['Label'] = [info['patch_label'] for info in all_patch_info]
     unique_labels = sorted(set(df_tsne['Label']))
     colors = plt.cm.Set1(np.linspace(0, 1, len(unique_labels)))
     color_map = dict(zip(unique_labels, colors))
-    
     plt.figure(figsize=(12, 10))
     for label in unique_labels:
         mask = df_tsne['Label'] == label
-        plt.scatter(df_tsne[mask]['TSNE1'], df_tsne[mask]['TSNE2'], 
+        plt.scatter(df_tsne[mask]['TSNE1'], df_tsne[mask]['TSNE2'],
                    c=[color_map[label]], label=label, alpha=0.7, s=20)
-    
-    plt.title('TSNE Visualization - Grouped by Label', fontsize=16, fontweight='bold')
-    plt.xlabel('TSNE1', fontsize=12)
-    plt.ylabel('TSNE2', fontsize=12)
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=10)
+    plt.title('t-SNE Visualization - Grouped by Label', fontsize=22, fontweight='bold')
+    plt.xlabel('TSNE1', fontsize=18)
+    plt.ylabel('TSNE2', fontsize=18)
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=16)
     plt.tight_layout()
-    
     label_viz_file = os.path.join(viz_dir, "tsne_by_label.png")
     plt.savefig(label_viz_file, dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"Label-grouped TSNE plot saved: {label_viz_file}")
+    print(f"Label-grouped t-SNE plot saved: {label_viz_file}")
+    if logger:
+        logger.info(f"Label-grouped t-SNE plot saved: {label_viz_file}")
     
     # Statistics
     print(f"\n=== Visualization statistics ===")
