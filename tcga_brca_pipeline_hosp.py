@@ -20,6 +20,8 @@ from datetime import datetime
 import json
 import logging
 import sys
+from torchvision import models
+from torchvision import transforms
 
 # 添加UNI路径
 sys.path.append('./UNI')
@@ -55,7 +57,7 @@ class Config:
     # Model configuration
     # 零样本分类统一使用CONCH，特征提取可选择不同模型
     zero_shot_model = "CONCH"  # 零样本分类模型（固定为CONCH）
-    feature_model = "UNI"    # 特征提取模型（可选：CONCH, UNI, UNI2-H）
+    feature_model = "RESNET50"    # 特征提取模型（可选：CONCH, UNI, UNI2-H, RESNET50）
     
     # CONCH model parameters
     checkpoint_path = './checkpoints/conch/pytorch_model.bin'
@@ -954,6 +956,8 @@ def initialize_model(config, device, logger=None, model_type="feature"):
             return initialize_conch_model(config, device, logger)
         elif config.feature_model.upper() in ["UNI", "UNI2-H"]:
             return initialize_uni_model(config, device, logger)
+        elif config.feature_model.upper() == "RESNET50":
+            return initialize_resnet50_model(config, device, logger)
         else:
             raise ValueError(f"Unsupported feature model: {config.feature_model}")
     else:
@@ -1005,6 +1009,22 @@ def initialize_uni_model(config, device, logger=None):
     
     return model, transform
 
+def initialize_resnet50_model(config, device, logger=None):
+    model = models.resnet50(pretrained=True)
+    # 去掉最后的fc层，只保留2048维特征
+    modules = list(model.children())[:-1]  # 去掉fc
+    model = torch.nn.Sequential(*modules)
+    model.eval()
+    model.to(device)
+    # ImageNet标准预处理
+    preprocess = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
+    return model, preprocess
+
 def extract_features_with_model(model, preprocess, image, device, model_type):
     """Extract features using the specified model"""
     if model_type.upper() == "CONCH":
@@ -1019,6 +1039,14 @@ def extract_features_with_model(model, preprocess, image, device, model_type):
         image_tensor = preprocess(image).unsqueeze(0).to(device)
         with torch.no_grad():
             features = model(image_tensor)
+        return features
+    
+    elif model_type.upper() == "RESNET50":
+        # ResNet50特征提取
+        image_tensor = preprocess(image).unsqueeze(0).to(device)
+        with torch.no_grad():
+            features = model(image_tensor)  # [1, 2048, 1, 1]
+            features = features.view(features.size(0), -1)  # [1, 2048]
         return features
     
     else:
