@@ -86,7 +86,7 @@ def plot_tsne_by_hosp(features, hosps, output_path):
     print("Starting TSNE dimensionality reduction...")
     
     # Perform TSNE dimensionality reduction
-    tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=1000)
+    tsne = TSNE(n_components=2, random_state=42, perplexity=30, max_iter=1000)
     features_2d = tsne.fit_transform(features)
     
     # Create DataFrame for plotting
@@ -126,7 +126,7 @@ def plot_tsne_by_label(features, patch_info, output_path):
     print("Plotting TSNE by label...")
     
     # Perform TSNE dimensionality reduction
-    tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=1000)
+    tsne = TSNE(n_components=2, random_state=42, perplexity=30, max_iter=1000)
     features_2d = tsne.fit_transform(features)
     
     # Get patch labels
