@@ -23,7 +23,7 @@ import sys
 from torchvision import models
 from torchvision import transforms
 
-# 添加UNI路径
+# Add UNI path
 sys.path.append('./UNI')
 try:
     from uni import get_encoder
@@ -37,7 +37,7 @@ class Config:
     # Dataset parameters
     dataset_name = "tcga-brca"
     
-    # WSI filtering parameters - 考虑hosp、label和其他条件
+    # WSI filtering parameters - considering hosp, label and other conditions
     accept_label = ["IDC", "ILC"]            # Labels to be balanced
     accept_hosp_list = ["AR", "A2", "D8", "BH"]   # Only accept these hosp sources
     n_per_hosp = 10                          # Number of WSIs to select per hosp
@@ -46,7 +46,7 @@ class Config:
     
     # Additional filtering conditions
     accept_age_groups = ["60-69", "70-79"]  # Age groups to accept (None for all)
-    accept_sex = ["female"]                  # Gender to accept (None for all)
+    accept_gender = ["female"]               # Gender to accept (None for all)
     accept_race = ["white"]                  # Race to accept (None for all)
     
     # Path configuration
@@ -55,9 +55,9 @@ class Config:
     label_file = "files/tcga-brca_label.csv"
     
     # Model configuration
-    # 零样本分类统一使用CONCH，特征提取可选择不同模型
-    zero_shot_model = "CONCH"  # 零样本分类模型（固定为CONCH）
-    feature_model = "RESNET50"    # 特征提取模型（可选：CONCH, UNI, UNI2-H, RESNET50）
+    # Zero-shot classification uses CONCH uniformly, feature extraction can choose different models
+    zero_shot_model = "CONCH"  # Zero-shot classification model (fixed as CONCH)
+    feature_model = "CONCH"    # Feature extraction model (options: CONCH, UNI, UNI2-H, RESNET50)
     
     # CONCH model parameters
     checkpoint_path = './checkpoints/conch/pytorch_model.bin'
@@ -145,14 +145,14 @@ def save_parameters(config, output_dir, logger=None):
         param_content.append(f"  UNI checkpoint path: {config.uni_checkpoint_path}")
         param_content.append("")
     
-    param_content.append("WSI filtering parameters (考虑hosp、label和其他条件):")
+    param_content.append("WSI filtering parameters (considering hosp, label and other conditions):")
     param_content.append(f"  Labels: {config.accept_label}")
     param_content.append(f"  Hosp sources: {config.accept_hosp_list}")
     param_content.append(f"  WSIs per hosp: {config.n_per_hosp}")
     param_content.append(f"  Patches per WSI: {config.num_sampled_patches}")
     param_content.append(f"  Patch size: {config.patch_size}")
     param_content.append(f"  Age groups: {config.accept_age_groups}")
-    param_content.append(f"  Sex: {config.accept_sex}")
+    param_content.append(f"  Gender: {config.accept_gender}")
     param_content.append(f"  Race: {config.accept_race}")
     param_content.append("")
     
@@ -177,13 +177,13 @@ def save_parameters(config, output_dir, logger=None):
 
 # ===================== Step 1: WSI Selection and Patch Extraction =====================
 def step1_wsi_selection(config, output_dir, logger=None):
-    """Step 1: WSI selection and patch extraction - 考虑hosp、label和其他条件"""
+    """Step 1: WSI selection and patch extraction - considering hosp, label and other conditions"""
     step_title = "Step 1: WSI Selection and Patch Extraction"
     print("\n" + "="*60)
     print(step_title)
     print("="*60)
     
-    # 确保输出目录存在
+    # Ensure output directory exists
     os.makedirs(output_dir, exist_ok=True)
     
     if logger:
@@ -198,564 +198,297 @@ def step1_wsi_selection(config, output_dir, logger=None):
     df_label["age_group"] = df_label["age"].apply(age_group)
     
     if logger:
-        logger.info(f"Total WSI records loaded: {len(df_label)}")
+        logger.info(f"Loaded {len(df_label)} label records")
+    print(f"Loaded {len(df_label)} label records")
     
-    # 构建过滤条件
+    # Filter by label
+    df_filtered = df_label[df_label["label"].isin(config.accept_label)].copy()
     if logger:
-        logger.info("Applying multi-condition filtering...")
+        logger.info(f"After label filtering: {len(df_filtered)} records")
+    print(f"After label filtering: {len(df_filtered)} records")
     
-    # 基础过滤条件
-    mask = (
-        df_label["source"].isin(config.accept_hosp_list) &
-        df_label["label"].isin(config.accept_label)
-    )
-    
-    # 添加年龄组过滤
-    if config.accept_age_groups is not None:
-        mask = mask & df_label["age_group"].isin(config.accept_age_groups)
-        if logger:
-            logger.info(f"Filtering by age groups: {config.accept_age_groups}")
-    
-    # 添加性别过滤
-    if config.accept_sex is not None:
-        mask = mask & df_label["gender"].isin(config.accept_sex)
-        if logger:
-            logger.info(f"Filtering by sex: {config.accept_sex}")
-    
-    # 添加种族过滤
-    if config.accept_race is not None:
-        mask = mask & df_label["race"].isin(config.accept_race)
-        if logger:
-            logger.info(f"Filtering by race: {config.accept_race}")
-    
-    df_filtered = df_label[mask].copy()
-    
-    print(f"Filtered data count: {len(df_filtered)} WSIs")
+    # Filter by hospital
+    df_filtered = df_filtered[df_filtered["source"].isin(config.accept_hosp_list)].copy()
     if logger:
-        logger.info(f"Filtered data count: {len(df_filtered)} WSIs")
+        logger.info(f"After hospital filtering: {len(df_filtered)} records")
+    print(f"After hospital filtering: {len(df_filtered)} records")
     
-    # 显示过滤条件的统计信息
-    print(f"\n=== Filtering conditions applied ===")
-    if logger:
-        logger.info("=== Filtering conditions applied ===")
-    
-    if config.accept_age_groups is not None:
-        age_counts = df_filtered["age_group"].value_counts()
-        print(f"Age groups: {dict(age_counts)}")
+    # Filter by age group
+    if config.accept_age_groups:
+        df_filtered = df_filtered[df_filtered["age_group"].isin(config.accept_age_groups)].copy()
         if logger:
-            logger.info(f"Age groups: {dict(age_counts)}")
+            logger.info(f"After age group filtering: {len(df_filtered)} records")
+        print(f"After age group filtering: {len(df_filtered)} records")
     
-    if config.accept_sex is not None:
-        sex_counts = df_filtered["gender"].value_counts()
-        print(f"Gender: {dict(sex_counts)}")
+    # Filter by gender
+    if config.accept_gender:
+        df_filtered = df_filtered[df_filtered["gender"].isin(config.accept_gender)].copy()
         if logger:
-            logger.info(f"Gender: {dict(sex_counts)}")
+            logger.info(f"After gender filtering: {len(df_filtered)} records")
+        print(f"After gender filtering: {len(df_filtered)} records")
     
-    if config.accept_race is not None:
-        race_counts = df_filtered["race"].value_counts()
-        print(f"Race: {dict(race_counts)}")
+    # Filter by race
+    if config.accept_race:
+        df_filtered = df_filtered[df_filtered["race"].isin(config.accept_race)].copy()
         if logger:
-            logger.info(f"Race: {dict(race_counts)}")
+            logger.info(f"After race filtering: {len(df_filtered)} records")
+        print(f"After race filtering: {len(df_filtered)} records")
     
-    # 显示每个hosp下每个label的可用数量
-    print(f"\n=== Available data distribution ===")
-    if logger:
-        logger.info("=== Available data distribution ===")
-    
+    # Balance by hospital
+    selected_wsis = []
     for hosp in config.accept_hosp_list:
-        hosp_data = df_filtered[df_filtered["source"] == hosp]
-        if len(hosp_data) > 0:
-            label_counts = hosp_data["label"].value_counts()
-            print(f"{hosp}: {dict(label_counts)}")
+        hosp_wsis = df_filtered[df_filtered["source"] == hosp]
+        if len(hosp_wsis) > 0:
+            # Select up to n_per_hosp WSIs per hospital
+            n_select = min(config.n_per_hosp, len(hosp_wsis))
+            selected = hosp_wsis.sample(n=n_select, random_state=42)
+            selected_wsis.append(selected)
             if logger:
-                logger.info(f"{hosp}: {dict(label_counts)}")
-        else:
-            print(f"{hosp}: No available data")
-            if logger:
-                logger.warning(f"{hosp}: No available data")
+                logger.info(f"Selected {len(selected)} WSIs from hospital {hosp}")
+            print(f"Selected {len(selected)} WSIs from hospital {hosp}")
     
-    # Group by hosp and balanced sampling
-    selected_rows = []
-    total_selected = 0
+    if not selected_wsis:
+        raise ValueError("No WSIs selected after filtering")
     
-    for hosp in config.accept_hosp_list:
-        print(f"\n--- Processing hosp: {hosp} ---")
-        if logger:
-            logger.info(f"Processing hosp: {hosp}")
-        
-        hosp_data = df_filtered[df_filtered["source"] == hosp].copy()
-        
-        if len(hosp_data) == 0:
-            print(f"  ✗ {hosp}: No available data")
-            if logger:
-                logger.warning(f"{hosp}: No available data")
-            continue
-        
-        # Count available data for each label
-        label_counts = hosp_data["label"].value_counts()
-        print(f"  {hosp} available data distribution:")
-        if logger:
-            logger.info(f"{hosp} available data distribution:")
-        
-        for label, count in label_counts.items():
-            print(f"    {label}: {count} samples")
-            if logger:
-                logger.info(f"  {label}: {count} samples")
-        
-        # 计算每个标签的目标数量，确保平衡
-        n_labels = len(config.accept_label)
-        target_per_label = config.n_per_hosp // n_labels
-        remainder = config.n_per_hosp % n_labels
-        
-        hosp_selected = []
-        
-        # 为每个标签采样
-        for i, label in enumerate(config.accept_label):
-            label_data = hosp_data[hosp_data["label"] == label].copy()
-            available_count = len(label_data)
-            
-            # 计算当前标签的目标数量
-            current_target = target_per_label
-            if i < remainder:
-                current_target += 1
-            
-            actual_count = min(available_count, current_target)
-            print(f"    {label}: available{available_count}, target{current_target}, actual sampling{actual_count}")
-            if logger:
-                logger.info(f"  {label}: available{available_count}, target{current_target}, actual sampling{actual_count}")
-            
-            if actual_count > 0:
-                if actual_count == available_count:
-                    hosp_selected.append(label_data)
-                else:
-                    hosp_selected.append(label_data.sample(n=actual_count, random_state=42))
-        
-        # 合并当前医院的采样结果
-        if hosp_selected:
-            hosp_df = pd.concat(hosp_selected, ignore_index=True)
-            selected_rows.append(hosp_df)
-            total_selected += len(hosp_df)
-            print(f"  ✓ {hosp}: Successfully sampled {len(hosp_df)} WSIs")
-            if logger:
-                logger.info(f"✓ {hosp}: Successfully sampled {len(hosp_df)} WSIs")
-        else:
-            print(f"  ✗ {hosp}: No valid sampling")
-            if logger:
-                logger.warning(f"✗ {hosp}: No valid sampling")
-
-    print(f"\n=== Sampling completed ===")
-    print(f"Total sampled: {total_selected} WSIs")
+    df_selected = pd.concat(selected_wsis, ignore_index=True)
     if logger:
-        logger.info("=== Sampling completed ===")
-        logger.info(f"Total sampled: {total_selected} WSIs")
-
-    if not selected_rows:
-        error_msg = "No matched WSI sets found with the given criteria."
-        print(error_msg)
-        if logger:
-            logger.error(error_msg)
-        exit()
-
-    df_selected = pd.concat(selected_rows, ignore_index=True)
-
-    # 统计每个来源选择的WSI数量
-    source_counts = df_selected["source"].value_counts()
-    print(f"\n=== WSIs selected for each source ===")
-    if logger:
-        logger.info("=== WSIs selected for each source ===")
+        logger.info(f"Total selected WSIs: {len(df_selected)}")
+    print(f"Total selected WSIs: {len(df_selected)}")
     
-    for source, count in source_counts.items():
-        print(f"{source}: {count} WSIs")
-        if logger:
-            logger.info(f"{source}: {count} WSIs")
-
-    # 统计每个标签的分布
-    label_counts = df_selected["label"].value_counts()
-    print(f"\n=== Distribution for each label ===")
-    if logger:
-        logger.info("=== Distribution for each label ===")
+    # Extract patches
+    all_patches = []
     
-    for label, count in label_counts.items():
-        print(f"{label}: {count} WSIs")
-        if logger:
-            logger.info(f"{label}: {count} WSIs")
-
-    # 统计每个医院内标签的分布
-    print(f"\n=== Label distribution within each hosp ===")
-    if logger:
-        logger.info("=== Label distribution within each hosp ===")
-    
-    for hosp in config.accept_hosp_list:
-        hosp_data = df_selected[df_selected["source"] == hosp].copy()
-        if len(hosp_data) > 0:
-            hosp_label_counts = hosp_data["label"].value_counts()
-            print(f"{hosp}: {dict(hosp_label_counts)}")
-            if logger:
-                logger.info(f"{hosp}: {dict(hosp_label_counts)}")
-
-    # 显示选中样本的人口统计学信息
-    print(f"\n=== Selected samples demographics ===")
-    if logger:
-        logger.info("=== Selected samples demographics ===")
-    
-    if "age_group" in df_selected.columns:
-        age_dist = df_selected["age_group"].value_counts()
-        print(f"Age distribution: {dict(age_dist)}")
-        if logger:
-            logger.info(f"Age distribution: {dict(age_dist)}")
-    
-    if "gender" in df_selected.columns:
-        gender_dist = df_selected["gender"].value_counts()
-        print(f"Gender distribution: {dict(gender_dist)}")
-        if logger:
-            logger.info(f"Gender distribution: {dict(gender_dist)}")
-    
-    if "race" in df_selected.columns:
-        race_dist = df_selected["race"].value_counts()
-        print(f"Race distribution: {dict(race_dist)}")
-        if logger:
-            logger.info(f"Race distribution: {dict(race_dist)}")
-
-    df_selected["coord_path"] = df_selected["filename"].apply(lambda f: os.path.join(config.coord_dir, f"{f}.h5"))
-    df_selected["wsi_path"] = df_selected["filename"].apply(lambda f: os.path.join(config.wsi_dir, f"{f}.svs"))
-
-    output_csv = os.path.join(output_dir, "selected_sources.csv")
-    df_selected.to_csv(output_csv, index=False)
-    print(f"Saved: {output_csv}")
-    if logger:
-        logger.info(f"Saved selected sources: {output_csv}")
-
-    # ===================== Patch sampling and saving =====================
-    print(f"\n=== Start extracting patches ===")
-    print(f"Maximum patches per WSI: {config.num_sampled_patches}")
-    print(f"Patch size: {config.patch_size}x{config.patch_size}")
-    if logger:
-        logger.info("=== Start extracting patches ===")
-        logger.info(f"Maximum patches per WSI: {config.num_sampled_patches}")
-        logger.info(f"Patch size: {config.patch_size}x{config.patch_size}")
-
-    # Clear output directory (but keep log files)
-    if os.path.exists(output_dir):
-        # Only clear patches subdirectory if it exists
-        patches_dir = os.path.join(output_dir, "patches")
-        if os.path.exists(patches_dir):
-            import shutil
-            shutil.rmtree(patches_dir)
-            print(f"Cleared patches directory: {patches_dir}")
-            if logger:
-                logger.info(f"Cleared patches directory: {patches_dir}")
-    
-    # Create patches directory
-    patches_dir = os.path.join(output_dir, "patches")
-    os.makedirs(patches_dir, exist_ok=True)
-    print(f"Created patches directory: {patches_dir}")
-    if logger:
-        logger.info(f"Created patches directory: {patches_dir}")
-
-    patch_rows = []
-    successful_wsi = 0
-    failed_wsi = 0
-
     for idx, row in tqdm(df_selected.iterrows(), total=len(df_selected), desc="Extracting patches"):
-        filename = str(row["filename"])
-        coord_path = str(row["coord_path"])
-        wsi_path = str(row["wsi_path"])
-        slide_id = os.path.splitext(filename)[0]
-        slide_output_dir = os.path.join(patches_dir, slide_id)
-        os.makedirs(slide_output_dir, exist_ok=True)
+        wsi_id = row["filename"]
+        label = row["label"]
+        hosp = row["source"]
         
-        if not os.path.isfile(coord_path) or not os.path.isfile(wsi_path):
-            print(f"[Skip] Missing file for {slide_id}")
+        # Load patch coordinates
+        coord_file = os.path.join(config.coord_dir, f"{wsi_id}.h5")
+        if not os.path.exists(coord_file):
             if logger:
-                logger.warning(f"Missing file for {slide_id}")
-            failed_wsi += 1
+                logger.warning(f"Coordinate file not found: {coord_file}")
             continue
-            
-        try:
-            with h5py.File(coord_path, "r") as f:
-                if "coords" in f:
-                    coords_dataset = f["coords"]
-                    if isinstance(coords_dataset, h5py.Dataset):
-                        coords = np.array(coords_dataset[:])
-                    else:
-                        print(f"[Skip] coords is not a dataset in {slide_id}")
-                        if logger:
-                            logger.warning(f"coords is not a dataset in {slide_id}")
-                        failed_wsi += 1
-                        continue
-                else:
-                    print(f"[Skip] No coords dataset found in {slide_id}")
-                    if logger:
-                        logger.warning(f"No coords dataset found in {slide_id}")
-                    failed_wsi += 1
-                    continue
-        except Exception as e:
-            print(f"[Skip] Error reading coords for {slide_id}: {e}")
-            if logger:
-                logger.error(f"Error reading coords for {slide_id}: {e}")
-            failed_wsi += 1
-            continue
-            
-        if len(coords) == 0:
-            print(f"[Skip] No coords in {slide_id}")
-            if logger:
-                logger.warning(f"No coords in {slide_id}")
-            failed_wsi += 1
-            continue
-            
-        coords_list = coords.tolist() if hasattr(coords, 'tolist') else list(coords)
-        sampled_coords = coords_list if len(coords_list) <= config.num_sampled_patches else random.sample(coords_list, config.num_sampled_patches)
         
         try:
-            slide = openslide.OpenSlide(wsi_path)
-        except Exception as e:
-            print(f"[Skip] Error opening slide for {slide_id}: {e}")
-            if logger:
-                logger.error(f"Error opening slide for {slide_id}: {e}")
-            failed_wsi += 1
-            continue
+            with h5py.File(coord_file, 'r') as f:
+                coords = f['coords'][:]
             
-        successful_patches = 0
-        for coord in sampled_coords:
-            try:
-                x, y = map(int, coord)
-                patch = slide.read_region((x, y), 0, (config.patch_size, config.patch_size)).convert("RGB")
-                patch_np = np.array(patch)
-                patch_name = f"{x}_{y}.npy"
-                npy_path = os.path.join(slide_output_dir, patch_name)
-                np.save(npy_path, patch_np)
-                patch_row = row.to_dict()
-                patch_row["patch_x"] = x
-                patch_row["patch_y"] = y
-                patch_row["npy_path"] = npy_path
-                patch_rows.append(patch_row)
-                successful_patches += 1
-            except Exception as e:
-                print(f"[Skip] Error processing patch {coord} for {slide_id}: {e}")
-                if logger:
-                    logger.error(f"Error processing patch {coord} for {slide_id}: {e}")
-                continue
-        slide.close()
-        
-        successful_wsi += 1
-        print(f"  {slide_id}: Successfully extracted {successful_patches}/{len(sampled_coords)} patches")
-        if logger:
-            logger.info(f"{slide_id}: Successfully extracted {successful_patches}/{len(sampled_coords)} patches")
-
-    patch_df = pd.DataFrame(patch_rows)
-    patch_csv = os.path.join(output_dir, "all_patches.csv")
-    patch_df.to_csv(patch_csv, index=False)
-
-    print(f"\n=== Patch extraction completed ===")
-    print(f"Successfully processed WSIs: {successful_wsi}")
-    print(f"Failed WSIs: {failed_wsi}")
-    print(f"Total extracted patches: {len(patch_df)}")
-    print(f"Saved patch_df to {patch_csv}")
-    
-    if logger:
-        logger.info("=== Patch extraction completed ===")
-        logger.info(f"Successfully processed WSIs: {successful_wsi}")
-        logger.info(f"Failed WSIs: {failed_wsi}")
-        logger.info(f"Total extracted patches: {len(patch_df)}")
-        logger.info(f"Saved patch_df to {patch_csv}")
-
-    return patch_df
-
-# ===================== Step 2: CONCH Zero-shot Classification =====================
-def step2_conch_zero_shot(config, output_dir, patch_df, logger=None):
-    """Step 2: Zero-shot Classification (using CONCH)"""
-    print("\n" + "="*60)
-    print("Step 2: Zero-shot Classification")
-    print("="*60)
-    
-    # 确保输出目录存在
-    os.makedirs(output_dir, exist_ok=True)
-    
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-    print(f"Using device: {device}")
-    
-    # Initialize CONCH model for zero-shot classification
-    model, preprocess = initialize_model(config, device, logger, "zero_shot")
-    
-    print(f"Processing {len(patch_df)} patches...")
-    
-    labels = []
-    probabilities = []
-    failed_indices = []
-    
-    for idx, row in tqdm(patch_df.iterrows(), total=len(patch_df), desc="Zero-shot classification"):
-        try:
-            npy_path = row["npy_path"]
-            if not os.path.exists(npy_path):
-                failed_indices.append(idx)
-                continue
+            # Randomly sample patches
+            if len(coords) > config.num_sampled_patches:
+                indices = np.random.choice(len(coords), config.num_sampled_patches, replace=False)
+                coords = coords[indices]
             
-            # Load patch image
-            patch_np = np.load(npy_path)
-            patch_image = Image.fromarray(patch_np)
-            
-            # Perform zero-shot classification using CONCH
-            pred_label, pred_prob = zero_shot_classification_with_model(
-                model, preprocess, patch_image, device, "CONCH", config
-            )
-            
-            # Debug information (print every 100 patches)
-            if idx % 100 == 0:
-                print(f"Patch {idx}: pred={pred_label}, prob={pred_prob:.3f}")
-            
-            labels.append(pred_label)
-            probabilities.append(pred_prob)
+            # Create patch records
+            for coord in coords:
+                patch_record = {
+                    'wsi_id': wsi_id,
+                    'label': label,
+                    'hosp': hosp,
+                    'patch_x': int(coord[0]),
+                    'patch_y': int(coord[1]),
+                    'patch_size': config.patch_size
+                }
+                all_patches.append(patch_record)
                 
         except Exception as e:
-            print(f"Error processing patch {idx}: {e}")
-            failed_indices.append(idx)
-            labels.append("Error")
-            probabilities.append(0.0)
+            if logger:
+                logger.error(f"Error processing {wsi_id}: {e}")
+            continue
     
-    # Add prediction results to DataFrame
-    patch_df["patch_label"] = labels
-    patch_df["patch_probability"] = probabilities
+    # Create DataFrame
+    patch_df = pd.DataFrame(all_patches)
     
-    # Filter high-quality patches
-    wsi_label_consistent = patch_df["label"] == patch_df["patch_label"]
-    high_probability = patch_df["patch_probability"] >= config.probability_threshold
-    valid_patches = wsi_label_consistent & high_probability
+    if logger:
+        logger.info(f"Total patches extracted: {len(patch_df)}")
+        logger.info(f"Patches per label: {dict(patch_df['label'].value_counts())}")
+        logger.info(f"Patches per hospital: {dict(patch_df['hosp'].value_counts())}")
     
-    # Filter patches with both label consistency and high probability
-    df_filtered = patch_df[valid_patches].copy()
+    print(f"Total patches extracted: {len(patch_df)}")
+    print(f"Patches per label: {dict(patch_df['label'].value_counts())}")
+    print(f"Patches per hospital: {dict(patch_df['hosp'].value_counts())}")
     
-    print(f"\n=== Zero-shot classification results ===")
-    print(f"Total patches: {len(patch_df)}")
-    print(f"Label consistent patches: {wsi_label_consistent.sum()}")
-    print(f"High probability patches (>= {config.probability_threshold}): {high_probability.sum()}")
-    print(f"Filtered patches (consistent + high prob): {len(df_filtered)}")
+    # Save patch information
+    patch_file = os.path.join(output_dir, "extracted_patches.csv")
+    patch_df.to_csv(patch_file, index=False)
+    print(f"Patch information saved: {patch_file}")
     
-    # Count label consistency
-    print(f"\nLabel consistency statistics:")
-    consistency_stats = patch_df.groupby(['label', 'patch_label']).size().unstack(fill_value=0)
-    print(consistency_stats)
+    if logger:
+        logger.info(f"Patch information saved: {patch_file}")
     
-    # Count distribution of filtered patches
-    if len(df_filtered) > 0:
-        print(f"\nFiltered patches distribution:")
-        print(f"By WSI label distribution: {dict(df_filtered['label'].value_counts())}")
-        print(f"By patch label distribution: {dict(df_filtered['patch_label'].value_counts())}")
-        print(f"Probability range: {df_filtered['patch_probability'].min():.3f} - {df_filtered['patch_probability'].max():.3f}")
-        print(f"Average probability: {df_filtered['patch_probability'].mean():.3f}")
-    else:
-        print(f"\nWarning: No patches passed filtering conditions!")
-        print(f"Suggest checking label consistency or adjusting prompts")
-    
-    # Save results
-    all_patches_file = os.path.join(output_dir, "all_patches_with_predictions.csv")
-    filtered_patches_file = os.path.join(output_dir, "filtered_patches.csv")
-    
-    patch_df.to_csv(all_patches_file, index=False)
-    df_filtered.to_csv(filtered_patches_file, index=False)
-    
-    print(f"Saved all patches prediction results: {all_patches_file}")
-    print(f"Saved filtered patches: {filtered_patches_file}")
-    
-    return df_filtered
+    return patch_df
 
-# ===================== Step 3: CONCH Feature Extraction =====================
-def step3_conch_feature_extraction(config, output_dir, filtered_patches_df, logger=None):
-    """Step 3: Feature Extraction"""
+# ===================== Step 2: Zero-shot Classification =====================
+def step2_conch_zero_shot(config, output_dir, patch_df, logger=None):
+    """Step 2: Zero-shot classification using CONCH model"""
+    step_title = "Step 2: Zero-shot Classification"
     print("\n" + "="*60)
-    print("Step 3: Feature Extraction")
+    print(step_title)
     print("="*60)
     
-    # 确保输出目录存在
-    os.makedirs(output_dir, exist_ok=True)
+    if logger:
+        logger.info(step_title)
+        logger.info("="*60)
     
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    if config.skip_zero_shot:
+        if logger:
+            logger.info("Skipping zero-shot classification as configured")
+        print("Skipping zero-shot classification as configured")
+        return patch_df
     
     # Initialize model
-    model, preprocess = initialize_model(config, device, logger, "feature")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model, preprocess = initialize_model(config, device, logger, model_type="zero_shot")
     
-    # Process by WSI
-    wsi_groups = filtered_patches_df.groupby("filename")
+    # Process patches
+    results = []
+    
+    for idx, row in tqdm(patch_df.iterrows(), total=len(patch_df), desc="Zero-shot classification"):
+        wsi_id = row["wsi_id"]
+        patch_x = row["patch_x"]
+        patch_y = row["patch_y"]
+        patch_size = row["patch_size"]
+        
+        # Load WSI
+        wsi_file = os.path.join(config.wsi_dir, f"{wsi_id}.svs")
+        if not os.path.exists(wsi_file):
+            if logger:
+                logger.warning(f"WSI file not found: {wsi_file}")
+            continue
+        
+        try:
+            # Open WSI and extract patch
+            slide = openslide.OpenSlide(wsi_file)
+            patch = slide.read_region((patch_x, patch_y), 0, (patch_size, patch_size))
+            patch = patch.convert('RGB')
+            slide.close()
+            
+            # Perform zero-shot classification
+            pred_label, pred_prob = zero_shot_classification_with_model(
+                model, preprocess, patch, device, config.zero_shot_model, config
+            )
+            
+            # Filter by probability threshold
+            if pred_prob >= config.probability_threshold:
+                result = {
+                    'wsi_id': wsi_id,
+                    'label': row["label"],
+                    'hosp': row["hosp"],
+                    'patch_x': patch_x,
+                    'patch_y': patch_y,
+                    'patch_size': patch_size,
+                    'patch_label': pred_label,
+                    'patch_probability': pred_prob
+                }
+                results.append(result)
+                
+        except Exception as e:
+            if logger:
+                logger.error(f"Error processing patch {wsi_id}_{patch_x}_{patch_y}: {e}")
+            continue
+    
+    # Create filtered DataFrame
+    filtered_patches_df = pd.DataFrame(results)
+    
+    if logger:
+        logger.info(f"Patches after zero-shot filtering: {len(filtered_patches_df)}")
+        logger.info(f"Filtered patches per label: {dict(filtered_patches_df['patch_label'].value_counts())}")
+        logger.info(f"Filtered patches per hospital: {dict(filtered_patches_df['hosp'].value_counts())}")
+    
+    print(f"Patches after zero-shot filtering: {len(filtered_patches_df)}")
+    print(f"Filtered patches per label: {dict(filtered_patches_df['patch_label'].value_counts())}")
+    print(f"Filtered patches per hospital: {dict(filtered_patches_df['hosp'].value_counts())}")
+    
+    # Save filtered patch information
+    filtered_patch_file = os.path.join(output_dir, "filtered_patches.csv")
+    filtered_patches_df.to_csv(filtered_patch_file, index=False)
+    print(f"Filtered patch information saved: {filtered_patch_file}")
+    
+    if logger:
+        logger.info(f"Filtered patch information saved: {filtered_patch_file}")
+    
+    return filtered_patches_df
+
+# ===================== Step 3: Feature Extraction =====================
+def step3_conch_feature_extraction(config, output_dir, filtered_patches_df, logger=None):
+    """Step 3: Feature extraction using selected model"""
+    step_title = "Step 3: Feature Extraction"
+    print("\n" + "="*60)
+    print(step_title)
+    print("="*60)
+    
+    if logger:
+        logger.info(step_title)
+        logger.info("="*60)
+    
+    # Initialize model
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model, preprocess = initialize_model(config, device, logger, model_type="feature")
+    
+    # Create features directory
     features_dir = os.path.join(output_dir, "features")
     os.makedirs(features_dir, exist_ok=True)
     
-    successful_wsi = 0
-    failed_wsi = 0
+    # Group patches by WSI
+    wsi_groups = filtered_patches_df.groupby('wsi_id')
     
-    for wsi_id, group in tqdm(wsi_groups, desc="Extracting features"):
-        try:
-            features_list = []
-            patch_info_list = []
+    for wsi_id, wsi_patches in tqdm(wsi_groups, desc="Extracting features"):
+        features_list = []
+        patch_info_list = []
+        
+        for idx, row in wsi_patches.iterrows():
+            patch_x = row["patch_x"]
+            patch_y = row["patch_y"]
+            patch_size = row["patch_size"]
             
-            for _, row in group.iterrows():
-                try:
-                    npy_path = row["npy_path"]
-                    if not os.path.exists(npy_path):
-                        continue
-                    
-                    # Load patch image
-                    patch_np = np.load(npy_path)
-                    patch_image = Image.fromarray(patch_np)
-                    
-                    # Extract features using the specified model
-                    features = extract_features_with_model(model, preprocess, patch_image, device, config.feature_model)
-                    features = features.cpu()
-                    
-                    features_list.append(features)
-                    
-                    # Save patch information
-                    patch_info = {
-                        'patch_x': row['patch_x'],
-                        'patch_y': row['patch_y'],
-                        'patch_label': row['patch_label'],
-                        'patch_probability': row['patch_probability']
-                    }
-                    patch_info_list.append(patch_info)
-                    
-                except Exception as e:
-                    print(f"Error processing patch in {wsi_id}: {e}")
-                    continue
+            # Load WSI
+            wsi_file = os.path.join(config.wsi_dir, f"{wsi_id}.svs")
+            if not os.path.exists(wsi_file):
+                continue
             
-            if len(features_list) > 0:
-                # Concatenate features
-                features_tensor = torch.cat(features_list, dim=0)
+            try:
+                # Open WSI and extract patch
+                slide = openslide.OpenSlide(wsi_file)
+                patch = slide.read_region((patch_x, patch_y), 0, (patch_size, patch_size))
+                patch = patch.convert('RGB')
+                slide.close()
                 
-                # Save features
-                features_file = os.path.join(features_dir, f"{wsi_id}_features.pt")
-                torch.save(features_tensor, features_file)
+                # Extract features
+                features = extract_features_with_model(
+                    model, preprocess, patch, device, config.feature_model
+                )
                 
-                # Save patch info
-                patch_info_df = pd.DataFrame(patch_info_list)
-                patch_info_file = os.path.join(features_dir, f"{wsi_id}_patch_info.csv")
-                patch_info_df.to_csv(patch_info_file, index=False)
+                # Store features and patch info
+                features_list.append(features.cpu().numpy())
+                patch_info_list.append({
+                    'patch_x': patch_x,
+                    'patch_y': patch_y,
+                    'patch_label': row["patch_label"],
+                    'patch_probability': row["patch_probability"]
+                })
                 
-                successful_wsi += 1
-                print(f"  ✓ {wsi_id}: Saved {len(features_list)} features (dim: {features_tensor.shape[1]})")
+            except Exception as e:
                 if logger:
-                    logger.info(f"✓ {wsi_id}: Saved {len(features_list)} features (dim: {features_tensor.shape[1]})")
-            else:
-                failed_wsi += 1
-                print(f"  ✗ {wsi_id}: No valid features")
-                if logger:
-                    logger.warning(f"✗ {wsi_id}: No valid features")
-                
-        except Exception as e:
-            failed_wsi += 1
-            print(f"  ✗ {wsi_id}: Error - {e}")
+                    logger.error(f"Error extracting features for patch {wsi_id}_{patch_x}_{patch_y}: {e}")
+                continue
+        
+        if features_list:
+            # Save features
+            features_array = np.vstack(features_list)
+            features_file = os.path.join(features_dir, f"{wsi_id}_features.pt")
+            torch.save(torch.from_numpy(features_array), features_file)
+            
+            # Save patch info
+            patch_info_df = pd.DataFrame(patch_info_list)
+            patch_info_file = os.path.join(features_dir, f"{wsi_id}_patch_info.csv")
+            patch_info_df.to_csv(patch_info_file, index=False)
+            
             if logger:
-                logger.error(f"✗ {wsi_id}: Error - {e}")
+                logger.info(f"Features saved for {wsi_id}: {len(features_list)} patches")
     
-    print(f"\n=== Feature extraction completed ===")
-    print(f"Model type: {config.feature_model}")
-    print(f"Successful WSIs: {successful_wsi}")
-    print(f"Failed WSIs: {failed_wsi}")
-    print(f"Features saved to: {features_dir}")
-    
+    print(f"Feature extraction completed. Features saved in: {features_dir}")
     if logger:
-        logger.info("=== Feature extraction completed ===")
-        logger.info(f"Model type: {config.feature_model}")
-        logger.info(f"Successful WSIs: {successful_wsi}")
-        logger.info(f"Failed WSIs: {failed_wsi}")
-        logger.info(f"Features saved to: {features_dir}")
+        logger.info(f"Feature extraction completed. Features saved in: {features_dir}")
     
     return features_dir
 
@@ -766,7 +499,7 @@ def step4_tsne_visualization(config, output_dir, features_dir, logger=None):
     print("Step 4: TSNE Visualization")
     print("="*60)
     
-    # 确保输出目录存在
+    # Ensure output directory exists
     os.makedirs(output_dir, exist_ok=True)
     
     # Load all feature files
@@ -863,7 +596,7 @@ def step4_tsne_visualization(config, output_dir, features_dir, logger=None):
     for hosp in unique_hosps:
         mask = df_tsne['Hosp'] == hosp
         plt.scatter(df_tsne[mask]['TSNE1'], df_tsne[mask]['TSNE2'], 
-                   c=[color_map[hosp]], label=hosp, alpha=0.7, s=20)
+                   c=[color_map[hosp]], label=hosp, alpha=0.7, s=50)
     
     plt.title('TSNE Visualization - Grouped by Hospital', fontsize=16, fontweight='bold')
     plt.xlabel('TSNE1', fontsize=12)
@@ -901,7 +634,7 @@ def step4_tsne_visualization(config, output_dir, features_dir, logger=None):
         for hosp in unique_hosps:
             mask_h = df['Hosp'] == hosp
             plt.scatter(df[mask_h]['TSNE1'], df[mask_h]['TSNE2'],
-                        c=[color_map[hosp]], label=hosp, alpha=0.7, s=20)
+                        c=[color_map[hosp]], label=hosp, alpha=0.7, s=50)
         plt.title(f't-SNE ({label}) - Grouped by Hospital', fontsize=22, fontweight='bold')
         plt.xlabel('TSNE1', fontsize=18)
         plt.ylabel('TSNE2', fontsize=18)
@@ -923,7 +656,7 @@ def step4_tsne_visualization(config, output_dir, features_dir, logger=None):
     for label in unique_labels:
         mask = df_tsne['Label'] == label
         plt.scatter(df_tsne[mask]['TSNE1'], df_tsne[mask]['TSNE2'],
-                   c=[color_map[label]], label=label, alpha=0.7, s=20)
+                   c=[color_map[label]], label=label, alpha=0.7, s=50)
     plt.title('t-SNE Visualization - Grouped by Label', fontsize=22, fontweight='bold')
     plt.xlabel('TSNE1', fontsize=18)
     plt.ylabel('TSNE2', fontsize=18)
@@ -948,10 +681,10 @@ def step4_tsne_visualization(config, output_dir, features_dir, logger=None):
 def initialize_model(config, device, logger=None, model_type="feature"):
     """Initialize model based on model_type"""
     if model_type == "zero_shot":
-        # 零样本分类统一使用CONCH
+        # Zero-shot classification uses CONCH uniformly
         return initialize_conch_model(config, device, logger)
     elif model_type == "feature":
-        # 特征提取可选择不同模型
+        # Feature extraction can choose different models
         if config.feature_model.upper() == "CONCH":
             return initialize_conch_model(config, device, logger)
         elif config.feature_model.upper() in ["UNI", "UNI2-H"]:
@@ -988,12 +721,12 @@ def initialize_uni_model(config, device, logger=None):
     
     print(f"Initializing UNI model: {config.uni_model_name}...")
     
-    # 确定UNI模型名称
+    # Determine UNI model name
     uni_model_name = config.uni_model_name
     if config.feature_model.upper() == "UNI2-H":
         uni_model_name = "uni2-h"
     
-    # 初始化UNI模型
+    # Initialize UNI model
     model, transform = get_encoder(
         enc_name=uni_model_name,
         device=device,
@@ -1011,12 +744,12 @@ def initialize_uni_model(config, device, logger=None):
 
 def initialize_resnet50_model(config, device, logger=None):
     model = models.resnet50(pretrained=True)
-    # 去掉最后的fc层，只保留2048维特征
-    modules = list(model.children())[:-1]  # 去掉fc
+    # Remove the final fc layer, keep only 2048-dimensional features
+    modules = list(model.children())[:-1]  # Remove fc
     model = torch.nn.Sequential(*modules)
     model.eval()
     model.to(device)
-    # ImageNet标准预处理
+    # ImageNet standard preprocessing
     preprocess = transforms.Compose([
         transforms.Resize(256),
         transforms.CenterCrop(224),
@@ -1042,7 +775,7 @@ def extract_features_with_model(model, preprocess, image, device, model_type):
         return features
     
     elif model_type.upper() == "RESNET50":
-        # ResNet50特征提取
+        # ResNet50 feature extraction
         image_tensor = preprocess(image).unsqueeze(0).to(device)
         with torch.no_grad():
             features = model(image_tensor)  # [1, 2048, 1, 1]
@@ -1086,11 +819,11 @@ def main():
     print("TCGA-BRCA Pipeline starting")
     print("="*60)
     
-    # 显示模型信息
+    # Display model information
     print(f"Zero-shot model: {Config.zero_shot_model} (fixed)")
     print(f"Feature extraction model: {Config.feature_model}")
     
-    # 检查UNI模型是否可用（如果使用UNI进行特征提取）
+    # Check if UNI model is available (if using UNI for feature extraction)
     if Config.feature_model.upper() in ["UNI", "UNI2-H"]:
         if not UNI_AVAILABLE:
             print("Error: UNI is not available. Please install UNI first.")
