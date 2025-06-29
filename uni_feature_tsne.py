@@ -429,7 +429,7 @@ def create_tsne_visualizations(config, output_dir, features_dir, filtered_patche
     plt.title(f't-SNE Visualization ({model_name}) - Grouped by Hospital', fontsize=16, fontweight='bold')
     plt.xlabel('TSNE1', fontsize=12)
     plt.ylabel('TSNE2', fontsize=12)
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=10)
+    plt.legend(loc='upper right', fontsize=10)
     plt.tight_layout()
     
     hosp_viz_file = os.path.join(viz_dir, f"tsne_{model_name}_by_hosp.png")
@@ -470,7 +470,7 @@ def create_tsne_visualizations(config, output_dir, features_dir, filtered_patche
         plt.title(f't-SNE ({model_name}, {label}) - Grouped by Hospital', fontsize=22, fontweight='bold')
         plt.xlabel('TSNE1', fontsize=18)
         plt.ylabel('TSNE2', fontsize=18)
-        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=16)
+        plt.legend(loc='upper right', fontsize=16)
         plt.tight_layout()
         
         label_hosp_viz_file = os.path.join(viz_dir, f"tsne_{model_name}_by_hosp_{label}.png")
@@ -495,7 +495,7 @@ def create_tsne_visualizations(config, output_dir, features_dir, filtered_patche
     plt.title(f't-SNE Visualization ({model_name}) - Grouped by Label', fontsize=22, fontweight='bold')
     plt.xlabel('TSNE1', fontsize=18)
     plt.ylabel('TSNE2', fontsize=18)
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=16)
+    plt.legend(loc='upper right', fontsize=16)
     plt.tight_layout()
     
     label_viz_file = os.path.join(viz_dir, f"tsne_{model_name}_by_label.png")

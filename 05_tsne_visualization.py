@@ -113,7 +113,7 @@ def plot_tsne_by_hosp(features, hosps, output_path):
     plt.title('TSNE Visualization - Grouped by Hospital', fontsize=16, fontweight='bold')
     plt.xlabel('TSNE1', fontsize=12)
     plt.ylabel('TSNE2', fontsize=12)
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=10)
+    plt.legend(loc='upper right', fontsize=10)
     plt.tight_layout()
     
     # Save image
