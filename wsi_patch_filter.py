@@ -10,9 +10,14 @@ from PIL import Image
 from CONCH.conch.open_clip_custom import create_model_from_pretrained, tokenize, get_tokenizer
 from datetime import datetime
 import logging
+import yaml
+import argparse
+from pathlib import Path
 
 # ===================== Configuration =====================
 class Config:
+    """Configuration class that can be updated from YAML file"""
+    
     # Dataset parameters
     dataset_name = "tcga-brca"
     
@@ -41,6 +46,58 @@ class Config:
     # Zero-shot classification parameters
     classes = ['invasive ductal carcinoma', 'invasive lobular carcinoma']
     prompts = ['an H&E image of invasive ductal carcinoma', 'an H&E image of invasive lobular carcinoma']
+    
+    @classmethod
+    def from_yaml(cls, yaml_file):
+        """Load configuration from YAML file"""
+        config = cls()
+        
+        if not os.path.exists(yaml_file):
+            print(f"Warning: Config file {yaml_file} not found. Using default configuration.")
+            return config
+        
+        try:
+            with open(yaml_file, 'r', encoding='utf-8') as f:
+                yaml_config = yaml.safe_load(f)
+            
+            # Update configuration with values from YAML
+            for key, value in yaml_config.items():
+                if hasattr(config, key):
+                    setattr(config, key, value)
+                    print(f"Config updated: {key} = {value}")
+                else:
+                    print(f"Warning: Unknown config parameter '{key}' ignored")
+                    
+        except Exception as e:
+            print(f"Error loading config file {yaml_file}: {e}")
+            print("Using default configuration.")
+        
+        return config
+    
+    def save_yaml(self, yaml_file):
+        """Save current configuration to YAML file"""
+        config_dict = {}
+        for attr in dir(self):
+            if not attr.startswith('_') and not callable(getattr(self, attr)):
+                config_dict[attr] = getattr(self, attr)
+        
+        try:
+            with open(yaml_file, 'w', encoding='utf-8') as f:
+                yaml.dump(config_dict, f, default_flow_style=False, allow_unicode=True)
+            print(f"Configuration saved to {yaml_file}")
+        except Exception as e:
+            print(f"Error saving config file {yaml_file}: {e}")
+    
+    def print_config(self):
+        """Print current configuration"""
+        print("\n" + "="*60)
+        print("Current Configuration:")
+        print("="*60)
+        for attr in dir(self):
+            if not attr.startswith('_') and not callable(getattr(self, attr)):
+                value = getattr(self, attr)
+                print(f"  {attr}: {value}")
+        print("="*60)
 
 # ===================== Utility Functions =====================
 def age_group(age):
@@ -50,12 +107,7 @@ def age_group(age):
     except:
         return "unknown"
 
-def extract_hosp_from_filename(filename):
-    """Extract hospital information from filename"""
-    parts = filename.split('-')
-    if len(parts) >= 3:
-        return parts[1]
-    return "Unknown"
+
 
 def setup_logging(output_dir):
     """Setup logging configuration"""
@@ -369,10 +421,46 @@ def filter_patches_with_conch(config, patch_df, output_dir, logger=None):
     return filtered_patches_df
 
 # ===================== Main Pipeline =====================
-def main():
-    """Main pipeline function"""
+def create_default_config_file(config_file):
+    """Create a default configuration file"""
+    default_config = Config()
+    default_config.save_yaml(config_file)
+    
+    # Add comments to the YAML file
+    with open(config_file, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Add header comments
+    commented_content = """# WSI Patch Filter Configuration File
+# This file contains all configurable parameters for the WSI patch filtering pipeline
+
+# Dataset parameters
+""" + content
+    
+    with open(config_file, 'w', encoding='utf-8') as f:
+        f.write(commented_content)
+    
+    print(f"Default configuration file created: {config_file}")
+
+def main(config_file=None):
+    """Main pipeline function
+    
+    Args:
+        config_file (str): Path to YAML configuration file
+    """
     print("WSI and Patch Filtering Pipeline Starting")
     print("="*60)
+    
+    # Load configuration
+    if config_file:
+        print(f"Loading configuration from: {config_file}")
+        config = Config.from_yaml(config_file)
+    else:
+        print("Using default configuration")
+        config = Config()
+    
+    # Print configuration
+    config.print_config()
     
     # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -380,18 +468,22 @@ def main():
     os.makedirs(output_dir, exist_ok=True)
     print(f"Output directory: {output_dir}")
     
+    # Save used configuration to output directory
+    config_backup_file = os.path.join(output_dir, "config_used.yaml")
+    config.save_yaml(config_backup_file)
+    
     # Setup logging
     logger = setup_logging(output_dir)
     
     try:
         # Step 1: WSI Selection
-        df_selected = select_wsis(Config, output_dir, logger)
+        df_selected = select_wsis(config, output_dir, logger)
         
         # Step 2: Patch Extraction
-        patch_df = extract_patches(Config, df_selected, output_dir, logger)
+        patch_df = extract_patches(config, df_selected, output_dir, logger)
         
         # Step 3: CONCH Filtering
-        filtered_patches_df = filter_patches_with_conch(Config, patch_df, output_dir, logger)
+        filtered_patches_df = filter_patches_with_conch(config, patch_df, output_dir, logger)
         
         print("\n" + "="*60)
         print("Pipeline completed successfully!")
@@ -399,6 +491,7 @@ def main():
         print(f"Total patches extracted: {len(patch_df)}")
         print(f"Total patches after CONCH filtering: {len(filtered_patches_df)}")
         print(f"Results saved in: {output_dir}")
+        print(f"Configuration backup saved in: {config_backup_file}")
         print("="*60)
         
         if logger:
@@ -408,6 +501,7 @@ def main():
             logger.info(f"Total patches extracted: {len(patch_df)}")
             logger.info(f"Total patches after CONCH filtering: {len(filtered_patches_df)}")
             logger.info(f"Results saved in: {output_dir}")
+            logger.info(f"Configuration backup saved in: {config_backup_file}")
             logger.info("="*60)
         
     except Exception as e:
@@ -420,5 +514,38 @@ def main():
         if logger:
             logger.error("Full traceback:", exc_info=True)
 
+def parse_args():
+    """Parse command line arguments"""
+    parser = argparse.ArgumentParser(
+        description='WSI and Patch Filtering Pipeline',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Run with default configuration
+  python wsi_patch_filter.py
+  
+  # Run with custom configuration file
+  python wsi_patch_filter.py --config config.yaml
+  
+  # Create a default configuration file
+  python wsi_patch_filter.py --create-config config.yaml
+        """
+    )
+    
+    parser.add_argument('--config', '-c', 
+                       type=str, 
+                       help='Path to YAML configuration file')
+    
+    parser.add_argument('--create-config', 
+                       type=str, 
+                       help='Create a default configuration file at specified path')
+    
+    return parser.parse_args()
+
 if __name__ == "__main__":
-    main() 
+    args = parse_args()
+    
+    if args.create_config:
+        create_default_config_file(args.create_config)
+    else:
+        main(args.config) 
