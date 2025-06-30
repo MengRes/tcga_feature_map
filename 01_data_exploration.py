@@ -11,7 +11,6 @@ plt.rcParams['font.family'] = 'DejaVu Sans'
 random.seed(42)
 
 RESULTS_DIR = 'results'
-DATASET_PREFIX = 'tcga-brca'
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
 def save_fig(fig, filename, show=False, dpi=300):
@@ -33,7 +32,17 @@ def pie_topN(counter, N=10):
     return labels, counts
 
 class DataExplorer:
-    def __init__(self, label_file="files/tcga-brca_label.csv", wsi_dir="/home/mxz3935/dataset_folder/tcga-brca/", patch_coord_dir="/raid/mengliang/wsi_process/tcga-brca_patch/patches/"):
+    def __init__(self, dataset_type="tcga-brca", label_file=None, wsi_dir=None, patch_coord_dir=None):
+        self.dataset_type = dataset_type
+        
+        # Set default paths based on dataset type
+        if label_file is None:
+            label_file = f"files/{dataset_type}_label.csv"
+        if wsi_dir is None:
+            wsi_dir = f"/home/mxz3935/dataset_folder/{dataset_type}/"
+        if patch_coord_dir is None:
+            patch_coord_dir = f"/raid/mengliang/wsi_process/{dataset_type}_patch/patches/"
+            
         self.label_file = label_file
         self.wsi_dir = wsi_dir
         self.patch_coord_dir = patch_coord_dir
@@ -77,7 +86,7 @@ class DataExplorer:
             ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
                     str(count), ha='center', va='bottom', fontsize=7)
         plt.tight_layout()
-        save_fig(fig, f"{DATASET_PREFIX}_{column_name}_distribution.png", show=show)
+        save_fig(fig, f"{self.dataset_type}_{column_name}_distribution.png", show=show)
         print(f"\n{title or column_name} Distribution Statistics:")
         for label, count in sorted(counter.items(), key=lambda x: x[1], reverse=True):
             percentage = (count / len(self.df)) * 100
@@ -100,7 +109,14 @@ class DataExplorer:
     def analyze_age_distribution(self, show=False):
         if 'age' not in self.df.columns:
             return
-        age_data = self.df['age'].dropna()
+        
+        # Clean age data - convert to numeric and remove non-numeric values
+        age_data = pd.to_numeric(self.df['age'], errors='coerce').dropna()
+        
+        if len(age_data) == 0:
+            print("\nNo valid numeric age data found.")
+            return
+        
         fig, axes = plt.subplots(1, 2, figsize=(12, 5))
         axes[0].hist(age_data, bins=20, color='lightblue', alpha=0.7, edgecolor='black')
         axes[0].set_xlabel('Age')
@@ -112,13 +128,20 @@ class DataExplorer:
         axes[1].set_title('Age Distribution Boxplot')
         axes[1].grid(True, alpha=0.3)
         plt.tight_layout()
-        save_fig(fig, f"{DATASET_PREFIX}_age_distribution.png", show=show)
+        save_fig(fig, f"{self.dataset_type}_age_distribution.png", show=show)
+        
         print(f"\nAge Statistics:")
+        print(f"  Valid age samples: {len(age_data)}/{len(self.df)} ({len(age_data)/len(self.df)*100:.1f}%)")
         print(f"  Mean age: {age_data.mean():.1f}")
         print(f"  Median age: {age_data.median():.1f}")
         print(f"  Standard deviation: {age_data.std():.1f}")
         print(f"  Min age: {age_data.min()}")
         print(f"  Max age: {age_data.max()}")
+        
+        # Show some examples of invalid age data if any
+        invalid_ages = self.df[pd.to_numeric(self.df['age'], errors='coerce').isna()]['age'].unique()
+        if len(invalid_ages) > 0:
+            print(f"  Invalid age values found: {list(invalid_ages)[:5]}{'...' if len(invalid_ages) > 5 else ''}")
     
     def analyze_label_distribution(self, show=False):
         if 'label' in self.df.columns:
@@ -165,30 +188,57 @@ class DataExplorer:
             ax = axes[row_idx, col_idx] if rows > 1 else axes[col_idx]
             ax.axis('off')
         plt.tight_layout()
-        save_fig(fig, f"{DATASET_PREFIX}_random_patches_{wsi_name}.png", show=show)
+        save_fig(fig, f"{self.dataset_type}_random_patches_{wsi_name}.png", show=show)
         slide.close()
         print(f"Patch example saved: {wsi_name}")
     
     def comprehensive_analysis(self, show=False):
         print("=" * 50)
-        print("TCGA-BRCA Dataset Comprehensive Analysis")
+        print(f"{self.dataset_type.upper()} Dataset Comprehensive Analysis")
         print("=" * 50)
         print(f"\nDataset Basic Information:")
-        print(f"  Total samples: {len(self.df)}")
-        print(f"  Number of columns: {len(self.df.columns)}")
+        if self.df is not None:
+            print(f"  Total samples: {len(self.df)}")
+            print(f"  Number of columns: {len(self.df.columns)}")
         self.analyze_hospital_distribution(show=show)
         self.analyze_demographics(show=show)
         self.analyze_label_distribution(show=show)
         self.visualize_random_patches(show=show)
         print("\nAnalysis completed!")
 
-def main():
-    explorer = DataExplorer(
-        label_file="files/tcga-brca_label.csv",
-        wsi_dir="/home/mxz3935/dataset_folder/tcga-brca/",
-        patch_coord_dir="/raid/mengliang/wsi_process/tcga-brca_patch/patches/"
-    )
+def main(dataset_type="tcga-brca"):
+    """
+    Main function to run data exploration
+    
+    Args:
+        dataset_type (str): Dataset type, e.g., "tcga-brca" or "tcga-luad"
+    """
+    print(f"Running data exploration for {dataset_type.upper()} dataset...")
+    
+    explorer = DataExplorer(dataset_type=dataset_type)
     explorer.comprehensive_analysis(show=False)
 
+def run_tcga_brca():
+    """Run analysis for TCGA-BRCA dataset"""
+    main("tcga-brca")
+
+def run_tcga_luad():
+    """Run analysis for TCGA-LUAD dataset"""
+    main("tcga-luad")
+
 if __name__ == "__main__":
-    main() 
+    import sys
+    
+    # Check command line arguments
+    if len(sys.argv) > 1:
+        dataset_type = sys.argv[1].lower()
+        if dataset_type in ["tcga-brca", "tcga-luad"]:
+            main(dataset_type)
+        else:
+            print("Usage: python 01_data_exploration.py [tcga-brca|tcga-luad]")
+            print("Available datasets: tcga-brca, tcga-luad")
+            print("Using default: tcga-brca")
+            main("tcga-brca")
+    else:
+        # Default to TCGA-BRCA
+        main("tcga-brca") 
