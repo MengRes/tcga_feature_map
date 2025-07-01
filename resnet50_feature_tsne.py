@@ -1,14 +1,4 @@
 #!/usr/bin/env python3
-"""
-ResNet50 Feature Extraction and t-SNE Visualization Pipeline
-
-This script extracts features from filtered patches using pretrained ResNet50 model
-and creates t-SNE visualizations grouped by hospital and label.
-
-Model: ResNet50 pretrained on ImageNet (2048-dim features from avgpool layer)
-"""
-
-# ===================== Standard Library Imports =====================
 import os
 import sys
 import argparse
@@ -16,7 +6,6 @@ import glob
 import logging
 from datetime import datetime
 
-# ===================== Third-party Library Imports =====================
 import numpy as np
 import pandas as pd
 import torch
@@ -29,7 +18,7 @@ from PIL import Image
 import openslide
 from sklearn.manifold import TSNE
 
-# ===================== Configuration =====================
+# Configuration
 class Config:
     """Configuration class for the pipeline"""
     
@@ -44,7 +33,7 @@ class Config:
     tsne_max_iter = 1000
     max_tsne_points = 10000  # Maximum sampling points for t-SNE
 
-# ===================== Utility Functions =====================
+# Utility Functions
 def extract_hosp_from_filename(filename):
     """Extract hospital information from filename
     
@@ -86,7 +75,7 @@ def setup_logging(output_dir):
     
     return logger
 
-# ===================== ResNet50 Model Functions =====================
+# ResNet50 Model Functions
 def initialize_resnet50_model(device, logger=None):
     """Initialize pretrained ResNet50 model
     
@@ -148,7 +137,7 @@ def extract_features_with_resnet50(model, transform, image, device):
         features = features.view(features.size(0), -1)
     return features
 
-# ===================== Feature Extraction Functions =====================
+# Feature Extraction Functions
 def extract_features_from_patches(config, filtered_patches_df, output_dir, logger=None):
     """Extract features from filtered patches using ResNet50 model
     
@@ -233,7 +222,7 @@ def extract_features_from_patches(config, filtered_patches_df, output_dir, logge
     
     return features_dir
 
-# ===================== t-SNE Visualization Functions =====================
+# t-SNE Visualization Functions
 def create_tsne_visualizations(config, output_dir, features_dir, filtered_patches_df, logger=None):
     """Create t-SNE visualizations
     
@@ -435,7 +424,7 @@ def create_tsne_visualizations(config, output_dir, features_dir, filtered_patche
     print(f"Hospital distribution: {dict(pd.Series(all_hosps).value_counts())}")
     print(f"Label distribution: {dict(pd.Series([info['patch_label'] for info in all_patch_info]).value_counts())}")
 
-# ===================== Main Pipeline =====================
+# Main Pipeline
 def main():
     """Main pipeline function"""
     parser = argparse.ArgumentParser(description='ResNet50 Feature Extraction and t-SNE Visualization')
@@ -470,7 +459,7 @@ def main():
         create_tsne_visualizations(Config, args.input_dir, features_dir, filtered_patches_df, logger)
         
         print("\n" + "="*60)
-        print("Pipeline completed successfully!")
+        print("Pipeline completed successfully")
         print("Model used: ResNet50 (pretrained on ImageNet)")
         print(f"Total patches processed: {len(filtered_patches_df)}")
         print(f"Results saved in: {args.input_dir}")
@@ -478,7 +467,7 @@ def main():
         
         if logger:
             logger.info("="*60)
-            logger.info("Pipeline completed successfully!")
+            logger.info("Pipeline completed successfully")
             logger.info("Model used: ResNet50 (pretrained on ImageNet)")
             logger.info(f"Total patches processed: {len(filtered_patches_df)}")
             logger.info(f"Results saved in: {args.input_dir}")

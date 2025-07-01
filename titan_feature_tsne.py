@@ -1,28 +1,12 @@
 #!/usr/bin/env python3
-"""
-TITAN Feature Extraction and t-SNE Visualization Pipeline
-
-This script extracts features from filtered patches using TITAN model
-and creates t-SNE visualizations grouped by hospital and label.
-
-Model: TITAN (Transformer-based pathology Image and Text Alignment Network)
-A multimodal whole slide foundation model for pathology.
-
-Author: AI Assistant
-Date: 2025-06-28
-"""
-
-# ===================== Standard Library Imports =====================
 import os
 import sys
 import argparse
 import glob
 import logging
 
-# 添加本地 TITAN 模块到 Python 路径
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'TITAN'))
 
-# ===================== Third-party Library Imports =====================
 import numpy as np
 import pandas as pd
 import torch
@@ -32,7 +16,7 @@ from PIL import Image
 import openslide
 from sklearn.manifold import TSNE
 
-# ===================== TITAN Model Imports =====================
+# TITAN Model Imports
 try:
     from transformers import AutoModel
     TITAN_AVAILABLE = True
@@ -41,7 +25,7 @@ except ImportError:
     print("Warning: TITAN dependencies not available. Please install transformers.")
     print("Installation: pip install transformers")
 
-# ===================== Configuration =====================
+# Configuration
 class Config:
     """Configuration class for the pipeline"""
     
@@ -53,7 +37,7 @@ class Config:
     tsne_max_iter = 1000
     max_tsne_points = 10000  # Maximum sampling points for t-SNE
 
-# ===================== Utility Functions =====================
+# Utility Functions
 def extract_hosp_from_filename(filename):
     """Extract hospital information from filename
     
@@ -96,7 +80,7 @@ def setup_logging(output_dir):
     
     return logger
 
-# ===================== TITAN Model Functions =====================
+# TITAN Model Functions
 def initialize_titan_model(config, device, logger=None):
     """Initialize TITAN model
     
@@ -180,7 +164,7 @@ def extract_patch_features_with_titan(feature_extractor, eval_transform, patches
 
 
 
-# ===================== Feature Extraction Functions =====================
+# Feature Extraction Functions
 def extract_features_from_patches(config, filtered_patches_df, output_dir, logger=None):
     """Extract features from filtered patches using TITAN model (patch-level)
     
@@ -262,7 +246,7 @@ def extract_features_from_patches(config, filtered_patches_df, output_dir, logge
     
     return features_dir
 
-# ===================== t-SNE Visualization Functions =====================
+# t-SNE Visualization Functions
 def create_tsne_visualizations(config, output_dir, features_dir, filtered_patches_df, logger=None):
     """Create t-SNE visualizations
     
@@ -465,7 +449,7 @@ def create_tsne_visualizations(config, output_dir, features_dir, filtered_patche
     print(f"Hospital distribution: {dict(pd.Series(all_hosps).value_counts())}")
     print(f"Label distribution: {dict(pd.Series([info['patch_label'] for info in all_patch_info]).value_counts())}")
 
-# ===================== Main Pipeline =====================
+# Main Pipeline
 def main():
     """Main pipeline function"""
     parser = argparse.ArgumentParser(description='TITAN Feature Extraction and t-SNE Visualization')
@@ -519,7 +503,7 @@ def main():
         create_tsne_visualizations(Config, args.input_dir, features_dir, filtered_patches_df, logger)
         
         print("\n" + "="*60)
-        print("Pipeline completed successfully!")
+        print("Pipeline completed successfully")
         print("Model used: TITAN (Multimodal whole slide foundation model)")
         print(f"Total patches processed: {len(filtered_patches_df)}")
         print(f"Results saved in: {args.input_dir}")
@@ -527,7 +511,7 @@ def main():
         
         if logger:
             logger.info("="*60)
-            logger.info("Pipeline completed successfully!")
+            logger.info("Pipeline completed successfully")
             logger.info("Model used: TITAN (Multimodal whole slide foundation model)")
             logger.info(f"Total patches processed: {len(filtered_patches_df)}")
             logger.info(f"Results saved in: {args.input_dir}")

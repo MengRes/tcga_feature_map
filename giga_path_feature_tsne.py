@@ -1,18 +1,4 @@
 #!/usr/bin/env python3
-"""
-Giga-Path Feature Extraction and t-SNE Visualization Pipeline
-
-This script extracts features from filtered patches using Giga-Path model
-and creates t-SNE visualizations grouped by hospital and label.
-
-Model: Giga-Path (from Hugging Face timm)
-Features: Visual feature extraction for computational pathology
-
-Author: AI Assistant
-Date: 2025-01-20
-"""
-
-# ===================== Standard Library Imports =====================
 import os
 import sys
 import argparse
@@ -20,7 +6,6 @@ import glob
 import logging
 from datetime import datetime
 
-# ===================== Third-party Library Imports =====================
 import numpy as np
 import pandas as pd
 import torch
@@ -33,7 +18,7 @@ import openslide
 from sklearn.manifold import TSNE
 from torchvision import transforms
 
-# ===================== Configuration =====================
+# Configuration
 class Config:
     """Configuration class for the pipeline"""
     
@@ -99,7 +84,7 @@ def extract_hosp_from_filename(filename):
         return parts[1]
     return 'Unknown'
 
-# ===================== Giga-Path Model Functions =====================
+# Giga-Path Model Functions
 def initialize_giga_path_model(config, device, logger=None):
     """Initialize Giga-Path model
     
@@ -171,7 +156,7 @@ def extract_features_with_giga_path(model, preprocess, image, device):
         features = model(image_tensor)
     return features
 
-# ===================== Feature Extraction Functions =====================
+# Feature Extraction Functions
 def extract_features_from_patches(config, filtered_patches_df, output_dir, logger=None):
     """Extract features from filtered patches using Giga-Path model
     
@@ -253,7 +238,7 @@ def extract_features_from_patches(config, filtered_patches_df, output_dir, logge
     
     return features_dir
 
-# ===================== t-SNE Visualization Functions =====================
+# t-SNE Visualization Functions
 def create_tsne_visualizations(config, output_dir, features_dir, filtered_patches_df, logger=None):
     """Create t-SNE visualizations
     
@@ -458,7 +443,7 @@ def create_tsne_visualizations(config, output_dir, features_dir, filtered_patche
     print(f"Hospital distribution: {dict(pd.Series(all_hosps).value_counts())}")
     print(f"Label distribution: {dict(pd.Series([info['patch_label'] for info in all_patch_info]).value_counts())}")
 
-# ===================== Main Pipeline =====================
+# Main Pipeline
 def main():
     """Main pipeline function"""
     parser = argparse.ArgumentParser(description='Giga-Path Feature Extraction and t-SNE Visualization')
@@ -493,7 +478,7 @@ def main():
         create_tsne_visualizations(Config, args.input_dir, features_dir, filtered_patches_df, logger)
         
         print("\n" + "="*60)
-        print("Pipeline completed successfully!")
+        print("Pipeline completed successfully")
         print("Model used: Giga-Path (from Hugging Face timm)")
         print(f"Total patches processed: {len(filtered_patches_df)}")
         print(f"Results saved in: {args.input_dir}")
@@ -501,7 +486,7 @@ def main():
         
         if logger:
             logger.info("="*60)
-            logger.info("Pipeline completed successfully!")
+            logger.info("Pipeline completed successfully")
             logger.info("Model used: Giga-Path (from Hugging Face timm)")
             logger.info(f"Total patches processed: {len(filtered_patches_df)}")
             logger.info(f"Results saved in: {args.input_dir}")
