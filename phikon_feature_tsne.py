@@ -1,18 +1,4 @@
 #!/usr/bin/env python3
-"""
-Phikon Feature Extraction and t-SNE Visualization Pipeline
-
-This script extracts features from filtered patches using Phikon models
-and creates t-SNE visualizations grouped by hospital and label.
-
-Models supported: Phikon (original), Phikon-v2 (enhanced version)
-Both models are specialized for histopathology image analysis.
-
-Author: AI Assistant
-Date: 2025-01-20
-"""
-
-# ===================== Standard Library Imports =====================
 import os
 import sys
 import argparse
@@ -20,7 +6,6 @@ import glob
 import logging
 from datetime import datetime
 
-# ===================== Third-party Library Imports =====================
 import numpy as np
 import pandas as pd
 import torch
@@ -30,7 +15,7 @@ from PIL import Image
 import openslide
 from sklearn.manifold import TSNE
 
-# ===================== Phikon Model Imports =====================
+# Phikon Model Imports
 try:
     from transformers import AutoImageProcessor, AutoModel
     TRANSFORMERS_AVAILABLE = True
@@ -40,7 +25,7 @@ except ImportError:
     print("Installation: pip install transformers")
     sys.exit(1)
 
-# ===================== Configuration =====================
+# Configuration
 class Config:
     """Configuration class for the pipeline"""
     
@@ -49,7 +34,7 @@ class Config:
     feature_dim = 768  # Will be updated based on actual model output
     
     # WSI path
-    wsi_dir = "/home/mxz3935/dataset_folder/tcga-brca/"
+    wsi_dir = "/home/mxz3935/dataset_folder/tcga-luad/"
     
     # t-SNE parameters
     tsne_perplexity = 30
@@ -106,7 +91,7 @@ def extract_hosp_from_filename(filename):
         return parts[1]
     return 'Unknown'
 
-# ===================== Phikon Model Functions =====================
+# Phikon Model Functions
 def initialize_phikon_model(config, device, logger=None):
     """Initialize Phikon model (phikon or phikon-v2)
     
@@ -206,7 +191,7 @@ def extract_features_with_phikon(model, processor, image, device):
     
     return features
 
-# ===================== Feature Extraction Functions =====================
+# Feature Extraction Functions
 def extract_features_from_patches(config, filtered_patches_df, output_dir, logger=None):
     """Extract features from filtered patches using Phikon model
     
@@ -289,7 +274,7 @@ def extract_features_from_patches(config, filtered_patches_df, output_dir, logge
     
     return features_dir
 
-# ===================== t-SNE Visualization Functions =====================
+# t-SNE Visualization Functions
 def create_tsne_visualizations(config, output_dir, features_dir, filtered_patches_df, logger=None):
     """Create t-SNE visualizations
     
@@ -494,7 +479,7 @@ def create_tsne_visualizations(config, output_dir, features_dir, filtered_patche
     print(f"Hospital distribution: {dict(pd.Series(all_hosps).value_counts())}")
     print(f"Label distribution: {dict(pd.Series([info['patch_label'] for info in all_patch_info]).value_counts())}")
 
-# ===================== Main Pipeline =====================
+# Main Pipeline
 def main():
     """Main pipeline function"""
     parser = argparse.ArgumentParser(description='Phikon Feature Extraction and t-SNE Visualization')
@@ -546,7 +531,7 @@ def main():
         create_tsne_visualizations(Config, args.input_dir, features_dir, filtered_patches_df, logger)
         
         print("\n" + "="*60)
-        print("Pipeline completed successfully!")
+        print("Pipeline completed successfully")
         print(f"Phikon model used: {Config.phikon_model_name}")
         print(f"Total patches processed: {len(filtered_patches_df)}")
         print(f"Results saved in: {args.input_dir}")
@@ -554,7 +539,7 @@ def main():
         
         if logger:
             logger.info("="*60)
-            logger.info("Pipeline completed successfully!")
+            logger.info("Pipeline completed successfully")
             logger.info(f"Phikon model used: {Config.phikon_model_name}")
             logger.info(f"Total patches processed: {len(filtered_patches_df)}")
             logger.info(f"Results saved in: {args.input_dir}")
