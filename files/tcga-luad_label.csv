@@ -1,0 +1,542 @@
+filename,case_id,submitter_id,age,ethnicity,gender,race,primary_diagnosis,label
+TCGA-38-4631-01Z-00-DX1.5e0c873a-9c4c-4e0b-bf2e-e3cd8b760761,2483621a-4db3-41ab-aa33-b9427ea8a0af,TCGA-38-4631,72,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-6742-01Z-00-DX2.2c6b4df0-867d-40c5-8bee-14e2d219224b,21fb46f9-4bbb-441c-af19-a687e9138344,TCGA-49-6742,70,not hispanic or latino,male,white,Mucinous adenocarcinoma,LUAD
+TCGA-49-6742-01Z-00-DX4.a11201e1-9eeb-40ea-9c88-28de847ef7d8,21fb46f9-4bbb-441c-af19-a687e9138344,TCGA-49-6742,70,not hispanic or latino,male,white,Mucinous adenocarcinoma,LUAD
+TCGA-50-6597-01Z-00-DX1.ec7fc0b2-78a1-4384-bddd-e89f02ee5eb6,0d66bf6c-eed0-4726-bd5b-3bf6d610b4e0,TCGA-50-6597,79,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-6742-01Z-00-DX5.74539ee6-0ac6-4663-89f1-c6a74a59a4cb,21fb46f9-4bbb-441c-af19-a687e9138344,TCGA-49-6742,70,not hispanic or latino,male,white,Mucinous adenocarcinoma,LUAD
+TCGA-55-8090-01Z-00-DX1.83f86d5f-7cb9-443a-a812-b19ba4aea836,4d51ee44-e6f4-4bcb-be28-e9df54b39a8d,TCGA-55-8090,80,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-5420-01Z-00-DX1.8C253A99-44FD-48B6-AF31-D808CCB7DB1E,8b119d1c-6d21-4bbd-8a00-12da7b97d6c4,TCGA-05-5420,67,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-95-7947-01Z-00-DX1.44291078-2D8E-4E79-8FAB-439E52BAAD60,e0acafdd-06d0-48a6-bd68-577ef666a419,TCGA-95-7947,67,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-38-4629-01Z-00-DX1.d00cc280-5370-4b9f-9655-6c35deb94647,127bf818-f7e5-46b5-a9de-39f6d96b8b83,TCGA-38-4629,68,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6979-01Z-00-DX1.9238436e-3886-4a10-86fe-26658967dff2,5af499be-d2b9-4eaf-9a9f-435dccb51917,TCGA-55-6979,59,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7573-01Z-00-DX1.43a4bbd2-6a3b-4910-9356-2d750a736817,8e41153b-9faf-45c3-8397-8a428ef5c0d5,TCGA-55-7573,72,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4410-01Z-00-DX1.E5B66334-4949-4F45-9200-296B1A2F1AD5,d28e465c-e553-4c53-8bb7-3d8199b9a8a5,TCGA-05-4410,62,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-38-6178-01Z-00-DX1.5932337D-BA2B-455D-9E34-22961EFA2170,edf80622-aea2-4b50-bb69-691d6708aa83,TCGA-38-6178,70,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8207-01Z-00-DX1.2dafc442-f927-4b0d-b197-cc8c5f86d0fc,b256e065-c681-4f82-8b68-a8ef7c413791,TCGA-55-8207,73,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-55-6986-01Z-00-DX1.ae52d41e-3cd6-4d36-b04b-2ea7d29bd8da,028e99e9-5b9a-4954-bb6e-6d4709a3cea8,TCGA-55-6986,74,not reported,female,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-73-4677-01Z-00-DX1.b557785c-9ccc-42a7-bb54-7bb47638ddfc,03c3409a-9d16-41d0-9e26-f9fc2547a4c8,TCGA-73-4677,74,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7576-01Z-00-DX1.3a6142e9-c90a-4938-a1d1-061c2ac261f0,055e9a43-3c00-4110-a303-e4407676bec0,TCGA-55-7576,54,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-64-5775-01Z-00-DX1.9A338C1A-CDB6-41AF-B6D5-EDE608B5E3E1,c8544fb3-b26e-4672-bb81-a271db724b04,TCGA-64-5775,71,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8615-01Z-00-DX1.928CFCA6-059D-4901-8D6A-BC7D9486C29F,06fe7f3e-4edd-4150-981c-93787ea19b39,TCGA-55-8615,67,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-97-8177-01Z-00-DX1.4c2ddf48-40d3-4fa0-8b5f-0485e8270ac7,09078761-1c14-4d01-8e15-535c19a9b0f9,TCGA-97-8177,59,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-86-7954-01Z-00-DX1.0a063ee6-18b7-4b66-9726-04fb452156cb,079ae0b3-b64b-4b8e-ab7d-225b8046568c,TCGA-86-7954,68,not hispanic or latino,female,white,"Bronchiolo-alveolar adenocarcinoma, NOS",LUAD
+TCGA-38-4625-01Z-00-DX1.ffdbfc1d-7a21-4e67-a54f-89597bd14a7f,0ea4920f-f4c8-4590-84b3-eb419824e144,TCGA-38-4625,66,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-8054-01Z-00-DX1.2c4c08f6-be1c-46d1-a719-5983cade0c54,0fe909ea-d52c-4b71-816f-57f62d4a5744,TCGA-86-8054,61,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-50-6590-01Z-00-DX1.B08B2656-3DC7-4D35-A54D-9C57A7A773B3,114a34c0-983b-4d90-9181-1823c9637a63,TCGA-50-6590,72,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-50-5931-01Z-00-DX1.34261ED6-7815-487C-A50C-2DAD587187B9,12ccd581-a921-41bc-bcee-4e9be54532cc,TCGA-50-5931,75,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-6744-01Z-00-DX1.40f8f751-b756-4576-b1ee-8dd2e8f89ff7,15340dd3-84ae-49fb-989a-eb212f3e73da,TCGA-49-6744,64,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-6744-01Z-00-DX4.a3d7995d-399f-4c53-aab8-adc4ea4dbfa8,15340dd3-84ae-49fb-989a-eb212f3e73da,TCGA-49-6744,64,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-6744-01Z-00-DX2.1982e585-65a4-4330-9140-ccabcdd106f8,15340dd3-84ae-49fb-989a-eb212f3e73da,TCGA-49-6744,64,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-6744-01Z-00-DX3.fa64d744-6caa-4f62-8689-33da9c312838,15340dd3-84ae-49fb-989a-eb212f3e73da,TCGA-49-6744,64,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-44-7671-01Z-00-DX1.00297baa-00e7-4894-a7b8-c9ac2a9d42d8,ebb33753-9d38-4368-9033-3e55f129d00d,TCGA-44-7671,64,not hispanic or latino,male,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-78-8662-01Z-00-DX1.754A4C57-B5FA-4077-99E4-F6EFA6459410,16e64a1e-08b0-4c27-8c69-fa64551f8ca4,TCGA-78-8662,53,not reported,female,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-MN-A4N5-01Z-00-DX1.D0FBA0D2-6245-4EFD-AF2B-849215600DBE,17e09b0d-eab2-40ec-ae3c-be9ab63fcef0,TCGA-MN-A4N5,63,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-8640-01Z-00-DX1.6F929E56-34D5-45A6-8A9E-ACB4B88A68B1,18478121-f1d1-4bdd-9511-8ab22f4a0660,TCGA-78-8640,59,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-64-1680-01Z-00-DX1.9CB14F20-E7B0-49A1-A327-404B3160FD65,1ab7ad70-0f80-41d8-8efa-3baebc8223cc,TCGA-64-1680,63,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-75-5146-01Z-00-DX1.4958A631-7E6F-4FBB-A1C3-B8F8368D46C5,1d276b62-5e64-48fb-b2ce-5192b511fe37,TCGA-75-5146,'--,not reported,male,not reported,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-97-7552-01Z-00-DX1.a5ab8959-ff7a-4287-b014-87439957fb67,1b110eb4-a01d-4c50-ba18-77da4dedd549,TCGA-97-7552,70,not hispanic or latino,male,white,"Bronchio-alveolar carcinoma, mucinous",LUAD
+TCGA-69-7763-01Z-00-DX1.33203e8a-43e9-4e3e-98ba-1ac08b80a44f,1b31cdb3-1837-49d6-a857-1830f8800299,TCGA-69-7763,69,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-55-7911-01Z-00-DX1.081bc002-06ee-4218-a25f-26c0e6c4b333,1f0a5312-0590-4230-9da9-fd0cfe693586,TCGA-55-7911,70,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-5644-01Z-00-DX1.7e4edaa7-25c6-49f4-81bc-f50d6c5fac38,1fc81cd4-fa89-4135-8c3c-027ffae82b05,TCGA-44-5644,51,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8512-01Z-00-DX1.FD4B9CF5-1955-420E-A955-6D284772D2BE,202e5df9-69f2-432c-a59d-cc5aa176e973,TCGA-55-8512,41,not hispanic or latino,male,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-75-5125-01Z-00-DX1.2E419CAF-E248-4959-951E-498D8054433E,205759a6-6391-491b-9857-0080c3a5871e,TCGA-75-5125,'--,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-38-4626-01Z-00-DX1.142bc018-bd79-4db9-84e2-f83a617ea92a,2079155a-d91d-4246-a038-01934a580f32,TCGA-38-4626,57,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-6144-01Z-00-DX1.604b3c7c-92e8-474a-bae8-e48415ea6196,22302e92-fdfa-462a-9249-efdaa26ee5ed,TCGA-44-6144,58,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-75-6212-01Z-00-DX1.FCB36956-DF6C-485D-8E7A-922A2BDAE669,23069f19-eba5-4ea5-ae7d-1ee4399ce7c1,TCGA-75-6212,'--,not reported,female,not reported,Invasive micropapillary carcinoma,LUAD
+TCGA-69-7764-01Z-00-DX1.be9fec48-68eb-4c27-a028-5315d7e368e0,243c6fd6-5516-46e5-bcef-292d93d7b7d3,TCGA-69-7764,75,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-L4-A4E6-01Z-00-DX1.1B537DE0-2CE3-4B90-9ED3-71F1F8747EE9,26a92e1b-08d8-45cd-af0c-eaf2514808a2,TCGA-L4-A4E6,67,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-38-A44F-01Z-00-DX1.B9958072-D8BB-40DD-B28E-2E83CE2B550B,258a3a41-211b-4c66-bd3b-ef03014a6967,TCGA-38-A44F,80,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-44-5643-01Z-00-DX1.83fb7631-0ecb-4473-bfb2-c8daa2f87d35,27fceec1-3298-4cdd-a4e6-8f5cf34604f0,TCGA-44-5643,53,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-86-8279-01Z-00-DX1.fd12b60e-d181-454b-a655-298a973a849d,2923e404-38f2-437a-b57e-23401fbe0273,TCGA-86-8279,46,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8299-01Z-00-DX1.6F652EC5-EBB8-499C-A66D-E0951FBFCAA2,2cd8ea73-cb3f-4b17-9b97-fa12eb03b85b,TCGA-55-8299,61,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6987-01Z-00-DX1.0c52b721-2209-4818-af8f-b22d37e6e81e,2efc156c-464a-4c2f-a854-39fefe32081c,TCGA-55-6987,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6980-01Z-00-DX1.2f1d1858-42b9-4e3b-966d-2f3f429570a6,2f0710f4-827b-45b2-9b7e-c27385b481a7,TCGA-55-6980,56,not reported,male,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-86-8585-01Z-00-DX1.bc0b1c69-f71d-46fc-8195-2d205002e6e5,2f1a4b16-104c-40eb-8114-8245847bb716,TCGA-86-8585,57,not hispanic or latino,male,white,"Solid carcinoma, NOS",LUAD
+TCGA-MP-A4T4-01Z-00-DX1.5F72FF0B-59C0-4E95-A8C1-BF22A948F7AC,301ca6e8-7981-4264-b4ae-38f56f7f9225,TCGA-MP-A4T4,68,Unknown,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-50-5066-02Z-00-DX1.A2CA045A-7956-4E04-9EC9-5856FC789110,3199cfe5-3be3-43cd-a36b-5cf2c7a9929f,TCGA-50-5066,72,not hispanic or latino,male,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-50-5066-01Z-00-DX1.e161df31-84a4-40a4-a6a2-748b60820f77,3199cfe5-3be3-43cd-a36b-5cf2c7a9929f,TCGA-50-5066,72,not hispanic or latino,male,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-05-4398-01Z-00-DX1.269bc75f-492e-48b1-87ee-85924aa80e74,31c96e35-5e2f-429c-b12a-7bc5a497a300,TCGA-05-4398,47,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-97-A4M6-01Z-00-DX1.01D83621-3D8E-4339-9F9B-CBD3083D5AE0,31ff69b5-9e58-44da-8326-bdfc7ee495c4,TCGA-97-A4M6,45,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-75-6214-01Z-00-DX1.00424C13-65B8-4872-81EB-EE207AB3F78C,32592562-11fa-435a-b40b-2b242bae53aa,TCGA-75-6214,'--,not reported,female,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-L4-A4E5-01Z-00-DX1.C2A5EF71-1F40-4E34-AC30-58D7121C1338,32a7b827-c3f9-4607-ae63-dae8caa2bc97,TCGA-L4-A4E5,48,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-A48X-01Z-00-DX1.A46C6373-8458-4D55-88C3-4C70A05F9F47,32d9935a-f5cd-43b3-88bd-09e6e2b9090d,TCGA-55-A48X,63,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-6774-01Z-00-DX1.f169485b-f863-4be0-9844-258d78170b64,33c71ead-4c2a-476d-85ef-885dbbfc2cbd,TCGA-44-6774,56,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-5423-01Z-00-DX1.CCCF5FDB-ACAD-4D9D-80DF-556F0D6284AF,33e3f736-7990-4f7a-ac35-863247566541,TCGA-05-5423,65,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-05-4244-01Z-00-DX1.d4ff32cd-38cf-40ea-8213-45c2b100ac01,34040b83-7e8a-4264-a551-b16621843e28,TCGA-05-4244,70,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-97-A4M2-01Z-00-DX1.5C72522C-1538-4D68-B517-5FB05A9D401A,345aef28-d49b-491b-a337-b1ac55c37d35,TCGA-97-A4M2,66,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-44-6777-01Z-00-DX1.aca7b23d-a601-4476-8bfd-eb46f0b6a96e,349e6f38-2c67-4a69-a777-b9173a2a27cf,TCGA-44-6777,85,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6982-01Z-00-DX1.055aeec1-2fc1-4796-b5df-c159335e0300,35cb7841-9b09-465a-90c5-e3b8a9faad49,TCGA-55-6982,79,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-L9-A443-01Z-00-DX1.9F68A13A-2865-41BF-88A7-B0DF75961C6F,3b89ac82-63f6-41b9-a03d-34b9ffc1550d,TCGA-L9-A443,63,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-95-7567-01Z-00-DX1.982FF122-A440-4949-926C-B58AF8381090,3bc7026f-73f2-418b-bd62-f4768582b790,TCGA-95-7567,61,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-AAR0-01Z-00-DX1.1635383C-0FB3-4CF9-BABC-08AC19CCE501,3afa5045-a1ee-4a07-8aad-2e252b2f7d7a,TCGA-49-AAR0,57,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-44-3396-01Z-00-DX1.187b0a68-ad51-4fcd-819c-b74a8599dbe9,3bd6badb-27ff-4d8d-b206-4d28dc264862,TCGA-44-3396,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-A57B-01Z-00-DX1.8D3C7063-3AF6-4839-A656-F844EC0AF9DB,3b21b982-dba2-45f4-ad8d-21dc86fcaaa7,TCGA-55-A57B,80,not hispanic or latino,female,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-05-4420-01Z-00-DX1.2df0552e-87dc-491e-9be2-be8fbce2660d,3d2aa654-1b5f-4eb4-a1c2-af31f5760069,TCGA-05-4420,41,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-A4DG-01Z-00-DX1.9CE9B7BE-48EF-44F1-9C25-F15700A3E5DE,3e34c7d9-90fa-41e2-ba6b-4bbc332adc4e,TCGA-55-A4DG,71,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-67-4679-01Z-00-DX1.a3d84341-fed7-4235-a053-638ed5294954,3e635902-5310-4406-8b4d-a238ce382639,TCGA-67-4679,68,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-5428-01Z-00-DX1.8018AD62-F1CE-4BFF-8EFD-3F2D4513FC11,3fe8f8e4-5396-4362-82f5-366e2fb69db2,TCGA-05-5428,57,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-44-7672-01Z-00-DX1.71f4a0c6-a9cc-481c-ace8-c8c314952aa1,4036c6fc-c82e-47bb-a384-6f299dc30b52,TCGA-44-7672,52,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-2656-01Z-00-DX1.5f247f31-4bb5-460d-a1f7-7dcdba33c835,42ca54fc-c1ae-41cd-bca1-7fe9810db460,TCGA-44-2656,59,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-NJ-A4YP-01Z-00-DX1.148BFF66-4DC7-468C-8783-97F27C2E1245,42259aa6-c9f5-4309-a956-dbf930312f44,TCGA-NJ-A4YP,52,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-86-8074-01Z-00-DX1.0c34b434-8701-4060-a4ea-08a72371ee1e,482eb2a7-6fed-4e4c-b1b6-14d6d869f855,TCGA-86-8074,62,not hispanic or latino,female,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-78-7535-01Z-00-DX1.c4ca06f3-22d1-4e39-85c8-98d1fa2b0e60,46592b7b-6968-42a6-83af-0917c9f4a9a5,TCGA-78-7535,45,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4T7-01Z-00-DX1.C74D7A5B-1D1A-423B-85CA-C11E0CCF5873,47062ad2-ba82-45c8-a871-bdea84f0c405,TCGA-MP-A4T7,75,Unknown,female,Unknown,"Adenocarcinoma, NOS",LUAD
+TCGA-86-8056-01Z-00-DX1.eee7e03a-842c-4a44-bff8-f7b906725605,472337c2-a2fc-403a-8c17-69511193128b,TCGA-86-8056,63,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-05-4249-01Z-00-DX1.9fce0297-cc19-4c04-872c-4466ee4024db,4addf05f-3668-4b3f-a17f-c0227329ca52,TCGA-05-4249,67,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8092-01Z-00-DX1.04e44341-c4bb-4b0b-965c-7ec83f3877a6,4b92fce2-3772-40eb-ab34-a27937b58590,TCGA-55-8092,75,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-7669-01Z-00-DX1.34d0c9ac-d3dc-4a5e-b99c-a8c1c1e120d1,4b22ad71-c585-4077-ad3c-c6e026d0c7fa,TCGA-44-7669,59,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-49-6761-01Z-00-DX1.10c577a2-f65c-4517-8a25-83d44e380f8f,4cd3d483-2283-4c6a-a57a-444216119d34,TCGA-49-6761,68,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7159-01Z-00-DX1.399d865f-f4f9-4602-b15b-908be0afe459,4d153600-81f9-44fb-b485-6355ec306d6a,TCGA-78-7159,60,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-6983-01Z-00-DX1.8f940a64-1f1b-4e6e-99ea-418175be2b3f,54a0e4d7-c274-4569-9c25-45bbe26d7f21,TCGA-55-6983,81,not hispanic or latino,male,white,Mucinous adenocarcinoma,LUAD
+TCGA-97-A4M3-01Z-00-DX1.16330A66-2501-48D2-AF6A-713698BF6918,575752f8-2788-43cd-afde-f0f600f39d18,TCGA-97-A4M3,69,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-L9-A7SV-01Z-00-DX1.153B8E2D-54CE-4747-A22E-7A6ADCA03DB5,54e90433-5218-4d83-848f-f995ecba2a63,TCGA-L9-A7SV,69,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8620-01Z-00-DX1.6591EEC4-D696-4826-80BD-99BE1D99EBB8,5510ad32-62fd-4adc-964a-ae4e997c2f4b,TCGA-55-8620,60,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-69-8255-01Z-00-DX1.75d1666c-c088-405c-80da-52d84b990361,552712d3-da16-441e-ba93-11810793d598,TCGA-69-8255,71,hispanic or latino,male,white,"Solid carcinoma, NOS",LUAD
+TCGA-80-5608-01Z-00-DX1.CB85BA53-AF00-4C7D-8489-C2FF0F4F49AB,5c06d97f-2aaa-43de-b085-09d7829356ba,TCGA-80-5608,'--,not reported,female,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-50-5068-01Z-00-DX1.13f1c31e-4d4c-4562-8447-c5bbfbf670a9,591c068f-bbb1-4df2-9abb-d1a2e4a58372,TCGA-50-5068,59,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-35-5375-01Z-00-DX1.10708170-750A-451B-BC10-0B4042540033,5d2a9a4f-678d-4089-a8c5-81a5cb696629,TCGA-35-5375,61,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-97-7547-01Z-00-DX1.3563966f-21ee-4405-9106-9e0bf8df9f1a,6092bd5c-e97c-4a77-a4ad-c87623b17507,TCGA-97-7547,67,not hispanic or latino,female,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-49-6767-01Z-00-DX1.53459c0e-b8ec-4893-9910-87b63c503134,6bffe800-ec2b-4638-9333-97fe85dcd91c,TCGA-49-6767,46,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-35-4123-01Z-00-DX1.990553a8-657e-49ec-9782-e6d30a4c4909,6cf49cf0-de4c-4c90-8358-eae19c6206b0,TCGA-35-4123,38,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4T9-01Z-00-DX1.F7B341C4-EBCD-455F-BE90-3B77AC6B76EC,70081320-540f-41d2-8687-ee6d011f8eb0,TCGA-MP-A4T9,54,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-93-A4JQ-01Z-00-DX1.24573112-917C-43E9-B0FD-763C290AA88A,7093024b-cf56-4783-b973-b72573ed7f2b,TCGA-93-A4JQ,49,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-75-5122-01Z-00-DX1.627FD712-3881-44CC-83E0-6C4DFC6C88C1,78ae716b-0ca5-4c01-a053-d41288385fcd,TCGA-75-5122,'--,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8204-01Z-00-DX1.30ba69f3-53f1-41cc-826c-20dce3cfe86b,75589307-f141-4d0d-b35d-adbbc77b3dec,TCGA-55-8204,87,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-73-7499-01Z-00-DX1.81f5c1c1-3d40-4773-a1fb-e1f8eb9f6730,7782ceaa-da49-4232-8b3f-534971adaad8,TCGA-73-7499,81,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-MN-A4N1-01Z-00-DX2.9B0852C4-16BF-4962-B86F-E2570E48A89E,75a0bb0b-6528-4fb8-a9e6-254905d21df4,TCGA-MN-A4N1,60,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7903-01Z-00-DX1.40fc5dcb-b5bb-46b4-90bd-2eeb3ea880f5,77c4dbb2-eceb-4e0d-bcde-63dc817d5f35,TCGA-55-7903,64,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8208-01Z-00-DX1.6eccb7e2-16e4-4d25-9a1e-b370e016020f,77f8c850-b4e6-46a1-ab12-a50e0044a0c8,TCGA-55-8208,73,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8302-01Z-00-DX1.E0C2B152-BBA9-4AA7-9E6B-BD57B68163CB,807cc7d2-6e3b-4f2d-9531-0da994eeeada,TCGA-55-8302,54,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7161-01Z-00-DX1.646cf15a-5961-4728-b9fe-fe3fff11831f,86faf16c-56fd-4b7b-a6b2-b4c83bec93e1,TCGA-78-7161,69,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-6968-01Z-00-DX1.810e0fee-99ab-465b-8ae9-fb416e4dca3c,83a6ed20-b3cf-48b9-8ed3-a080cd4951fa,TCGA-55-6968,61,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-95-8039-01Z-00-DX1.38b07435-987d-495d-9940-ba5f20e6ef97,87f1b3df-4bc7-4336-b658-f30ac1c5c796,TCGA-95-8039,72,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-99-8025-01Z-00-DX1.76d4e012-91a7-4f1d-ba0f-4cecd812ec49,84c3ba70-afa7-4b69-be69-7ec8d6022c56,TCGA-99-8025,72,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-L9-A8F4-01Z-00-DX1.E2BBB8DE-94E2-4781-9B55-8A4CFBF8A69D,927fc5e0-2c14-4c20-a49b-f10d8a1175c3,TCGA-L9-A8F4,64,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-86-A456-01Z-00-DX1.5C7CBF9B-0AE3-4776-9434-296AA0C605CC,8e2aca86-7cba-4631-9f25-4d14219dbc6d,TCGA-86-A456,78,not hispanic or latino,female,asian,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-75-5126-01Z-00-DX1.164887F4-9986-415F-A94A-E40E92D80DA3,93766482-2f20-4c8f-bbd8-bdd203c37d5a,TCGA-75-5126,'--,not reported,female,not reported,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-55-8510-01Z-00-DX1.BB1EAC72-6215-400B-BCBF-E3D51A60182D,962fd4e7-9199-43d9-abce-e3dfa46da62c,TCGA-55-8510,55,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-38-7271-01Z-00-DX1.EF258BEB-8DEA-483E-823A-1E0B90AAA392,8214a0d1-5e2d-4a7a-acb1-e5580755db83,TCGA-38-7271,72,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-38-4630-01Z-00-DX1.d08d0193-c5ed-4db8-b236-1a4c3c3177b8,f1985735-a188-4567-a88a-530f9b80291b,TCGA-38-4630,75,not hispanic or latino,female,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-55-1594-01Z-00-DX1.bd90c500-7c0b-4c45-a3f7-2d9177384b1d,6d72de06-232a-4983-a06c-eba6d82cb3f1,TCGA-55-1594,68,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-1596-01Z-00-DX1.de65522d-92ab-408e-9b7e-24210d386b97,199386c2-bb53-4fad-a1b6-59ab216a4a50,TCGA-55-1596,55,not hispanic or latino,male,asian,"Adenocarcinoma, NOS",LUAD
+TCGA-44-6147-01Z-00-DX1.a34a9f49-e86b-43ee-9e2d-7ef35da0aecf,889aec8e-14ba-48d9-8fe1-f2416e82b333,TCGA-44-6147,67,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4245-01Z-00-DX1.36ff5403-d4bb-4415-b2c5-7c750d655cde,03d09c05-49ab-4ba6-a8d7-e7ccf71fafd2,TCGA-05-4245,81,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-44-2659-01Z-00-DX1.b33f40e6-bc18-48b0-8dad-bdb0a6a200b5,bf15f7ad-9d92-473b-91d1-f24aa373ab97,TCGA-44-2659,65,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-73-4670-01Z-00-DX1.a92a23d5-01aa-45a2-9f83-4784cd65fd58,1b354837-4925-4480-ac32-6b44d0957314,TCGA-73-4670,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-6776-01Z-00-DX1.551e200f-5f40-4b95-8b2f-7c6000a21be0,c2a1de2e-6451-4c95-8ce6-263f2b7e6eff,TCGA-44-6776,60,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-6742-01Z-00-DX1.23e8883f-0ecc-4359-a8b5-75d49f43a08b,21fb46f9-4bbb-441c-af19-a687e9138344,TCGA-49-6742,70,not hispanic or latino,male,white,Mucinous adenocarcinoma,LUAD
+TCGA-95-7562-01Z-00-DX1.C722891A-C5C6-4F0D-A73F-259FA8DB2394,193201a3-1447-47b1-bdf1-11ae0eb3b2f3,TCGA-95-7562,71,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-97-8172-01Z-00-DX1.812ab977-692e-42f8-af57-7ce9084ab045,cbf1f718-6bb7-4daf-b9d6-fb294281decb,TCGA-97-8172,75,not hispanic or latino,female,white,Acinar cell carcinoma,LUAD
+TCGA-55-7724-01Z-00-DX1.31a194ac-62e3-4225-8e32-8c2a83dcdd10,294cb595-0907-44c7-bbef-985a27c1e6e2,TCGA-55-7724,76,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4405-01Z-00-DX1.D57EC2B2-3A59-4954-86A7-61782938BCC5,f587c9ab-2949-4410-80d6-a050865d48aa,TCGA-05-4405,74,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-05-4434-01Z-00-DX1.f3f5c89c-306f-4876-98fa-f7bd231f2e10,d94fe32f-bedd-4f4c-9feb-fcb60d40f4bb,TCGA-05-4434,67,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-J2-8194-01Z-00-DX1.7700924D-B6AF-46A7-A7D7-B5C17A66C5F7,2b68b51f-bd4c-4bbb-b4e6-2eead53da2a4,TCGA-J2-8194,69,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-8203-01Z-00-DX1.f530d261-be19-4ff0-98d0-27b789dffb23,9a9bd705-1ef1-4a6c-bb1e-bdd346dc01c0,TCGA-55-8203,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-2655-01Z-00-DX1.ee255271-780c-461c-ab23-5cd3504b5e4a,07b5663f-9a54-4462-b6c1-6fc8116b8714,TCGA-44-2655,65,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8621-01Z-00-DX1.7C519007-D59D-432A-BF4D-23D14A1C8BB6,8d535aa6-6d59-4965-b5ed-17217d8f5930,TCGA-55-8621,75,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-67-3773-01Z-00-DX1.3E9DFC22-E962-4C18-BF5B-27EBEA089F5D,009be09b-f9f6-43b7-8f45-4a648f8123ce,TCGA-67-3773,84,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-3917-01Z-00-DX1.cf5b5b49-de5e-4f2e-90b4-b138f55560a9,7099597a-b208-45b5-b9e0-11ab40d5e497,TCGA-44-3917,33,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-J2-A4AD-01Z-00-DX1.C3C3B0C6-0666-4CCF-8422-345560B237DA,096bd95f-9900-4db2-b1c4-103902c3b31f,TCGA-J2-A4AD,61,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4505-01Z-00-DX3.d3f8d0c4-e4bc-4201-9b2f-e010f51dd8c3,088edf89-d2b5-40c7-b066-df3bd383f7ea,TCGA-49-4505,61,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4505-01Z-00-DX1.d49d603e-1f76-43a1-a803-9f2d6a6df715,088edf89-d2b5-40c7-b066-df3bd383f7ea,TCGA-49-4505,61,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4505-01Z-00-DX4.623c4278-fc3e-4c80-bb4d-000e24fbb1c2,088edf89-d2b5-40c7-b066-df3bd383f7ea,TCGA-49-4505,61,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6981-01Z-00-DX1.5fecd134-42a0-40a2-be75-1e8bd14c5b30,0a45f302-5748-48f3-9dc9-66c01843a68e,TCGA-55-6981,53,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7284-01Z-00-DX1.68b95b9b-1aab-4f03-aad3-1132467b7499,0b15fcb8-1fb7-497e-80b9-d3db66a3c0a2,TCGA-55-7284,74,not hispanic or latino,male,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-86-7955-01Z-00-DX1.ef4f4d94-5efb-4a07-97cf-b0ed69085827,0d0d83d9-d558-4d38-977b-6f1b2471beda,TCGA-86-7955,62,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-91-A4BD-01Z-00-DX1.2E575CAC-6AEB-4049-972A-EA43457A9C9D,0d980584-4484-4063-8243-c3cd67f6f588,TCGA-91-A4BD,78,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-67-3771-01Z-00-DX1.7B54D132-6AB7-4F2D-8BFF-33AFE83CF204,0df573ee-28f0-4244-b434-09e6ca59fbf0,TCGA-67-3771,77,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8089-01Z-00-DX1.da4d99ff-4a7c-45a3-b79c-039c0c9e9712,1070ff27-17c9-43dd-a4f6-daa643eb9123,TCGA-55-8089,56,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-A48Y-01Z-00-DX1.D8735347-E060-439F-B5A1-1E47A958A392,12c07138-e3fa-418a-89e3-628da12bc99e,TCGA-55-A48Y,69,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-97-8179-01Z-00-DX1.5501338a-dd89-4c41-8267-5baaaea71643,11c2e619-8aeb-4f86-b03b-78f9a8099263,TCGA-97-8179,72,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-55-A48Z-01Z-00-DX1.0867DC6A-2A51-4CF1-AE3F-0526CE2DD740,16d3c1c1-cf3a-44b6-b564-8ae5464b243d,TCGA-55-A48Z,60,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-73-4662-01Z-00-DX1.76e23a15-0917-44ad-9181-50100d318003,294ff941-aea1-4588-9a0e-e9f5393e2bb6,TCGA-73-4662,65,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-8660-01Z-00-DX1.11E923ED-C01B-439D-8796-08C9E3DC2D93,781f40c9-c099-4c96-8269-ebe2a449c93d,TCGA-78-8660,69,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6978-01Z-00-DX1.2ef6d6aa-2a19-4bce-b845-cc83ac81a1c3,5134c56f-8286-4ec8-8348-237cee7dad5e,TCGA-55-6978,81,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-J2-8192-01Z-00-DX1.A784F381-7906-480F-99A1-0B88005953A0,369f14c4-2191-4962-a309-3e23ddc4e5fc,TCGA-J2-8192,65,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-64-5779-01Z-00-DX1.B3268447-DCE0-4927-B5A9-EC4D61E9B17D,1c58d9b8-17a2-4fc6-9898-fe6f47bd2c2a,TCGA-64-5779,61,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-97-7546-01Z-00-DX1.dad9871f-cdfb-424d-a5b2-4e0905c29137,1d90c9f3-5025-4867-a2f0-e455b6a254fa,TCGA-97-7546,76,not hispanic or latino,female,white,Acinar cell carcinoma,LUAD
+TCGA-83-5908-01Z-00-DX1.381c8f82-61a0-4e9d-982d-1ad0af7bead9,25d4ea9e-f773-4f11-bac9-64efdad73211,TCGA-83-5908,59,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-73-A9RS-01Z-00-DX1.EDCEFE41-61E2-48C9-B8D5-28B55372E0CA,2a394996-809f-459f-a647-d209921ccbd2,TCGA-73-A9RS,41,not hispanic or latino,male,black or african american,Mucinous adenocarcinoma,LUAD
+TCGA-L9-A5IP-01Z-00-DX1.E699D989-8BB8-41DF-9B95-A880858653E6,2a43e61e-2151-4c5a-b062-74ce9dfd8d4a,TCGA-L9-A5IP,40,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-NJ-A4YI-01Z-00-DX1.C4111D01-27BF-486F-8E0E-C8053DB16133,2c03141e-a0bd-4e8d-91e4-9744d139ccce,TCGA-NJ-A4YI,87,not reported,female,white,Acinar cell carcinoma,LUAD
+TCGA-75-6211-01Z-00-DX1.3E7B5948-521E-48EE-9204-80F5713ECD25,2db08267-d346-4d42-aac0-b76831903253,TCGA-75-6211,'--,not reported,female,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7149-01Z-00-DX1.1b83dbcb-0c9f-4e50-bb98-bf9a157052cf,2de1ba51-eae1-4a54-b7cd-d6d739fdc39d,TCGA-78-7149,71,not reported,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-93-A4JP-01Z-00-DX1.994E229B-5251-4F61-8C41-863047F3A136,30f276a8-3a4b-4de8-aea0-7f605d100401,TCGA-93-A4JP,64,not hispanic or latino,male,asian,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-S2-AA1A-01Z-00-DX1.4B5D5FAE-8305-4D2D-B245-584589352886,31458638-e19c-43e5-ab13-9c64b3b3681d,TCGA-S2-AA1A,68,not hispanic or latino,female,black or african american,"Bronchio-alveolar carcinoma, mucinous",LUAD
+TCGA-86-8055-01Z-00-DX1.546dc42e-3742-4da5-8f9b-80732180ce76,34d8e84e-c3e1-417d-8b9b-8563d9fa0f8e,TCGA-86-8055,79,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-A4DF-01Z-00-DX1.C945E1AD-BEF4-403F-BB11-BAC831D24CDA,362000e4-cf7c-48fc-93cc-8f5994b442ea,TCGA-55-A4DF,88,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8096-01Z-00-DX1.c833417d-10c1-4430-a241-d6f5496e1cd9,36470b30-a3b3-4d28-851b-918a7ff88011,TCGA-55-8096,67,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-67-3774-01Z-00-DX1.FE85FDCB-91D2-47C5-8D13-D622A51A7BE0,36ad7fc7-0cc1-4f01-aef1-f89b3cb4feac,TCGA-67-3774,73,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-97-7553-01Z-00-DX1.e31eec5e-0053-407a-b057-9b87555b122d,37c8d73a-45ae-40fc-ba9a-721b755c1160,TCGA-97-7553,58,not hispanic or latino,female,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-05-4426-01Z-00-DX1.4c9da782-f4aa-4c4f-b3aa-fae2259f236f,36bf02f8-c1c8-49f9-a417-adf88a205c70,TCGA-05-4426,71,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-71-8520-01Z-00-DX1.EAE99132-A397-4B4D-8B09-CBB774A7B62F,37884d39-64e8-4242-b6bd-4c0a1daa21cd,TCGA-71-8520,60,not hispanic or latino,female,asian,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4TD-01Z-00-DX1.937DEBC9-F5D5-4682-AA9A-13D8226EE06C,383d1253-349f-43b3-bebd-9f1d1cf14b3d,TCGA-MP-A4TD,71,Unknown,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-95-A4VN-01Z-00-DX1.B997A80F-C396-40AB-808A-B70EB83A2B74,389f78a3-fa0b-406c-9434-aa0298341a8c,TCGA-95-A4VN,62,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-97-8171-01Z-00-DX1.a55cbfd1-6674-4206-b3e0-2a4f12a74e5d,397d3f69-1453-4057-b177-8723eec923d1,TCGA-97-8171,81,not hispanic or latino,male,asian,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-55-A492-01Z-00-DX1.31B23842-7F8B-4311-88DF-C51CB4F54AED,39ab7174-5707-498d-9959-523680e04198,TCGA-55-A492,70,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4430-01Z-00-DX1.95659bbb-3091-4370-bc1d-6c6c1baa7b3d,3a23cdb5-2327-45ac-b0b5-d4afe038c757,TCGA-05-4430,59,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-44-6775-01Z-00-DX1.38d3bc6d-8bb5-4126-8d61-d39e6a1d7bcf,3c4ff061-d214-4d1c-8d2e-3034f207c252,TCGA-44-6775,72,hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-93-A4JO-01Z-00-DX1.314C53B6-603C-402B-8CF7-E3CE851A0A0F,3daebe75-c6df-478e-8a4c-11186fd5ead9,TCGA-93-A4JO,70,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-69-7974-01Z-00-DX1.e4282067-fc3d-4fee-bae7-fe99000979d4,3e1df30f-744a-41e9-a169-7dbbff66622e,TCGA-69-7974,54,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-8506-01Z-00-DX1.A908E3D2-91F7-4DE2-98C9-95D1038B9F49,3ed05070-6633-4de5-9f72-090f93aa2e4d,TCGA-55-8506,62,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-O1-A52J-01Z-00-DX1.26F6ECCA-D614-4950-98E6-4D76E82F71B4,42432463-8e92-4f25-b72a-f03953527aa5,TCGA-O1-A52J,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-64-5781-01Z-00-DX1.81474D4D-6B48-473F-BAA9-ABD75C9223C3,41c4c704-825e-49f5-9d54-dbd7d30725e0,TCGA-64-5781,55,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-53-7813-01Z-00-DX1.97c5eff3-ceeb-499b-b2e1-bcd3cd60c5e7,42d208bd-cd77-4bfb-ad53-9fc072a87393,TCGA-53-7813,51,not hispanic or latino,female,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-86-8358-01Z-00-DX1.C50100F8-9414-4A06-BEDF-93E7B01B24D6,467d96d7-4a42-4116-8c32-0e4b34f96d8a,TCGA-86-8358,44,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6642-01Z-00-DX1.0487cfc6-8216-4da3-aae1-a35452e9e4f6,474b86d9-d897-467d-85d4-51dfa26ea107,TCGA-55-6642,63,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-AAR9-01Z-00-DX1.B6A9966E-89B8-404B-8ABC-1F8F8553D4DA,47b749e6-e060-4aa1-8f29-976e489ba789,TCGA-49-AAR9,61,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-L9-A444-01Z-00-DX1.88CF6F01-0C1F-4572-81E3-1A5790692861,4a1d30e8-e93a-41ed-8e54-08eaff6556a7,TCGA-L9-A444,60,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7158-01Z-00-DX1.74db3dcd-2715-4ce7-8e48-30c8b7946ba0,501c987e-d1eb-48a9-89eb-72a5062c90b4,TCGA-78-7158,59,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-73-4666-01Z-00-DX1.dd9c8922-ddd1-4674-8124-9e334532e47e,4c31127e-d095-4978-9dac-35153c27f6ed,TCGA-73-4666,52,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4507-01Z-00-DX2.a7bfbeee-00ea-4301-ace4-ce591807e2d3,50b2c647-aecd-4c81-af22-0d8116593552,TCGA-49-4507,73,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4507-01Z-00-DX1.1df4e286-ea89-4c38-ad53-a26e5b7b0402,50b2c647-aecd-4c81-af22-0d8116593552,TCGA-49-4507,73,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-AARO-01Z-00-DX1.FB8C82DC-F823-43CF-A8EA-1208C767AF54,5202458b-c38a-47c0-a0ba-5f1a59a762a0,TCGA-49-AARO,39,not hispanic or latino,female,black or african american,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-86-A4D0-01Z-00-DX1.165461AD-A8DA-4B7B-87CE-F5DBDBD2C0A7,528a0fce-0719-4b19-a69d-3f18681696c5,TCGA-86-A4D0,48,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7227-01Z-00-DX1.e1a9e09c-4a50-4ee5-b1e4-2c7ae34dc913,4e7b2af4-b158-41a7-be22-bea227a759e6,TCGA-55-7227,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-NJ-A4YQ-01Z-00-DX1.56C29975-77E9-4822-A9E1-83AD70D6C5F7,52df074f-a402-4b78-9472-f8eb268efded,TCGA-NJ-A4YQ,69,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-78-7145-01Z-00-DX1.ecde66bf-2de8-4e31-b3ab-4fed4f055dda,4ef872e1-82c9-4939-9248-41ed9d3085b2,TCGA-78-7145,52,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-7953-01Z-00-DX1.847865ce-df59-4677-bac2-ee88a258fe4e,54775a66-08cc-4f38-98f2-e7b2b5cec994,TCGA-86-7953,69,not hispanic or latino,female,white,"Bronchiolo-alveolar adenocarcinoma, NOS",LUAD
+TCGA-75-7031-01Z-00-DX1.B058D81B-E869-4AEA-8CAC-4B6264FB86A8,4efc2dac-6330-4b7a-a529-a27285f5fc23,TCGA-75-7031,'--,not reported,female,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-53-7624-01Z-00-DX1.51b4de19-3531-4bcb-b822-fa966480f2ad,54a9cc9e-3eee-4caa-9f33-4ea64a2999ba,TCGA-53-7624,40,hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-75-6207-01Z-00-DX1.837B7B0F-424C-423B-9045-A905E7C1C54C,58babefe-7e81-4594-ba29-50d1de92a5ab,TCGA-75-6207,'--,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-50-5068-01Z-00-DX2.0492A5C6-09CB-424B-BE20-10A1CBEA2E57,591c068f-bbb1-4df2-9abb-d1a2e4a58372,TCGA-50-5068,59,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-NJ-A4YF-01Z-00-DX1.4A3DE76A-9F1E-4766-A013-5E7E3A665071,595fc3ad-f603-421b-b130-52f1f617050b,TCGA-NJ-A4YF,50,not hispanic or latino,female,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-86-8281-01Z-00-DX1.02237263-003b-4de1-8a2f-0f3ad14768c7,5d7ec32a-049f-4997-9882-1b3ac157e02d,TCGA-86-8281,75,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7163-01Z-00-DX1.42880bdf-271d-41dd-aada-e7ec1156ff31,5abd6651-69be-42f8-bdc0-308e68136d31,TCGA-78-7163,60,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-6145-01Z-00-DX1.175ad655-b054-407d-bb22-3a4f85849488,6144d666-8f77-4efe-95f1-f9e5c4e5e056,TCGA-44-6145,62,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-A4P8-01Z-00-DX1.D65E8855-F7A1-4584-A501-BBFBC61C2DEB,646910ee-5f5d-40ac-a21a-75790f89430a,TCGA-86-A4P8,59,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4424-01Z-00-DX1.4892016C-1A96-4A72-ACB8-FFD282FC4E69,66763a0c-6cda-4832-a0cc-e7b496d78eaa,TCGA-05-4424,70,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-44-4112-01Z-00-DX1.5380b3b4-0e24-4c6c-aa8c-298c5fbe068f,68b86559-38b2-41f2-b66e-c3c2b628b14d,TCGA-44-4112,60,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4397-01Z-00-DX1.00e9cdb3-b50e-439c-86b0-d7b73b802c0d,6dfd47d2-831a-4386-9051-f78199a16bb5,TCGA-05-4397,65,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-95-8494-01Z-00-DX1.716299EF-71BB-4095-8F4D-F0C2252CE594,6ee9caec-65ac-46db-9426-ffaa31967ae2,TCGA-95-8494,67,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4SV-01Z-00-DX1.5430F2CF-BE4B-42D6-9CD4-92E6FB3F6E99,706420c4-8820-4b41-80d9-f3efd1d2a4f0,TCGA-MP-A4SV,67,Unknown,male,Unknown,"Adenocarcinoma, NOS",LUAD
+TCGA-62-A46U-01Z-00-DX1.5129535F-8B6A-4647-8A88-3EE125642874,793649e5-f479-4d64-8723-2ef488fe0fd9,TCGA-62-A46U,71,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-NJ-A4YG-01Z-00-DX1.507BAE41-5EE9-4657-AAD1-AD456750BA2F,7fd03220-531e-4ef8-beca-e9703e8c0ae1,TCGA-NJ-A4YG,65,not reported,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-53-A4EZ-01Z-00-DX1.5D155F0B-A677-4589-AF00-A4C451F5B6B6,7ca711ec-9ac0-4fa7-8a60-32ae84b8789a,TCGA-53-A4EZ,63,hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-44-A479-01Z-00-DX1.CA5654C6-A623-452E-A8AC-DB6279CA97B1,851867cb-9ad0-4fdf-ac75-9bb0427ad440,TCGA-44-A479,73,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-86-8669-01Z-00-DX1.845b8b4e-6445-4da1-8275-42b765c024cc,7b89166e-c5b8-481b-aa70-495141499b91,TCGA-86-8669,64,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-38-4632-01Z-00-DX1.5E05F85C-53BC-4280-8E7F-8B9DECEF849F,875333ab-9048-462d-aaa2-693ad127e3cc,TCGA-38-4632,42,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-NJ-A55O-01Z-00-DX1.8E23C821-B8BB-4D89-9E38-E97424A685CE,8ab8c4ba-311e-41d0-85ea-a0245aca1bdd,TCGA-NJ-A55O,56,not hispanic or latino,female,white,Mucinous adenocarcinoma,LUAD
+TCGA-49-AARR-01Z-00-DX1.9BCAFE3D-447C-40D6-85DD-AFABF6978376,9b93a7c5-f9b4-4461-8078-0201a725c9cf,TCGA-49-AARR,68,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-75-6205-01Z-00-DX1.B75BC6BA-5196-4F62-BDA2-3F1D320ABD7C,9a63f744-4ed4-4b4d-aac6-f9bda66aa563,TCGA-75-6205,'--,not reported,female,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-93-A4JN-01Z-00-DX1.ED4C9365-6CCF-4AEE-B4C9-3CC5EC57286C,9dda72ec-1698-44e2-b35c-11e9a2704380,TCGA-93-A4JN,71,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-50-6591-01Z-00-DX1.12e1050b-75e9-4059-b945-291995b3e93c,9b132e4f-7e35-4cc5-8711-43ad62b906d0,TCGA-50-6591,63,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4417-01Z-00-DX1.6E534856-996F-4BD9-8AFC-7B1BF627E505,a244a99a-d7cc-4fb1-bc76-b66886481621,TCGA-05-4417,51,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-4512-01Z-00-DX7.1f758560-85e2-4cf9-a81a-317536d96bcc,a1e65587-24c1-4b41-92a7-4e1f15fffd78,TCGA-49-4512,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-A491-01Z-00-DX1.E5F3B4E5-18EA-4067-AE28-119DABCE739A,a250a369-e536-4a18-b7af-2911133d7bdc,TCGA-55-A491,81,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4512-01Z-00-DX8.c54237a3-93f4-432f-90f1-b930b7341741,a1e65587-24c1-4b41-92a7-4e1f15fffd78,TCGA-49-4512,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4512-01Z-00-DX3.2f6ec7bc-0dac-4be0-95fe-4071a93a856f,a1e65587-24c1-4b41-92a7-4e1f15fffd78,TCGA-49-4512,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-6743-01Z-00-DX2.f6b71e89-19ff-4d9b-a3f1-3a52949f1dc7,a391d49f-a822-460b-981c-6fbe1868ee38,TCGA-49-6743,81,not reported,female,white,"Clear cell adenocarcinoma, NOS",LUAD
+TCGA-55-8206-01Z-00-DX1.1216f330-c4e9-41b5-a2b7-9cafd960fa11,a214a959-3b21-4f25-a615-383cda7afdff,TCGA-55-8206,56,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-6743-01Z-00-DX1.ddae5601-6ffa-4a70-8755-8645d5e45135,a391d49f-a822-460b-981c-6fbe1868ee38,TCGA-49-6743,81,not reported,female,white,"Clear cell adenocarcinoma, NOS",LUAD
+TCGA-86-7701-01Z-00-DX1.a8a6e71e-9fa9-42c6-a186-0ac7526e9960,a3f6bc1c-19ab-4eeb-a9ac-3d2fac850bde,TCGA-86-7701,66,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-64-5815-01Z-00-DX1.1E3600B5-7E83-47BE-AC70-E0C2D623740B,a65700c2-e58c-4fd4-aeb1-5686b8f4d212,TCGA-64-5815,74,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-44-7660-01Z-00-DX1.f96c114b-f0fc-498a-97cc-e262344de357,a534b96b-1665-444a-9308-e610f2f0e510,TCGA-44-7660,72,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8614-01Z-00-DX1.043DE2B5-A453-4570-8830-99170450658C,a8de1beb-6296-44eb-bd63-c603f70faaf3,TCGA-55-8614,76,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-8655-01Z-00-DX1.DC81D146-A4A6-411E-A5DC-C0689A8D445F,a905d275-9283-4fa6-bbbf-46019bd1bcb7,TCGA-78-8655,77,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-86-8278-01Z-00-DX1.6500afef-f0f0-4e7c-a6c0-60da81993641,a816e355-be6f-4d16-b051-b6d86ed8cded,TCGA-86-8278,63,not hispanic or latino,female,white,Mucinous adenocarcinoma,LUAD
+TCGA-93-8067-01Z-00-DX1.325d0cd5-9bb5-4f51-a197-75d3c3d19aaf,bbe88801-34f3-46d2-bbfd-b46c3901ed71,TCGA-93-8067,77,not hispanic or latino,male,asian,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4418-01Z-00-DX1.f3863ea5-564f-482f-9878-cc104cf69401,d2c1e896-6886-4122-bb48-5fbcd3f641f4,TCGA-05-4418,69,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-6745-01Z-00-DX5.9521a16f-d6a7-460c-b75c-7341d72ce727,9c7875ad-ab71-4d48-b2e3-e4c7a46393e9,TCGA-49-6745,82,not reported,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-49-6745-01Z-00-DX6.3174fffa-c17c-44d1-8d21-1921a9ec1bee,9c7875ad-ab71-4d48-b2e3-e4c7a46393e9,TCGA-49-6745,82,not reported,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-49-6745-01Z-00-DX3.40cd3c60-889c-4eaa-be55-36ab5d8b2400,9c7875ad-ab71-4d48-b2e3-e4c7a46393e9,TCGA-49-6745,82,not reported,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-55-8091-01Z-00-DX1.0996c58a-6e93-4092-8cb8-014d548fe60c,d12b6930-9ae4-4fe7-ad69-d183135c91ab,TCGA-55-8091,74,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7914-01Z-00-DX1.875bffe1-8c56-4c29-ab11-6840ee3a643c,69dba721-a168-47a4-b7ff-80a448bad654,TCGA-55-7914,71,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-1592-01Z-00-DX1.ee15e261-2f9c-4a93-a19f-27cb1c3bae15,a41c46da-7ed4-4192-bd16-b3cbb94a5133,TCGA-55-1592,65,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7726-01Z-00-DX1.37df197b-d4fb-41c4-ac6a-72dbaa31027b,923b37e4-fcf7-46a0-8cb2-9139711fec7b,TCGA-55-7726,72,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4396-01Z-00-DX1.49DD5F68-7473-4945-B384-EA6D5AE383CB,9f81c602-8afa-4588-b0b6-6e5a1a128d5a,TCGA-05-4396,76,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-73-7498-01Z-00-DX1.5313bba9-7f6a-49b4-8d6e-a0f46a04f189,ad74c0e8-8878-4efc-997d-981cd547bc5b,TCGA-73-7498,58,not hispanic or latino,female,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-95-7948-01Z-00-DX1.FF1AEF38-19E5-4475-87C8-B318204FEF1D,a52e99d6-a61a-439d-b0b1-ca7a0eabcb04,TCGA-95-7948,42,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-7725-01Z-00-DX1.4d678777-63b1-4f4a-932a-7fccabf504c7,9fcdccae-676e-4071-93c3-23d2d3ab0c00,TCGA-55-7725,68,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-67-3770-01Z-00-DX1.4C14BE72-905C-4AAE-B07A-6437D98A23FA,eeab558b-8d1e-4843-861d-dbfb06061758,TCGA-67-3770,70,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-73-4676-01Z-00-DX1.4d781bbc-a45e-4f9d-b6b6-2265282dff99,195a5afb-b79f-44d2-9d12-884487630c2b,TCGA-73-4676,45,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-6146-01Z-00-DX1.8db8c567-690e-4df3-98a9-f241b6a8d811,0c0b610e-fe4c-406d-a5ed-5cc3b11dabf5,TCGA-44-6146,64,not hispanic or latino,male,white,Mucinous adenocarcinoma,LUAD
+TCGA-05-4382-01Z-00-DX1.76b49a4c-dbbb-48b0-b677-6d3037e5ce88,3434b91a-c05f-460f-a078-7b1bb6e7085d,TCGA-05-4382,68,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-50-5939-01Z-00-DX1.745D7503-0744-46B1-BC89-EBB8FCE2D55C,12b79b4f-c28c-418e-a1e7-e622f33fdcc2,TCGA-50-5939,85,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-78-7633-01Z-00-DX1.f0cd4825-eb92-4098-954a-fbb1e4851660,44218b35-219c-4ad9-a01e-fde14067c4c0,TCGA-78-7633,67,not reported,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-64-1677-01Z-00-DX1.7720D42B-1F57-4C23-9BC5-87C456E7737B,8a16ddb3-4861-4128-bed9-0b1f94fe8cf7,TCGA-64-1677,77,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4501-01Z-00-DX3.b6c2cc84-1c94-4816-92e7-8cf4446ac9ac,0780eb43-d5b5-4c3d-9825-beacba5cc723,TCGA-49-4501,67,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4501-01Z-00-DX1.9c4bf212-5e32-449e-8710-cf7a3594156e,0780eb43-d5b5-4c3d-9825-beacba5cc723,TCGA-49-4501,67,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-62-A471-01Z-00-DX1.51A235BB-7F67-4C0D-8B15-2E26116D8822,0075437e-ba1a-46be-86d6-9773209a2b5e,TCGA-62-A471,64,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4402-01Z-00-DX1.c653ddc2-88c1-45ac-88e7-4e512b8e8d53,722d6818-f1cb-49f4-b68a-fd0a31304681,TCGA-05-4402,56,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-NJ-A7XG-01Z-00-DX1.4A876254-653C-410B-A36C-55FC41C1DD93,01e9888d-b5b9-48f1-8ba6-8a89af108a04,TCGA-NJ-A7XG,49,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7540-01Z-00-DX1.25c29857-0d5f-4e52-be0c-32c6686b653f,05534064-8b43-4c82-95da-70fd83bd6560,TCGA-78-7540,66,not reported,female,white,"Bronchio-alveolar carcinoma, mucinous",LUAD
+TCGA-49-4505-01Z-00-DX2.48df81e7-5a8e-4c5b-993a-6a54481a35e9,088edf89-d2b5-40c7-b066-df3bd383f7ea,TCGA-49-4505,61,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-8674-01Z-00-DX1.9fcaae4e-4062-45ab-a49d-7dba43040919,0a1eea76-e19a-4547-9b24-abf7051cc4db,TCGA-86-8674,50,not hispanic or latino,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-62-A46P-01Z-00-DX1.9136CC96-51B9-4FEB-8BCF-2C3676C708B1,0c59ff96-5e4a-4664-a0b1-d057b4725483,TCGA-62-A46P,65,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-MP-A4SW-01Z-00-DX1.A6651B25-A35A-4BDE-9EBF-D264A02003C8,15f12d2c-b834-4bfc-b526-f03bf85bfe96,TCGA-MP-A4SW,53,Unknown,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-80-5611-01Z-00-DX1.31920706-8AF4-46D2-B1D4-7DD5AF4AAC77,e51f717f-72e8-400e-9f35-fc5dc32fdf71,TCGA-80-5611,'--,not reported,male,not reported,"Solid carcinoma, NOS",LUAD
+TCGA-69-8253-01Z-00-DX1.631c741f-46bd-4d4b-8f6c-64787fb4c402,44d8c859-4b7a-4e9d-bffc-0de0e6afdcc4,TCGA-69-8253,59,not hispanic or latino,female,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-05-4422-01Z-00-DX1.4802093f-71ea-43d5-bd92-b4bd7fc8c5bf,44dec838-b653-42a7-a58b-a1fd232cd68c,TCGA-05-4422,68,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-35-4122-01Z-00-DX1.2ac022e4-e796-49e5-9a24-f0ff3f76a527,44adf4cb-2829-4153-80fd-a8b7ee0e654a,TCGA-35-4122,69,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-75-7027-01Z-00-DX1.AC91B34F-DF67-4F95-B145-079A71A54E83,488646a1-0bdb-45f8-8c30-bef006924511,TCGA-75-7027,'--,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-71-6725-01Z-00-DX1.b9e1d4aa-439d-481f-b24b-134c4e470f28,4b7cd595-e7f9-45a8-b736-a8c7c42d9539,TCGA-71-6725,48,not hispanic or latino,female,asian,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-86-7714-01Z-00-DX1.8ee03c3b-013e-4dd5-aa0e-9c1a771cbdc5,532c1852-76dd-489f-9380-36766d6e3c34,TCGA-86-7714,61,not hispanic or latino,female,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-7816-01Z-00-DX1.A58C6196-E1A0-48B3-9B77-2EDCD7A43CBA,548b0b68-ff45-4d45-adbe-984259e4a68b,TCGA-55-7816,49,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-AAR3-01Z-00-DX1.B4D85F13-CEB4-46DA-BF39-0200B9E55835,5813997a-d7dc-4f7c-8d4b-e979832168a9,TCGA-49-AAR3,69,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8085-01Z-00-DX1.ff220eba-3515-4d2e-b317-76337dd3d206,5fd0f07b-8bb9-4378-bd26-28a26057e8fe,TCGA-55-8085,64,not hispanic or latino,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-97-A4M5-01Z-00-DX1.283AFBA6-A349-425F-A18E-5CA186084C23,5fe77d4a-a8a5-4c90-8ff2-9c3bbbb309ef,TCGA-97-A4M5,83,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-44-6778-01Z-00-DX1.5e932267-cc68-4a8e-a660-fe2cc0c59ff4,5d5cc436-6e57-4d23-a164-7f5153c2e666,TCGA-44-6778,59,not reported,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-05-5429-01Z-00-DX1.20729065-FADA-4E43-98D7-AFA5FB4A0447,63bd2175-4b7c-44c9-aef3-9efc8f79837b,TCGA-05-5429,60,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7537-01Z-00-DX1.e5597e41-ebba-4d6f-8a1f-15cd81d8f026,67a2bc21-7c87-4678-997d-a434de672436,TCGA-78-7537,72,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-7994-01Z-00-DX1.a0858080-c471-4337-bc57-7af57e9d92d8,67dbe286-edb3-4d07-8f74-9e5254f01945,TCGA-55-7994,81,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8094-01Z-00-DX1.8dc29615-e124-4f17-81a1-c0b20c38d12c,69584d55-18f7-4786-b3cc-cd528500be44,TCGA-55-8094,51,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-3919-01Z-00-DX1.41144972-46a1-4b25-9faa-ed1b9d1996d2,66ed89f6-8ba2-49d0-af0f-4b6ebf2381bf,TCGA-44-3919,71,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-75-7025-01Z-00-DX1.284477D7-4F47-4084-A15C-0A7E9571E3DF,681b1176-9676-44d3-892c-1d5dba1ce25b,TCGA-75-7025,'--,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4490-01Z-00-DX5.feea87ff-61c6-465e-8b36-4803f6af3d62,6c3655ca-8ae7-4ad7-b3e4-0c3ec293fba7,TCGA-49-4490,45,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-67-3772-01Z-00-DX1.CB05C5CC-2801-4BB9-94A0-83E9005BCA2E,673493f6-975c-49e8-934c-001e9a0fff90,TCGA-67-3772,82,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4490-01Z-00-DX1.bde106d9-1494-4775-b77d-11c86bb09b72,6c3655ca-8ae7-4ad7-b3e4-0c3ec293fba7,TCGA-49-4490,45,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4490-01Z-00-DX2.1b491bd7-60d2-40a6-96cd-01385bce2b0f,6c3655ca-8ae7-4ad7-b3e4-0c3ec293fba7,TCGA-49-4490,45,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8514-01Z-00-DX1.499CF563-B404-4061-9D1A-57954BBE2CE7,6845099a-b2c9-48d8-b856-9903d39bb92e,TCGA-55-8514,70,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-44-3918-01Z-00-DX1.6da70a8b-6307-423a-9d2d-380c16962855,6e3b6b72-142d-4b8d-a462-28a205796e41,TCGA-44-3918,60,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MN-A4N1-01Z-00-DX1.07CD10C3-73A7-47E5-AD45-45458CE33107,75a0bb0b-6528-4fb8-a9e6-254905d21df4,TCGA-MN-A4N1,60,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-50-5942-01Z-00-DX1.da1b1274-8740-4c79-adf9-25800913eafa,75dd635e-8e0c-4c0b-b21c-20f77770218d,TCGA-50-5942,67,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4395-01Z-00-DX1.20205276-ca16-46b2-914a-fe5e576a5cf9,762dea8a-5b41-4058-979a-b7876ed13d7e,TCGA-05-4395,76,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-AAR4-01Z-00-DX1.EDB32358-AF23-4F81-A99F-15574A2DE28E,765ad5a5-134b-4680-a6d4-1dd113dc47cc,TCGA-49-AAR4,51,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-44-7667-01Z-00-DX1.2be2e379-7368-4fa7-a619-ace84febecb3,7f6455e8-fa3d-4452-acb2-8c9995073072,TCGA-44-7667,49,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-NJ-A55R-01Z-00-DX1.2E2B3642-4E1C-47DB-AF7B-988D586C0986,7c7d777b-bf00-4c24-97fc-922580d5605f,TCGA-NJ-A55R,67,not hispanic or latino,male,white,"Solid carcinoma, NOS",LUAD
+TCGA-MP-A4TH-01Z-00-DX1.E89D2C19-F9B2-4BF2-AA5F-6104CBC076D1,7a111b4f-46e9-4e34-8024-0b9fdc5cbcd8,TCGA-MP-A4TH,70,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6970-01Z-00-DX1.be042a9b-3eab-4b6c-9cd7-7486ffab037f,7cce924f-12a1-4895-9866-5d4b1869dde6,TCGA-55-6970,67,not reported,female,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-86-8359-01Z-00-DX1.11B8FDC3-4B84-4A22-B89D-46EA76345F13,7e7f089c-25f7-4e14-aed5-d741047b9e42,TCGA-86-8359,52,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4TF-01Z-00-DX1.F98B0438-6D32-4EA3-ABA8-E624457EA658,86dac334-f30e-438e-810a-8e45f69dbb7e,TCGA-MP-A4TF,58,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-64-1679-01Z-00-DX1.f9fd24ef-d51c-4530-9fb5-e8a8f09dba73,81a0b2ff-a3d3-41bb-9ce6-765e6ae894af,TCGA-64-1679,58,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-50-7109-01Z-00-DX1.08f6420c-baa2-4e79-908e-ebbdeec503a6,7eb540b4-8dd3-4382-a488-e48b1c7213b3,TCGA-50-7109,60,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-A47A-01Z-00-DX1.62448803-3A7B-41EC-9794-67916DA0792E,7b9479ff-23d6-4689-91f0-02efc94300f9,TCGA-44-A47A,78,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-6148-01Z-00-DX1.94c29c83-1085-458f-a0c9-3ffa8592cb98,8994c8c4-9ea0-46cb-b4a5-0055d7da5bfa,TCGA-44-6148,60,not hispanic or latino,male,white,Mucinous adenocarcinoma,LUAD
+TCGA-86-8075-01Z-00-DX1.171bd8bd-af24-4770-b24b-732e675efd75,8869000d-09d7-465a-ac32-54d1935c43e7,TCGA-86-8075,66,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-7711-01Z-00-DX1.f64dd9d8-b9ca-4d1f-9783-d1042979132d,9c894668-88f5-4308-a1c0-6b8acc6aaaec,TCGA-86-7711,70,hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-5899-01Z-00-DX1.faa65b08-150c-4c74-95aa-1e8743f0152c,996a0070-e9bf-4601-8ef7-60212108258d,TCGA-55-5899,58,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-97-8552-01Z-00-DX1.69631717-0E05-49C1-B112-15C2E36BC2F8,9ca1a26c-82e0-48b3-b3bb-2ed57086eeb1,TCGA-97-8552,55,not hispanic or latino,female,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-50-5045-01Z-00-DX1.ec50bbfc-1721-4e94-ac11-9ebd843e11ba,9ee20c0d-a1c3-47f3-abda-131b3f190f52,TCGA-50-5045,57,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-50-8459-01Z-00-DX1.24D876E7-5265-4C5D-A215-0BAE5450EEF3,9cfc1519-33e7-4145-a4ad-78b5c449853a,TCGA-50-8459,68,not hispanic or latino,male,white,Mucinous adenocarcinoma,LUAD
+TCGA-69-8453-01Z-00-DX1.C472096B-95BA-42CD-ADEB-326C38F9DC95,9f4f2ff3-3c02-4281-a398-b0d0955e58eb,TCGA-69-8453,77,not hispanic or latino,male,white,Mucinous adenocarcinoma,LUAD
+TCGA-49-4512-01Z-00-DX2.341d7ff7-15e1-44f1-8818-b117fe98ca99,a1e65587-24c1-4b41-92a7-4e1f15fffd78,TCGA-49-4512,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-A4P7-01Z-00-DX1.37026DCF-5A81-4098-B444-C8A40CA168D0,9e640ff7-996e-427b-b56c-519a1e23baab,TCGA-86-A4P7,63,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-6743-01Z-00-DX3.d391f3ab-e954-4f4f-996d-cd0420933ccf,a391d49f-a822-460b-981c-6fbe1868ee38,TCGA-49-6743,81,not reported,female,white,"Clear cell adenocarcinoma, NOS",LUAD
+TCGA-49-4512-01Z-00-DX6.985c9088-ff83-4f13-8a95-cb55aa48682b,a1e65587-24c1-4b41-92a7-4e1f15fffd78,TCGA-49-4512,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-L9-A743-01Z-00-DX1.27ED2955-E8B5-4A3C-ADAA-82568ECCFB83,a5f2576a-d628-47de-a5df-76a4f3105dcc,TCGA-L9-A743,56,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8513-01Z-00-DX1.E21776FE-DF49-48D1-90D6-6F71D0764492,a3fd20b2-e001-44ab-9716-754e5ae70808,TCGA-55-8513,77,not hispanic or latino,female,white,Mucinous adenocarcinoma,LUAD
+TCGA-55-7574-01Z-00-DX1.09639e6a-d85f-4d84-abbc-0f5a6d679683,a7911bdc-13f1-434a-bfa3-f8ba55d15846,TCGA-55-7574,64,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-50-6673-01Z-00-DX1.e24fb432-3fff-4f00-a316-16d05275c1e7,ab8d7f84-dd71-42c7-9471-4db967a9c89c,TCGA-50-6673,84,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-75-6203-01Z-00-DX1.9796ACAB-9E1A-4BC5-B80C-4EC856FA14B7,a8d6694c-a213-4544-ac0b-63bce16d8f4e,TCGA-75-6203,'--,not reported,female,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-73-4675-01Z-00-DX1.1027587f-8ec4-4b8c-8768-ff7b669683e0,ae39e358-08d7-4367-ae68-82b469e791e4,TCGA-73-4675,59,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-95-7039-01Z-00-DX1.C191A46D-A667-4BF6-8E6B-3E5CBF9DF43F,ae702159-5b6a-41dd-868c-7540f9e1131c,TCGA-95-7039,54,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7910-01Z-00-DX1.041e15d5-4852-49f6-85d9-74b510497651,b2bc53d6-ef78-4ae9-a6b5-1c7cad9a43eb,TCGA-55-7910,50,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8301-01Z-00-DX1.2A66E0FC-84F2-4DF8-B06E-D7CDD7AA82C7,b36b7567-30d3-4d0c-84c4-b203986e0fdb,TCGA-55-8301,58,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4433-01Z-00-DX1.5843D3CC-CB24-4A0A-BB65-78A5DAA11D84,aea68827-dc0f-484d-a00d-06deeaa4b3ce,TCGA-05-4433,82,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-78-7152-01Z-00-DX1.a04f9d84-3304-402c-9c0c-f64545c14781,b56dad1e-2fd5-47d8-9cc7-a54be9a1bae2,TCGA-78-7152,65,not reported,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-8097-01Z-00-DX1.2f847b65-a5dc-41be-9dd0-a1e11df3cd10,afe83af5-af22-49c0-88b4-f1d0dfcbe238,TCGA-55-8097,60,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-73-4668-01Z-00-DX1.3470b27e-210f-4ff3-9dde-69aa85faa9ee,b2285924-9813-4f46-bb8f-91a0efd8a9b6,TCGA-73-4668,66,not hispanic or latino,female,american indian or alaska native,Invasive micropapillary carcinoma,LUAD
+TCGA-49-4514-01Z-00-DX1.9c304807-2a0c-44f7-97cc-fbd30f2c740f,b87a5d92-4c09-48fe-bb08-b3c89a7c892e,TCGA-49-4514,79,not reported,female,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-49-4506-01Z-00-DX4.9460a2c1-efe2-4095-9b0e-dfe0eda684ba,b61abdfd-b7a0-4e1a-b570-d1eaecad3a9e,TCGA-49-4506,68,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-A490-01Z-00-DX1.07D77502-7216-4C23-9BB8-8DE99AECC920,b89de053-d253-447f-952e-9a2edcf6bca5,TCGA-55-A490,78,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-97-7941-01Z-00-DX1.6845ef95-2231-44a2-aeae-004a117f1964,b266cbf5-80de-4473-b16f-08c502d365ca,TCGA-97-7941,72,not hispanic or latino,female,white,Acinar cell carcinoma,LUAD
+TCGA-55-7913-01Z-00-DX1.2295fcc5-70b0-412e-a1fd-b5366fce0739,c9c533ee-e154-4a56-bce9-b5af37574b2f,TCGA-55-7913,61,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-44-6779-01Z-00-DX1.40f10ad8-55f3-4043-a89b-37d33a26dd8c,cbbea9f1-396a-4bf3-b67c-2cac3394dceb,TCGA-44-6779,50,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-50-5055-01Z-00-DX1.0c9d846b-89b4-4b18-a2eb-0f8d8e0a33c7,cc3d9750-7ce0-489f-86d4-8017b7ebed29,TCGA-50-5055,79,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-50-5055-01Z-00-DX2.446EC3BB-2ED7-4253-8A39-AC68331F08E7,cc3d9750-7ce0-489f-86d4-8017b7ebed29,TCGA-50-5055,79,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-38-4628-01Z-00-DX1.eee4f100-142f-4d9c-8e38-b16aab123413,cc4bd56a-25c5-4c48-b583-ac3aeb778ca6,TCGA-38-4628,65,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-7713-01Z-00-DX1.23f9e213-b566-47bb-beb8-7d12b2f0508b,cc68632c-b1e3-491b-b562-9468e2d1c101,TCGA-86-7713,70,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-2662-01Z-00-DX1.398f3f84-fd48-4454-b789-a3e90cd36d73,ccda26c1-a6d6-4317-8cf8-8a87e15ce12e,TCGA-44-2662,65,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-67-6216-01Z-00-DX1.04da6a64-bd3a-48ed-bc99-d651e00a1aa4,ccecce70-dd54-4c5b-bf9f-ca87d290cb00,TCGA-67-6216,57,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7283-01Z-00-DX1.0f716216-0a46-404e-a4d4-5bb6d7e3f0d1,ccfdad76-cc45-447f-bed8-ede8f6a8844d,TCGA-55-7283,76,not hispanic or latino,female,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-73-4659-01Z-00-DX1.578400cd-d284-451b-8fdf-9f82c1458276,cd0dc947-b708-464e-beb7-954c9d4583e7,TCGA-73-4659,66,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-8073-01Z-00-DX1.33c016fc-5c9e-4ad6-8de2-a7f8521d205c,cd902d08-215e-4bd0-88e4-4fd01ab43cbf,TCGA-86-8073,58,not hispanic or latino,male,white,"Bronchiolo-alveolar adenocarcinoma, NOS",LUAD
+TCGA-49-AARE-01Z-00-DX1.3559B3A9-6699-472F-B731-1BD9F93EE82A,cd9e70e4-8622-4a07-8646-63f8275c1737,TCGA-49-AARE,51,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4403-01Z-00-DX1.fee8e988-956c-42a2-a6c5-06b6d6736295,ce15f31f-2bad-4485-96fa-495bfa262e66,TCGA-05-4403,76,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-MN-A4N4-01Z-00-DX1.7D8352EF-7A4B-4084-9612-CF92D9D16041,ceead734-1ce0-4385-b65a-a9c853b7308e,TCGA-MN-A4N4,57,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-75-5147-01Z-00-DX1.3156FA5C-9737-4EAA-989C-FD578FBF15A1,d2824e6d-3784-45c2-9b0f-52b17356b5da,TCGA-75-5147,'--,not reported,female,not reported,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-NJ-A55A-01Z-00-DX1.42C356FE-52A3-4A60-886B-75F84ADBC534,b8b5ed35-b299-4c1e-9226-5ca055dc7a43,TCGA-NJ-A55A,76,not hispanic or latino,female,white,Acinar cell carcinoma,LUAD
+TCGA-86-8280-01Z-00-DX1.52627b97-1cfa-4382-819b-949b58c0f995,d8faa3a7-6b3f-4e69-8c88-184e41055bd7,TCGA-86-8280,54,not hispanic or latino,female,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-44-A47G-01Z-00-DX1.810F67EC-3A0C-4056-B736-3331A11412CC,da345947-498b-4272-a231-a987ed4fe151,TCGA-44-A47G,73,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7728-01Z-00-DX1.1d47a5fe-cab5-4d5a-a62b-16f345334d25,db769d5c-a794-448d-9130-38a82d051c95,TCGA-55-7728,64,not hispanic or latino,female,white,Mucinous adenocarcinoma,LUAD
+TCGA-50-6593-01Z-00-DX1.a63e298c-cbe7-44e8-8d8e-34ebb93530ca,e10568fe-0436-43f2-9f0f-48f9903868c4,TCGA-50-6593,49,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-97-A4M0-01Z-00-DX1.BDDFB04C-2475-485A-9A85-C4B9EB15155E,dd63d0fd-e24b-40a5-88c5-7d3d4106631e,TCGA-97-A4M0,60,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-8087-01Z-00-DX1.548f2800-8caf-4c0e-a7b5-6d3d28315d9c,e254aaeb-012c-4d92-8a03-cce1f6a2bcd6,TCGA-55-8087,59,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-62-A472-01Z-00-DX1.C2F76C9A-C51A-4521-9B95-2A20063E9931,e499069b-a16a-49e9-941a-e3e9ea62af25,TCGA-62-A472,70,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7542-01Z-00-DX1.2ee042a6-11ee-4668-b254-44144fca4234,e64f76e4-f748-4d9e-ba71-53e2818a7920,TCGA-78-7542,56,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4432-01Z-00-DX1.90d00d62-402b-404a-85e2-0edf869193ab,e737f650-b72d-44e7-b750-558a56716803,TCGA-05-4432,66,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-69-8254-01Z-00-DX1.83a81d08-8c70-4f07-b4da-cbd17c4fe4d4,f0c94f68-bfd9-45cb-b4fd-8bb1ae4e9a2b,TCGA-69-8254,85,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-97-8175-01Z-00-DX1.f7148cec-5e4b-46ac-b167-d41b36eb3ee5,f4350d9c-3f40-4829-bbc4-8acb2f3ff512,TCGA-97-8175,55,not hispanic or latino,female,white,"Solid carcinoma, NOS",LUAD
+TCGA-69-7978-01Z-00-DX1.90a2bf2f-18e2-4bfe-b858-d2de619e2493,f462cfef-f60a-4d3e-b92d-b8d8f50b6bb3,TCGA-69-7978,59,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-4B-A93V-01Z-00-DX1.C263DC1C-298D-47ED-AAF8-128043828530,f1f80dd2-891d-46dd-a3e0-f007628cb515,TCGA-4B-A93V,52,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8505-01Z-00-DX1.D364C30D-BFB8-486B-A0D3-948FF8E90C3E,f59e5a76-f803-470b-910c-a897a149d939,TCGA-55-8505,62,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-91-A4BC-01Z-00-DX1.8D8783B1-D1BA-4970-B77B-3AED8506C487,ea0b9461-0d4d-4ade-a255-1b03dd85e30e,TCGA-91-A4BC,59,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4510-01Z-00-DX1.0b7c713f-6f72-42c3-967d-7e19a280e761,f77b6930-a1ce-446e-a15d-c018cbbecfee,TCGA-49-4510,51,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-93-7347-01Z-00-DX1.a22b7163-07bd-4f6a-97c7-f1561c4d73cb,ef03654a-dcf1-41ff-a67e-4f3fbf9ba807,TCGA-93-7347,76,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-64-1678-01Z-00-DX1.92C851BD-37AC-4C4C-9920-DF394411CC2C,f77cf4d3-9829-4fd3-95a1-b29aed9e94b8,TCGA-64-1678,70,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7155-01Z-00-DX1.32258467-7550-4a1b-8df9-a869fb83e559,fc79086c-af9a-4c27-b074-f7050b6f3381,TCGA-78-7155,68,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-50-5044-01Z-00-DX1.7E0E651F-411B-4784-B0FA-6EB612527430,fa0c7392-d485-41ac-bf7e-244a528209ae,TCGA-50-5044,72,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-64-1676-01Z-00-DX1.3B8F1FAC-0FB2-45DE-AFA1-6ED451A4A61B,fb6b289c-aaf9-4d8e-b6e0-5d35bce1b6e1,TCGA-64-1676,58,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-2665-01Z-00-DX1.d429e37e-3915-4da6-b5bc-bf2f09f4fbf7,fb79c491-7b01-42ae-8369-8364e442e31b,TCGA-44-2665,55,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7167-01Z-00-DX1.f79e1a9b-a3eb-4c91-a1fd-7bb58b1620b1,fe3eeeb6-0db4-46d7-a020-55604d474c12,TCGA-78-7167,77,not reported,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-55-8616-01Z-00-DX1.4F53B2AB-8221-4E67-80D2-7A8E3815B730,fe714ac0-f874-426a-924b-a2980232b5f7,TCGA-55-8616,58,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7153-01Z-00-DX1.5190321a-f1aa-4c6e-b4b9-6767b779682b,c353f949-5f66-4a2c-b8f0-17be8bf19e0a,TCGA-78-7153,65,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-62-A46R-01Z-00-DX1.AD823FBA-A63F-4D36-8B84-2C995DE5FC47,c497f8c7-2fb5-44d9-bc7c-69cfd0b51b54,TCGA-62-A46R,54,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-75-6206-01Z-00-DX1.63230D94-7015-4247-936D-E7ACD6692AB3,c4c1469d-752f-42b6-8686-714ad4a8ac97,TCGA-75-6206,'--,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-86-8671-01Z-00-DX1.1fd0019c-df9d-48cc-9055-8de57759f273,c4cfa3cc-e305-42dd-be57-97efbb891659,TCGA-86-8671,72,not hispanic or latino,female,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-55-6972-01Z-00-DX1.0b441ad0-c30f-4f63-849a-36c98d6e2d3b,c4d1e105-28b7-48df-abef-fbe09782fdb2,TCGA-55-6972,72,not hispanic or latino,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-64-1681-01Z-00-DX1.fb0244f6-51a8-4da2-b45c-38d8e02edab7,c583fdd1-8cd2-4c15-a23e-0644261f65da,TCGA-64-1681,61,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-97-A4M7-01Z-00-DX1.111ED60D-6E4A-47E9-AFD0-C2A109DE2C60,c6b680e3-d96e-4fc7-8053-77454b7a14fa,TCGA-97-A4M7,74,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-97-A4M7-01Z-00-DX2.9D0A8A7E-5A84-439B-B3D1-DFA22BC6ED87,c6b680e3-d96e-4fc7-8053-77454b7a14fa,TCGA-97-A4M7,74,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-4494-01Z-00-DX1.2bf10e85-465a-4b17-abd7-3565f0e538a5,c6d78e27-e510-4f57-abae-19efa6105a8d,TCGA-49-4494,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4494-01Z-00-DX2.cac5ed0a-98c3-4d37-a4f4-9596a061836a,c6d78e27-e510-4f57-abae-19efa6105a8d,TCGA-49-4494,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4494-01Z-00-DX6.3791a027-7ddb-429c-99a5-bb84a4307550,c6d78e27-e510-4f57-abae-19efa6105a8d,TCGA-49-4494,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4494-01Z-00-DX4.4c6a4560-adee-4fc9-8fd8-feb7f89e51e3,c6d78e27-e510-4f57-abae-19efa6105a8d,TCGA-49-4494,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4494-01Z-00-DX3.e80b4534-4d6e-4d79-962e-017ffee24d67,c6d78e27-e510-4f57-abae-19efa6105a8d,TCGA-49-4494,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4494-01Z-00-DX7.9f722476-622e-4374-9fda-ef35184f01e0,c6d78e27-e510-4f57-abae-19efa6105a8d,TCGA-49-4494,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4494-01Z-00-DX5.1e9e22d6-a4c9-40d1-aedb-b6cd404fe16f,c6d78e27-e510-4f57-abae-19efa6105a8d,TCGA-49-4494,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-50-5946-01Z-00-DX1.5076CACA-E3C0-4114-BA69-5B4896FF0C4B,c95957a7-1a1a-4c8d-bb61-7c99b500f224,TCGA-50-5946,62,not reported,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-69-7765-01Z-00-DX1.ac389366-febb-488c-9190-fe00bc07cd20,bcf2e591-9dae-440f-bd03-5f27c57db741,TCGA-69-7765,56,not hispanic or latino,male,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-4487-01Z-00-DX1.3a3a0720-463c-430e-849b-e2f8991bdfa5,bd4e9a9f-17f3-4d33-92fc-fcc45dd0e7b4,TCGA-49-4487,72,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4TE-01Z-00-DX1.B4680570-FD2E-47A5-8D50-A508CEB6A62C,bebd0025-74e2-451b-93b3-86f82df43573,TCGA-MP-A4TE,56,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-A4SU-01Z-00-DX1.AE2607C1-B208-4557-ADB4-6AAF03C6D3A9,bf34664d-423d-4257-99d4-797f7d366455,TCGA-44-A4SU,67,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7907-01Z-00-DX1.f5a264f5-3926-4d09-82f3-cd38d554f3db,bf755bc2-b7aa-4c3c-8b3c-58b089b5cab6,TCGA-55-7907,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-97-A4M1-01Z-00-DX1.1C4B8247-BA3F-4841-BC9D-554F03F7894C,c0c879f7-c332-4d31-9f7e-a3bf361b36ee,TCGA-97-A4M1,52,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-86-8672-01Z-00-DX1.94ca1954-921d-4ef6-a078-4e0fcb09157f,c0e263eb-1a83-4dc8-8abe-3dd2a59bae1b,TCGA-86-8672,59,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7160-01Z-00-DX1.f40f6c04-74b1-4cef-aabc-cbafadbdf39f,c1a01e8c-1f7e-4e24-bfad-90b73f88e992,TCGA-78-7160,61,not reported,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-44-7659-01Z-00-DX1.818bf5b3-b4c1-4d23-a6ae-98d5015eb8c1,b86b1616-20a2-4300-8daa-03dcc9938215,TCGA-44-7659,70,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4514-01Z-00-DX2.f1565a36-257d-432e-a84d-47c1d7a0185f,b87a5d92-4c09-48fe-bb08-b3c89a7c892e,TCGA-49-4514,79,not reported,female,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-55-1595-01Z-00-DX1.6270c9cf-cd18-4fa5-b313-33350ad55f89,d31aeefc-b59b-42e9-9919-750b17a70a3d,TCGA-55-1595,74,not hispanic or latino,female,asian,"Clear cell adenocarcinoma, NOS",LUAD
+TCGA-67-6217-01Z-00-DX1.3fa5c69b-60d1-41fb-a86f-48f77d81285f,108a71cf-b9db-47cd-aa74-c03ec989b41b,TCGA-67-6217,73,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-6745-01Z-00-DX1.6bf8a38c-5e3a-4b32-8870-03bc06c0db80,9c7875ad-ab71-4d48-b2e3-e4c7a46393e9,TCGA-49-6745,82,not reported,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-49-6745-01Z-00-DX7.4bdde497-03d9-4e15-a00e-595baa3947b5,9c7875ad-ab71-4d48-b2e3-e4c7a46393e9,TCGA-49-6745,82,not reported,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-49-6745-01Z-00-DX2.3b8e947b-885e-486f-9edc-f2b247bdf95b,9c7875ad-ab71-4d48-b2e3-e4c7a46393e9,TCGA-49-6745,82,not reported,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-49-6745-01Z-00-DX4.48b4bbb5-4214-4bfb-91e8-bddfa2f03c92,9c7875ad-ab71-4d48-b2e3-e4c7a46393e9,TCGA-49-6745,82,not reported,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-73-4658-01Z-00-DX1.d5beb44f-9d76-485a-8af4-407b0f1a610e,afb91740-2668-46d7-ba01-bb26153ad1c7,TCGA-73-4658,80,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-2661-01Z-00-DX1.20cfa0f8-e3ca-4c26-9dfe-b9d416cd94b1,f3501466-cf32-4866-b5fb-e94dd32341bc,TCGA-44-2661,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-8076-01Z-00-DX1.e7378b2f-e20e-4d2f-a86c-3a8ead08a385,8609edfc-119d-4d63-9188-c86aabd5ca52,TCGA-86-8076,42,not hispanic or latino,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-78-7166-01Z-00-DX1.d19ad2d9-b006-4a13-ba54-2fec234c2373,b40d0849-f4ef-4a14-9732-9beb708cb46b,TCGA-78-7166,84,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8511-01Z-00-DX1.8EDFB05B-5B59-46EA-973C-1048B1E284D2,1f1df7ea-00b9-4432-86de-da773d1451e5,TCGA-55-8511,73,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-7661-01Z-00-DX1.baf72abd-edb9-4f56-beb3-f5138aa50930,cbfef004-b437-4d51-9d88-a2db50aa6481,TCGA-44-7661,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4384-01Z-00-DX1.CA68BF29-BBE3-4C8E-B48B-554431A9EE13,9a50e7e4-831d-489f-87d2-979e987561cc,TCGA-05-4384,66,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-50-6594-01Z-00-DX1.43b2005a-4245-4025-ad85-4a957f308a5c,8504fd86-a70a-4cba-9ec8-25c9e60ca549,TCGA-50-6594,79,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7156-01Z-00-DX1.9f7c8eb9-73de-49be-a487-e1fd4411b7b5,7b0622ab-63ea-483f-ae40-d3ea587bdbba,TCGA-78-7156,62,not reported,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-99-8032-01Z-00-DX1.7380b78f-ea25-43e0-ac90-194b5c6b1432,7e83f9dd-b038-497b-a113-a55605398b7b,TCGA-99-8032,61,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-64-5778-01Z-00-DX1.96C39819-8A65-4651-BE83-39959F6FAD05,8fdbd88f-19ae-4ab8-bcd7-6bfa1bbde742,TCGA-64-5778,60,not hispanic or latino,male,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-69-7760-01Z-00-DX1.7fc295e3-5bfc-4017-801c-491489d0eb34,8981f0c9-7155-4c96-bf77-7d40fe404323,TCGA-69-7760,73,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-MP-A4SY-01Z-00-DX1.9535274F-C850-409E-80A1-B933B2F1A110,8cc6bcec-65df-46a9-a88c-09762a132857,TCGA-MP-A4SY,61,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6971-01Z-00-DX1.6c790768-8252-466a-95e1-97d2086a8132,8d0736fe-261c-445c-bfd2-a3ea3ceaf367,TCGA-55-6971,59,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8205-01Z-00-DX1.6df6d499-f325-409d-acb1-9e13172f2bb4,95fa64b0-91e1-4427-b81a-53c47a053563,TCGA-55-8205,76,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A5C7-01Z-00-DX1.26E5FA5A-3E6D-4CD3-8FA2-F331B7012311,8f04660a-2efb-4947-9eab-375066b9eb33,TCGA-MP-A5C7,76,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4TJ-01Z-00-DX1.14EDBE5C-5D0C-4002-BE95-AF5C9D9F3D43,8f52cccd-5709-4753-9670-31a573ee27ab,TCGA-MP-A4TJ,62,Unknown,female,Unknown,Signet ring cell carcinoma,LUAD
+TCGA-44-A47B-01Z-00-DX1.177D0531-E037-435B-BFD4-382B2150B10D,967d6548-5a84-4b7e-bc3f-2e522859fce6,TCGA-44-A47B,79,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4TA-01Z-00-DX1.11DDADA4-B7A2-4216-9B18-7AD993AE12E4,98ee294a-46ed-4572-bdd4-a932c3498a25,TCGA-MP-A4TA,75,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-99-7458-01Z-00-DX1.10ea0b2c-c763-40d1-83a4-3d4ae957fdb0,96d93e23-bb0d-46a8-9685-5ed0d6b83059,TCGA-99-7458,74,not hispanic or latino,female,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-49-AARN-01Z-00-DX1.E13AA041-978E-427D-AFA5-D3180224A03A,98ef41fa-3015-445a-bbdc-984361c911f7,TCGA-49-AARN,56,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-49-AAQV-01Z-00-DX1.4CC37621-C952-4684-96E3-9B97CDAD8056,96dfa373-4597-49a5-942e-d9b4dc5d28fc,TCGA-49-AAQV,63,not hispanic or latino,female,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-05-5425-01Z-00-DX1.85865B2F-4888-43DD-A501-458BEFCF832B,9b4eeecb-6aff-435b-a244-ec362af92b7f,TCGA-05-5425,68,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-99-8028-01Z-00-DX1.23de89b1-67f8-41fb-980a-010ea190d687,9759bf3a-74ff-433f-99bb-f9406f222ed2,TCGA-99-8028,50,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-99-8033-01Z-00-DX1.06f8ca81-c0a7-4ab5-b2fe-d5fc6671e29d,9582b436-145b-4f84-8f7f-8b39b8254cc1,TCGA-99-8033,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4TC-01Z-00-DX1.C7DB4A7F-F6B8-4FA0-84C1-9B87D41C7749,99c35245-e1c8-4805-b7a5-f703bb506030,TCGA-MP-A4TC,77,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-AARQ-01Z-00-DX1.3FA36419-1658-4602-9170-84A622787C3E,9a2a226e-9605-4214-9320-469305e664e6,TCGA-49-AARQ,41,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-50-5045-01Z-00-DX2.0FCA12EA-572E-4A7D-900D-6E200892170E,9ee20c0d-a1c3-47f3-abda-131b3f190f52,TCGA-50-5045,57,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6975-01Z-00-DX1.2762a872-b1c3-47fd-8ed5-b715a5b20163,a046888c-f153-4f35-a1b6-23dd1691a91a,TCGA-55-6975,61,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-78-7150-01Z-00-DX1.46e6e65c-521c-49de-b106-419dc840b235,a0e57b39-960e-4e46-8aa0-d0ee2fd9a7cc,TCGA-78-7150,59,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-95-A4VP-01Z-00-DX1.1B145AC0-2471-4974-BBB6-C88BDF0BE8BD,9e22a3af-7f28-4757-8684-ed64a2a27ad1,TCGA-95-A4VP,66,not reported,female,white,Acinar cell carcinoma,LUAD
+TCGA-49-4512-01Z-00-DX5.7198ce36-1fae-4da1-9f26-b7f43cf01133,a1e65587-24c1-4b41-92a7-4e1f15fffd78,TCGA-49-4512,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4512-01Z-00-DX4.5161fcf5-62a3-4f7d-8a55-9a24a7d70efb,a1e65587-24c1-4b41-92a7-4e1f15fffd78,TCGA-49-4512,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4512-01Z-00-DX1.ced0bda8-f2d6-4bcb-b2d6-b122846a3079,a1e65587-24c1-4b41-92a7-4e1f15fffd78,TCGA-49-4512,69,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-6743-01Z-00-DX4.5ea81023-1372-48ed-88a8-374e2394d7f7,a391d49f-a822-460b-981c-6fbe1868ee38,TCGA-49-6743,81,not reported,female,white,"Clear cell adenocarcinoma, NOS",LUAD
+TCGA-L9-A50W-01Z-00-DX1.21FAAB58-58EF-4A6A-8F0A-16D9AB9B1056,a815619f-dbba-469f-a1f7-dfbd51cd86c5,TCGA-L9-A50W,75,not hispanic or latino,male,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-69-7979-01Z-00-DX1.c9bc265d-4889-4333-9852-b8b535887f1e,a5bd7d50-9c14-49e6-89cf-6bf440c42309,TCGA-69-7979,71,not hispanic or latino,female,white,Acinar cell carcinoma,LUAD
+TCGA-97-7554-01Z-00-DX1.4107ca63-4642-42b9-b6f2-13778ecaf9a7,a9644274-13bb-4228-9b4f-14260ccc26eb,TCGA-97-7554,83,not hispanic or latino,female,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-44-7662-01Z-00-DX1.2f0b6cea-795a-40ad-93a9-319858e6fb3b,ab9e6815-4d13-44db-93e5-553eb4f5bc95,TCGA-44-7662,61,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-95-7944-01Z-00-DX1.E66A3565-7B0D-412B-9C0C-81D7397E8B87,abab925c-bef3-4072-b9c4-40f808744593,TCGA-95-7944,71,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7995-01Z-00-DX1.fef24d04-35a0-4f57-8f51-7ad602a78871,abd6647b-d2eb-404d-8283-443e92addf55,TCGA-55-7995,73,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-A494-01Z-00-DX1.8C7C4BE0-791A-47CA-B0A8-1935366350E0,adbaba9c-5efc-4130-82f6-8055eab13795,TCGA-55-A494,61,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-69-7980-01Z-00-DX1.8bbf8cc0-eca7-49e5-a022-c22e3e6ed6dc,aee86a89-0377-4080-b16c-408bfbe78687,TCGA-69-7980,70,not hispanic or latino,female,white,Acinar cell carcinoma,LUAD
+TCGA-49-4506-01Z-00-DX3.a05a3969-bbef-48d8-86de-f51c8870afd6,b61abdfd-b7a0-4e1a-b570-d1eaecad3a9e,TCGA-49-4506,68,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4506-01Z-00-DX2.81e180ae-bd9f-49cc-9a0f-297800cc7280,b61abdfd-b7a0-4e1a-b570-d1eaecad3a9e,TCGA-49-4506,68,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4514-01Z-00-DX3.3b247c08-3069-4100-9df4-734895adb954,b87a5d92-4c09-48fe-bb08-b3c89a7c892e,TCGA-49-4514,79,not reported,female,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-49-4514-01Z-00-DX4.79e9e14e-72ea-4e9f-9719-d1a791cf0b43,b87a5d92-4c09-48fe-bb08-b3c89a7c892e,TCGA-49-4514,79,not reported,female,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-49-4506-01Z-00-DX1.b13b8ef2-fd06-4309-a767-696a9afeaedd,b61abdfd-b7a0-4e1a-b570-d1eaecad3a9e,TCGA-49-4506,68,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4390-01Z-00-DX1.858E64DF-DD3E-4F43-B7C1-CE35B33F1C90,b8475929-2d9d-4909-bd62-59684a140bd7,TCGA-05-4390,58,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-7727-01Z-00-DX1.0c7a4953-16dc-41e0-845b-b89167ec17d7,ba49117e-dab6-4e7d-bc44-f11dcafa1318,TCGA-55-7727,70,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MN-A4N4-01Z-00-DX2.9550732D-8FB1-43D9-B094-7C0CD310E9C0,ceead734-1ce0-4385-b65a-a9c853b7308e,TCGA-MN-A4N4,57,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7154-01Z-00-DX1.596c20c2-e811-4b5e-961c-98343afcccde,d288b69f-1e79-4429-8646-9994b7c54f8f,TCGA-78-7154,72,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-8508-01Z-00-DX1.96B173E2-A298-4017-9AEC-113E547A3272,bab335f9-b241-41a7-b107-79b9676b37b8,TCGA-55-8508,60,not hispanic or latino,female,black or african american,Mucinous adenocarcinoma,LUAD
+TCGA-99-AA5R-01Z-00-DX1.4DE7FC30-D338-49CE-B8D9-EB0F34A3DD0B,d3e23815-7f9d-48aa-9aef-3a1dd9d464d7,TCGA-99-AA5R,70,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-53-7626-01Z-00-DX1.FD4CAF75-07B5-4117-83DD-99233DAA3EBC,d3ff328c-2488-47bd-8663-366b6812c7b5,TCGA-53-7626,76,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6969-01Z-00-DX1.713df9f6-1a91-4e0e-ad43-42e66dcca191,d6e274a0-6425-437b-bc07-1225be7808d5,TCGA-55-6969,52,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-50-8457-01Z-00-DX1.F4B6ECCE-F22B-43FC-9A08-4366A24A67A4,d45aee46-838e-44af-8422-46710b3240a8,TCGA-50-8457,63,not hispanic or latino,female,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-44-2668-01Z-00-DX1.f66fa464-dad1-4a9f-8486-3d7579ca42b6,bab43415-d413-40be-a4c0-2c40a52afe6a,TCGA-44-2668,51,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4488-01Z-00-DX10.930e7dc2-6073-4bf2-9b70-f17c0b26bdee,d721bfe0-90e3-415e-b9f3-1a270efa5fbb,TCGA-49-4488,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4488-01Z-00-DX3.341ea7ac-ee5f-4ad2-9d01-d81a4d2e9b13,d721bfe0-90e3-415e-b9f3-1a270efa5fbb,TCGA-49-4488,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4488-01Z-00-DX5.6380c697-c81b-48c8-863c-ea1cdd097464,d721bfe0-90e3-415e-b9f3-1a270efa5fbb,TCGA-49-4488,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-8673-01Z-00-DX1.21191041-c10e-4166-ad00-1243656feaa7,bc4c4079-b449-485d-84e4-a40496e563e8,TCGA-86-8673,61,not hispanic or latino,male,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-67-6215-01Z-00-DX1.c014ffaf-6db8-42ef-a50c-9de98d6a5345,dbd5b0de-94c9-45dd-afb3-6820a7ecaca2,TCGA-67-6215,52,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-69-7973-01Z-00-DX1.aefb015a-cb51-425f-a80f-cd51091a0ee3,dc9eaaa0-0bfd-46d0-994f-310826879da4,TCGA-69-7973,42,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-86-6562-01Z-00-DX1.5dea3015-e606-4837-9f99-ac14f0aa091b,dcd066ba-5894-453e-b1da-82092858c3db,TCGA-86-6562,52,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-5645-01Z-00-DX1.8b0d89d7-7849-49a6-a2f5-a8faf2c5aab4,ddeacccf-0953-4952-8a4e-c2617f2e7bcc,TCGA-44-5645,61,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7815-01Z-00-DX1.288408e6-f6b3-4de4-a1ce-cb2498d9d46d,dd46c83e-6551-485b-b935-f3beed891244,TCGA-55-7815,76,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-75-7030-01Z-00-DX1.5DDF24B5-00D1-4418-A067-A9B609E15314,df576520-a6b6-4c9b-8d06-3f59cc5342fd,TCGA-75-7030,'--,not reported,male,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-44-2666-01Z-00-DX1.f81a89cf-6033-47ea-9a43-290a5d6a28c1,e16ca88f-488b-40f0-9169-e5a62482a2ff,TCGA-44-2666,43,hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-62-A46S-01Z-00-DX1.7A8A6F38-76EA-4F43-BC03-1C42E6787E33,e00a60d7-4253-443d-a187-680ad0931349,TCGA-62-A46S,73,not hispanic or latino,male,white,"Papillary adenocarcinoma, NOS",LUAD
+TCGA-86-A4JF-01Z-00-DX1.22828B15-D68E-4300-A3A8-FBC11B319BC5,e01e4fb3-236a-4d16-9073-555876b688e9,TCGA-86-A4JF,56,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-J2-A4AG-01Z-00-DX1.487780B8-18E7-494A-8054-5637239870EB,e21e2af3-dc71-41fa-94ba-7a7929f47d90,TCGA-J2-A4AG,66,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-5715-01Z-00-DX1.D3F0A1FA-2507-45FF-823F-F9981E62BB4C,e0a19099-5d25-40df-ad73-6260df3a1b32,TCGA-05-5715,69,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-J2-A4AE-01Z-00-DX1.42C5DE4A-7787-4E59-8969-D12503262C96,e5f956dd-f49f-435c-83c3-5b1b0a2050ed,TCGA-J2-A4AE,77,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4T2-01Z-00-DX1.ADE8B45C-26F3-465E-ADB6-2C36E6326974,e379cf55-68ef-4fbc-af3e-0a5040c27f0f,TCGA-MP-A4T2,71,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6984-01Z-00-DX1.d53e387a-9618-4486-98f3-a75604f25a7d,f063ddbb-1668-40df-9ec2-b0a23ca2c389,TCGA-55-6984,71,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7148-01Z-00-DX1.aac94f79-77f2-45e6-b0c3-0b103fecbb22,e8060c45-451d-4779-9584-f284db47e63e,TCGA-78-7148,71,not reported,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-6712-01Z-00-DX1.8cd4b879-294e-4da0-8636-704f61b510dc,f17d3463-af6c-42c2-a8e9-fae45f69286f,TCGA-55-6712,71,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-A47F-01Z-00-DX1.C1EC3F2D-33C8-483B-9DDA-2F01B5FED618,f61d599a-43bd-4743-9568-678317e75955,TCGA-44-A47F,74,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-86-8668-01Z-00-DX1.d720d486-02c7-4f98-8feb-e0e50a12c158,f2d8b332-2f03-46e5-a9d5-f163972e5fa7,TCGA-86-8668,61,not hispanic or latino,female,white,"Bronchio-alveolar carcinoma, mucinous",LUAD
+TCGA-49-4510-01Z-00-DX2.e0552b15-6bd7-4660-8a60-9edd0d638e7e,f77b6930-a1ce-446e-a15d-c018cbbecfee,TCGA-49-4510,51,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4TI-01Z-00-DX1.08AB4C0B-F953-41B5-A9BB-7452A8E34A54,f327dea0-2d30-482f-809c-76a148a749b7,TCGA-MP-A4TI,72,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-MP-A4TK-01Z-00-DX1.57494698-D9D9-4C04-AAB2-16616CCFDCC9,f7f9f522-de88-4f9c-8ba4-7be3726faaf8,TCGA-MP-A4TK,56,Unknown,female,Unknown,"Adenocarcinoma, NOS",LUAD
+TCGA-62-A46V-01Z-00-DX1.631E54D0-9E57-4932-B4EF-81820E56A95B,f809e21d-5f2e-4f3b-a1aa-d6b8d463552a,TCGA-62-A46V,78,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-AAR2-01Z-00-DX1.1F09F896-446E-4C55-8D01-6C34A98AB1D2,f809e7d9-a75e-41c9-ac2c-5bec6ffcb4a2,TCGA-49-AAR2,64,not hispanic or latino,male,black or african american,Acinar cell carcinoma,LUAD
+TCGA-05-4250-01Z-00-DX1.90f67fdf-dff9-46ca-af71-0978d7c221ba,f98ecd8a-b878-4f53-b911-20cd8e17281c,TCGA-05-4250,79,not reported,female,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-97-7937-01Z-00-DX1.6db4b2ff-722c-4bb8-b12f-15f1a38b4ab1,fcfe0b53-dfc1-42fa-9efc-2b2ff259297e,TCGA-97-7937,65,not hispanic or latino,male,white,Invasive micropapillary carcinoma,LUAD
+TCGA-44-3398-01Z-00-DX1.74757c91-a0c6-4e7f-b2db-8748c68ffa44,ffb0c0b7-165e-4439-b3e6-62431f40b7fe,TCGA-44-3398,77,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4415-01Z-00-DX1.55E0C429-B308-4962-8DA9-41D7D3F7764E,d15b7b29-c5c5-41d8-b83b-7cc12fe92820,TCGA-05-4415,57,not reported,male,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-95-A4VK-01Z-00-DX1.D09778E0-285E-4593-84C8-B6009DDF4E41,d344dae0-adf4-4697-b703-7690c13d8331,TCGA-95-A4VK,74,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-8507-01Z-00-DX1.3C6198CF-3E13-4C4C-B851-5BDFF8552621,d63c028b-b6d3-49ce-b63e-261eed3b86df,TCGA-55-8507,53,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-38-4627-01Z-00-DX1.fe406eb9-b38b-410d-aa1a-84ab8ac091c7,d717fa33-3c91-4ced-89c6-79ff5542f04c,TCGA-38-4627,64,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4488-01Z-00-DX4.17c00349-5908-4944-9dba-5efea9a5373a,d721bfe0-90e3-415e-b9f3-1a270efa5fbb,TCGA-49-4488,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4488-01Z-00-DX2.ce896a98-8b45-4606-8849-3a377b81e3de,d721bfe0-90e3-415e-b9f3-1a270efa5fbb,TCGA-49-4488,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4488-01Z-00-DX8.b9fb358a-9618-4956-9544-c2ffe2678095,d721bfe0-90e3-415e-b9f3-1a270efa5fbb,TCGA-49-4488,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4488-01Z-00-DX6.3ce306b2-1b00-48f7-8288-c24069037a9c,d721bfe0-90e3-415e-b9f3-1a270efa5fbb,TCGA-49-4488,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4488-01Z-00-DX7.a04b36c3-9cfd-4195-92c0-70046cd49d9a,d721bfe0-90e3-415e-b9f3-1a270efa5fbb,TCGA-49-4488,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4488-01Z-00-DX1.c9beef33-2d53-4fcb-8293-f083d9fedddc,d721bfe0-90e3-415e-b9f3-1a270efa5fbb,TCGA-49-4488,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4488-01Z-00-DX9.bf1e9d28-3ca2-4a62-bf3e-3e735c6a2885,d721bfe0-90e3-415e-b9f3-1a270efa5fbb,TCGA-49-4488,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-62-A46O-01Z-00-DX1.39B361AD-ED1D-4C0C-8611-0E8CCBDBD252,d7ae8efb-aa4d-4807-9772-55b0a28ccd5c,TCGA-62-A46O,65,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7536-01Z-00-DX1.6b066140-8b82-40a5-bd48-430eeb4463fe,daf0e08e-1738-43f8-874a-b37d79cbe3a7,TCGA-78-7536,69,not reported,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6985-01Z-00-DX1.428ad69e-c0ea-445e-8d38-fa2dab6eb81f,e5cb0c86-8fe2-4cfc-b32b-e8ec3839ffc4,TCGA-55-6985,58,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-97-A4LX-01Z-00-DX1.B2334672-A626-4E74-B4D1-A79F70F65909,e2b0d873-4942-4483-9a88-d5c6338d0382,TCGA-97-A4LX,81,not hispanic or latino,male,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-62-A470-01Z-00-DX1.3983A979-E756-413C-941A-C8B83AD3BBA7,e60a8f8a-0fe6-40e5-9f30-bcff48ac73f4,TCGA-62-A470,84,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-55-A493-01Z-00-DX1.1CF94B85-7A64-4213-9B04-16504512DE2E,e43a2b72-35c6-4466-9007-ce96caf77ea8,TCGA-55-A493,54,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-93-7348-01Z-00-DX1.d657dc43-ca6c-404a-8ebe-6e6b78a8d1d1,e739b4f7-ae46-45c6-9013-9571cbadaf99,TCGA-93-7348,75,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-6543-01Z-00-DX1.08806fe0-84d3-4fd6-8746-6cf557241958,e68219b0-a9c2-49df-8f0d-db5ea97fd2dc,TCGA-55-6543,60,not reported,female,white,"Bronchio-alveolar carcinoma, mucinous",LUAD
+TCGA-97-7938-01Z-00-DX1.d774d0a2-ee34-43ba-9d9d-34bf9718292e,e6e75590-9520-4b1c-8a28-4a1d2b2218fc,TCGA-97-7938,76,not hispanic or latino,female,white,"Bronchiolo-alveolar carcinoma, non-mucinous",LUAD
+TCGA-78-7147-01Z-00-DX1.a9fd2c5d-b8f3-4524-bd64-6c3362ce373b,e7d30bc2-42e8-49c5-a5b3-9f58411b007a,TCGA-78-7147,67,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-2657-01Z-00-DX1.b7f608bd-2381-40a2-a757-ca4648a7de8a,f40301ba-831e-4afd-9ce8-5f3c1a05ff7e,TCGA-44-2657,74,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-35-3615-01Z-00-DX1.585128eb-6652-4b05-9a83-dc8f242904a6,e8b7a103-644f-4865-92f8-80b053bd5e17,TCGA-35-3615,57,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7570-01Z-00-DX1.9020ae67-cf60-4bac-8c60-403c8891c4a3,ff07ea4b-4e50-410d-99d6-96a351dad7b1,TCGA-55-7570,60,not hispanic or latino,male,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7146-01Z-00-DX1.830209b2-94c5-4277-a7b6-b2f2634de0dc,ff9def3d-17e5-4ef6-b74e-933f11ed6f00,TCGA-78-7146,71,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-44-A4SS-01Z-00-DX1.F3D85B63-D963-42D2-815F-CB9D791A0F7B,f934ed41-090e-4313-bbc5-d1a4a9ed9ad7,TCGA-44-A4SS,73,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-64-5774-01Z-00-DX1.5E3B95EB-BF45-4687-BCF7-AA2A41AA806C,fd3fc273-c035-40ea-a459-ff4806f5d592,TCGA-64-5774,60,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-7220-01Z-00-DX1.3df84ce0-4395-4c9e-ba62-76b55676a440,fd5c44ef-ea50-4fba-9e8d-e371cf34ebdb,TCGA-78-7220,53,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-55-8619-01Z-00-DX1.46C7678A-6032-4C95-B535-85C87B92B6ED,772324a5-5513-454d-ad6b-605798f69b73,TCGA-55-8619,72,not hispanic or latino,female,white,Mucinous adenocarcinoma,LUAD
+TCGA-95-7043-01Z-00-DX1.AE0FD8AA-9B88-45FE-B247-402BED1285EF,c650b1ff-8a4c-4ee9-b7c1-268c28c83827,TCGA-95-7043,63,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-6742-01Z-00-DX3.789aa445-e63f-4e6e-900a-0f47f44af6b7,21fb46f9-4bbb-441c-af19-a687e9138344,TCGA-49-6742,70,not hispanic or latino,male,white,Mucinous adenocarcinoma,LUAD
+TCGA-80-5607-01Z-00-DX1.94C9CF78-2F79-4A0B-8939-1CD9B915222D,645903b5-ba37-48a1-985b-a019b8db3236,TCGA-80-5607,'--,not reported,female,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-44-2664-01Z-00-DX1.35c75ae5-eee0-4e69-a13a-31b5fad9869a,93b62fc5-a0d3-4d32-bf27-cd7c9d43cd5f,TCGA-44-2664,66,not hispanic or latino,female,black or african american,"Adenocarcinoma, NOS",LUAD
+TCGA-44-7670-01Z-00-DX1.2a981dd6-0063-438e-b20e-b180b16e2b23,9b38eded-3f46-4aaa-9991-68008d97bdbe,TCGA-44-7670,47,hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-44-8119-01Z-00-DX1.1EBEBFA7-22DB-4365-9DF8-C4E679C11312,230dc42d-681c-4e31-9d2e-c724e61829fb,TCGA-44-8119,73,not hispanic or latino,male,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4501-01Z-00-DX2.07b7723d-136b-490c-9dd3-7f3aef78d3d9,0780eb43-d5b5-4c3d-9825-beacba5cc723,TCGA-49-4501,67,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-05-4427-01Z-00-DX1.36CF4E93-3FBB-4346-A26B-85F0D9D0575D,78a24c56-576c-4245-bb42-6603b3d19897,TCGA-05-4427,65,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-86-6851-01Z-00-DX1.0b13e600-fd7b-44a2-9ec2-26e9938fb7bc,035c0b2b-c722-443b-8962-db4ee92c7532,TCGA-86-6851,73,not hispanic or latino,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-MP-A4T6-01Z-00-DX1.085C4F5A-DB1B-434A-9D62-E2187D133B0A,5f4934be-eee3-40e1-8838-38103badc898,TCGA-MP-A4T6,76,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-78-8648-01Z-00-DX1.D3EAEF8E-E739-490F-BF48-A4796B0C0E7A,5ace9608-d38a-42f2-a877-ec7c9d211808,TCGA-78-8648,58,not reported,female,not reported,"Adenocarcinoma, NOS",LUAD
+TCGA-55-7281-01Z-00-DX1.a92dafa4-3a65-4f5c-97f0-83aff231274a,659668e8-f0d9-4ff2-bbc8-9246f2ef49ab,TCGA-55-7281,70,not reported,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-69-A59K-01Z-00-DX1.01EAF520-9AC1-4ECC-8EF3-B9122924A1E3,67fa3e41-c7c6-44c5-9e67-6bcb2715aacc,TCGA-69-A59K,60,not hispanic or latino,female,black or african american,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-05-4425-01Z-00-DX1.82B093EE-49BC-4FD9-91AC-4CC89944309D,69b23036-add9-42c9-941f-02fb74d9b08c,TCGA-05-4425,70,not reported,female,not reported,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-49-4490-01Z-00-DX4.4e94aeb6-f616-4bdd-82bc-2ca2f2b5a5c4,6c3655ca-8ae7-4ad7-b3e4-0c3ec293fba7,TCGA-49-4490,45,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4490-01Z-00-DX3.0949a10a-0a1f-49dc-9296-ab4d4f0bf988,6c3655ca-8ae7-4ad7-b3e4-0c3ec293fba7,TCGA-49-4490,45,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-49-4490-01Z-00-DX6.0a04ad8e-7f33-4496-bd9e-0110ec33f887,6c3655ca-8ae7-4ad7-b3e4-0c3ec293fba7,TCGA-49-4490,45,not hispanic or latino,female,white,"Adenocarcinoma, NOS",LUAD
+TCGA-69-7761-01Z-00-DX1.aa7ef5ef-8162-4961-a923-3a29646efba3,77828a90-8e2a-4664-b674-d837e6e34fe4,TCGA-69-7761,84,not hispanic or latino,male,white,Acinar cell carcinoma,LUAD
+TCGA-78-7539-01Z-00-DX1.b838d859-2fb7-48d1-a442-d366ac404099,7be86a90-6da8-4c01-8a7a-bc5cfef9894f,TCGA-78-7539,75,not reported,female,white,Adenocarcinoma with mixed subtypes,LUAD
+TCGA-MP-A4T8-01Z-00-DX1.3ECB340F-66C7-4F64-8E00-463BF82AAD83,7c4ed533-ee66-48be-a84b-ff8607742818,TCGA-MP-A4T8,68,Unknown,male,Unknown,"Adenocarcinoma, NOS",LUAD
