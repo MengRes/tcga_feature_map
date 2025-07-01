@@ -1,20 +1,17 @@
 import os
 import numpy as np
 import pandas as pd
-import random
 import h5py
 import openslide
 from tqdm import tqdm
 import torch
-from PIL import Image
 from CONCH.conch.open_clip_custom import create_model_from_pretrained, tokenize, get_tokenizer
 from datetime import datetime
 import logging
 import yaml
 import argparse
-from pathlib import Path
 
-# ===================== Configuration =====================
+# Configuration
 class Config:
     """Configuration class that can be updated from YAML file"""
     
@@ -46,6 +43,12 @@ class Config:
     # Zero-shot classification parameters
     classes = ['invasive ductal carcinoma', 'invasive lobular carcinoma']
     prompts = ['an H&E image of invasive ductal carcinoma', 'an H&E image of invasive lobular carcinoma']
+    
+    # Label mapping from model prediction to standard labels
+    label_map = {
+        'invasive ductal carcinoma': 'IDC',
+        'invasive lobular carcinoma': 'ILC'
+    }
     
     @classmethod
     def from_yaml(cls, yaml_file):
@@ -99,15 +102,13 @@ class Config:
                 print(f"  {attr}: {value}")
         print("="*60)
 
-# ===================== Utility Functions =====================
+# Utility Functions
 def age_group(age):
     try:
         age = int(age)
         return f"{(age // 10) * 10}-{(age // 10) * 10 + 9}"
     except:
         return "unknown"
-
-
 
 def setup_logging(output_dir):
     """Setup logging configuration"""
@@ -129,7 +130,7 @@ def setup_logging(output_dir):
     
     return logger
 
-# ===================== WSI Selection =====================
+# WSI Selection
 def select_wsis(config, output_dir, logger=None):
     """Step 1: WSI selection - considering hosp, label and other conditions"""
     print("\n" + "="*60)
@@ -198,7 +199,7 @@ def select_wsis(config, output_dir, logger=None):
     
     return df_selected
 
-# ===================== Patch Extraction =====================
+# Patch Extraction
 def extract_patches(config, df_selected, output_dir, logger=None):
     """Step 2: Extract patches from selected WSIs"""
     print("\n" + "="*60)
@@ -268,7 +269,7 @@ def extract_patches(config, df_selected, output_dir, logger=None):
     
     return patch_df
 
-# ===================== CONCH Model Functions =====================
+# CONCH Model Functions
 def initialize_conch_model(config, device, logger=None):
     """Initialize CONCH model"""
     if logger:
@@ -300,14 +301,10 @@ def zero_shot_classification_conch(model, preprocess, image, device, config):
     pred_label = config.classes[pred_idx]
     pred_prob = sim_scores[0][pred_idx].item()
     
-    label_map = {
-        'invasive ductal carcinoma': 'IDC',
-        'invasive lobular carcinoma': 'ILC'
-    }
-    
-    return label_map.get(pred_label, pred_label), pred_prob
+    # Use label mapping from configuration
+    return config.label_map.get(pred_label, pred_label), pred_prob
 
-# ===================== Patch Filtering with CONCH =====================
+# Patch Filtering with CONCH
 def filter_patches_with_conch(config, patch_df, output_dir, logger=None):
     """Step 3: Filter patches using CONCH zero-shot classification
     
@@ -420,7 +417,7 @@ def filter_patches_with_conch(config, patch_df, output_dir, logger=None):
     
     return filtered_patches_df
 
-# ===================== Main Pipeline =====================
+# Main Pipeline
 def create_default_config_file(config_file):
     """Create a default configuration file"""
     default_config = Config()
@@ -486,7 +483,7 @@ def main(config_file=None):
         filtered_patches_df = filter_patches_with_conch(config, patch_df, output_dir, logger)
         
         print("\n" + "="*60)
-        print("Pipeline completed successfully!")
+        print("Pipeline completed successfully")
         print(f"Total WSIs selected: {len(df_selected)}")
         print(f"Total patches extracted: {len(patch_df)}")
         print(f"Total patches after CONCH filtering: {len(filtered_patches_df)}")
@@ -496,7 +493,7 @@ def main(config_file=None):
         
         if logger:
             logger.info("="*60)
-            logger.info("Pipeline completed successfully!")
+            logger.info("Pipeline completed successfully")
             logger.info(f"Total WSIs selected: {len(df_selected)}")
             logger.info(f"Total patches extracted: {len(patch_df)}")
             logger.info(f"Total patches after CONCH filtering: {len(filtered_patches_df)}")

@@ -32,7 +32,7 @@ except ImportError:
     UNI_AVAILABLE = False
     print("Warning: UNI not available. Only CONCH model will be used.")
 
-# ===================== Parameter Settings =====================
+# Parameter Settings
 class Config:
     # Dataset parameters
     dataset_name = "tcga-brca"
@@ -78,7 +78,7 @@ class Config:
     tsne_n_iter = 1000
     max_tsne_points = 10000  # Maximum sampling points for TSNE
 
-# ===================== Utility Functions =====================
+# Utility Functions
 def age_group(age):
     try:
         age = int(age)
@@ -175,7 +175,7 @@ def save_parameters(config, output_dir, logger=None):
     if logger:
         logger.info(f"Parameters saved to: {param_file}")
 
-# ===================== Step 1: WSI Selection and Patch Extraction =====================
+# Step 1: WSI Selection and Patch Extraction
 def step1_wsi_selection(config, output_dir, logger=None):
     """Step 1: WSI selection and patch extraction - considering hosp, label and other conditions"""
     step_title = "Step 1: WSI Selection and Patch Extraction"
@@ -318,7 +318,7 @@ def step1_wsi_selection(config, output_dir, logger=None):
     
     return patch_df
 
-# ===================== Step 2: Zero-shot Classification =====================
+# Step 2: Zero-shot Classification
 def step2_conch_zero_shot(config, output_dir, patch_df, logger=None):
     """Step 2: Zero-shot classification using CONCH model"""
     step_title = "Step 2: Zero-shot Classification"
@@ -409,7 +409,7 @@ def step2_conch_zero_shot(config, output_dir, patch_df, logger=None):
     
     return filtered_patches_df
 
-# ===================== Step 3: Feature Extraction =====================
+# Step 3: Feature Extraction
 def step3_conch_feature_extraction(config, output_dir, filtered_patches_df, logger=None):
     """Step 3: Feature extraction using selected model"""
     step_title = "Step 3: Feature Extraction"
@@ -492,7 +492,7 @@ def step3_conch_feature_extraction(config, output_dir, filtered_patches_df, logg
     
     return features_dir
 
-# ===================== Step 4: TSNE Visualization =====================
+# Step 4: TSNE Visualization
 def step4_tsne_visualization(config, output_dir, features_dir, logger=None):
     """Step 4: TSNE Visualization"""
     print("\n" + "="*60)
@@ -677,7 +677,7 @@ def step4_tsne_visualization(config, output_dir, features_dir, logger=None):
     print(f"Hospital distribution: {dict(pd.Series(all_hosps).value_counts())}")
     print(f"Label distribution: {dict(pd.Series([info['patch_label'] for info in all_patch_info]).value_counts())}")
 
-# ===================== Model Initialization Functions =====================
+# Model Initialization Functions
 def initialize_model(config, device, logger=None, model_type="feature"):
     """Initialize model based on model_type"""
     if model_type == "zero_shot":
@@ -813,7 +813,7 @@ def zero_shot_classification_with_model(model, preprocess, image, device, model_
     else:
         raise ValueError(f"Unsupported model type for zero-shot classification: {model_type}")
 
-# ===================== Main Function =====================
+# Main Function
 def main():
     """Main function"""
     print("TCGA-BRCA Pipeline starting")
@@ -853,7 +853,7 @@ def main():
         step4_tsne_visualization(Config, output_dir, features_dir, logger)
         
         print("\n" + "="*60)
-        print("Pipeline completed!")
+        print("Pipeline completed")
         print(f"Zero-shot model: {Config.zero_shot_model}")
         print(f"Feature extraction model: {Config.feature_model}")
         print(f"All results saved: {output_dir}")
@@ -861,7 +861,7 @@ def main():
         
         if logger:
             logger.info("="*60)
-            logger.info("Pipeline completed successfully!")
+            logger.info("Pipeline completed successfully")
             logger.info(f"Zero-shot model: {Config.zero_shot_model}")
             logger.info(f"Feature extraction model: {Config.feature_model}")
             logger.info(f"All results saved: {output_dir}")
