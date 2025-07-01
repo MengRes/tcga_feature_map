@@ -27,8 +27,14 @@ model_cfg: "conch_ViT-B-16"  # CONCH model configuration
 probability_threshold: 0.8  # Probability threshold for patch filtering
 
 # Zero-shot classification parameters
-classes: ["invasive ductal carcinoma", "invasive lobular carcinoma"]  # Class names for classification
-prompts: ["an H&E image of invasive ductal carcinoma", "an H&E image of invasive lobular carcinoma"]  # Text prompts for zero-shot classification
+classes: ["invasive ductal carcinoma", "invasive lobular carcinoma", "normal breast tissue"]  # Class names for classification
+prompts: ["an H&E image of invasive ductal carcinoma", "an H&E image of invasive lobular carcinoma","an H&E image of normal breast tissue"]  # Text prompts for zero-shot classification
+
+# Label mapping from model prediction to standard labels
+label_map:
+  "invasive ductal carcinoma": "IDC"
+  "invasive lobular carcinoma": "ILC"
+  "normal breast tissue": "NORMAL" 
 
 # Example configurations for different datasets:
 #
@@ -38,5 +44,8 @@ prompts: ["an H&E image of invasive ductal carcinoma", "an H&E image of invasive
 # coord_dir: "/raid/mengliang/wsi_process/tcga-luad_patch/patches/"
 # wsi_dir: "/home/mxz3935/dataset_folder/tcga-luad/"
 # label_file: "files/tcga-luad_label.csv"
-# classes: ["lung adenocarcinoma"]
-# prompts: ["an H&E image of lung adenocarcinoma"] 
+# classes: ["lung adenocarcinoma", "normal lung tissue"]
+# prompts: ["an H&E image of lung adenocarcinoma", "an H&E image of normal lung tissue"]
+# label_map:
+#   "lung adenocarcinoma": "LUAD"
+#   "normal lung tissue": "NORMAL" 

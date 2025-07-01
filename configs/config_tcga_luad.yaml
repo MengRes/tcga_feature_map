@@ -6,15 +6,15 @@ dataset_name: "tcga-luad"
 
 # WSI filtering parameters
 accept_label: ["LUAD"]  # LUAD labels
-accept_hosp_list: ["55", "49", "44", "05", "86", "78", "97", "50"]  # Top hospitals in LUAD dataset
-n_per_hosp: 15  # Number of WSIs to select per hospital
+accept_hosp_list: ["55", "49", "44", "05"]  # Top hospitals in LUAD dataset
+n_per_hosp: 10  # Number of WSIs to select per hospital
 num_sampled_patches: 100  # Maximum number of patches per WSI
 patch_size: 256
 
 # Additional filtering conditions
-accept_age_groups: null  # Accept all age groups
-accept_gender: null  # Accept all genders
-accept_race: ["white", "black or african american"]  # Accept major racial groups
+accept_age_groups: ["60-69", "70-79"]  # Accept all age groups
+accept_gender: ["female"]  # Accept all genders
+accept_race: ["white"]  # Accept major racial groups
 
 # Path configuration for TCGA-LUAD
 coord_dir: "/raid/mengliang/wsi_process/tcga-luad_patch/patches/"
@@ -24,8 +24,13 @@ label_file: "files/tcga-luad_label.csv"
 # CONCH model parameters
 checkpoint_path: "./checkpoints/conch/pytorch_model.bin"
 model_cfg: "conch_ViT-B-16"
-probability_threshold: 0.75  # Slightly lower threshold for LUAD
+probability_threshold: 0.8  # Slightly lower threshold for LUAD
 
 # Zero-shot classification parameters for lung adenocarcinoma
 classes: ["lung adenocarcinoma", "normal lung tissue"]
-prompts: ["an H&E image of lung adenocarcinoma", "an H&E image of normal lung tissue"] 
+prompts: ["an H&E image of lung adenocarcinoma", "an H&E image of normal lung tissue"]
+
+# Label mapping from model prediction to standard labels
+label_map:
+  "lung adenocarcinoma": "LUAD"
+  "normal lung tissue": "NORMAL"
