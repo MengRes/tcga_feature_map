@@ -1,18 +1,4 @@
 #!/usr/bin/env python3
-"""
-CONCH Feature Extraction and t-SNE Visualization Pipeline
-
-This script extracts features from filtered patches using CONCH model
-and creates t-SNE visualizations grouped by hospital and label.
-
-Model: CONCH (Contrastive Learning for Computational Histopathology)
-Features both visual feature extraction and zero-shot capabilities.
-
-Author: AI Assistant
-Date: 2025-06-28
-"""
-
-# ===================== Standard Library Imports =====================
 import os
 import sys
 import argparse
@@ -20,10 +6,8 @@ import glob
 import logging
 from datetime import datetime
 
-# 添加本地 CONCH 模块到 Python 路径
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'CONCH'))
 
-# ===================== Third-party Library Imports =====================
 import numpy as np
 import pandas as pd
 import torch
@@ -33,7 +17,7 @@ from PIL import Image
 import openslide
 from sklearn.manifold import TSNE
 
-# ===================== CONCH Model Imports =====================
+# CONCH Model Imports
 try:
     from conch.open_clip_custom import create_model_from_pretrained, get_tokenizer, tokenize
     CONCH_AVAILABLE = True
@@ -42,7 +26,7 @@ except ImportError:
     print("Warning: CONCH not available. Please install CONCH first.")
     print("Installation: pip install git+https://github.com/mahmoodlab/CONCH.git")
 
-# ===================== Configuration =====================
+# Configuration
 class Config:
     """Configuration class for the pipeline"""
     
@@ -59,7 +43,7 @@ class Config:
     tsne_max_iter = 1000
     max_tsne_points = 10000  # Maximum sampling points for t-SNE
 
-# ===================== Utility Functions =====================
+# Utility Functions
 def extract_hosp_from_filename(filename):
     """Extract hospital information from filename
     
@@ -102,7 +86,7 @@ def setup_logging(output_dir):
     
     return logger
 
-# ===================== CONCH Model Functions =====================
+# CONCH Model Functions
 def initialize_conch_model(config, device, logger=None):
     """Initialize CONCH model
     
@@ -160,7 +144,7 @@ def extract_features_with_conch(model, preprocess, image, device):
         features = model.encode_image(image_tensor)
     return features
 
-# ===================== Feature Extraction Functions =====================
+# Feature Extraction Functions
 def extract_features_from_patches(config, filtered_patches_df, output_dir, logger=None):
     """Extract features from filtered patches using CONCH model
     
@@ -245,7 +229,7 @@ def extract_features_from_patches(config, filtered_patches_df, output_dir, logge
     
     return features_dir
 
-# ===================== t-SNE Visualization Functions =====================
+# t-SNE Visualization Functions
 def create_tsne_visualizations(config, output_dir, features_dir, filtered_patches_df, logger=None):
     """Create t-SNE visualizations
     
@@ -447,7 +431,7 @@ def create_tsne_visualizations(config, output_dir, features_dir, filtered_patche
     print(f"Hospital distribution: {dict(pd.Series(all_hosps).value_counts())}")
     print(f"Label distribution: {dict(pd.Series([info['patch_label'] for info in all_patch_info]).value_counts())}")
 
-# ===================== Main Pipeline =====================
+# Main Pipeline
 def main():
     """Main pipeline function"""
     parser = argparse.ArgumentParser(description='CONCH Feature Extraction and t-SNE Visualization')
@@ -500,7 +484,7 @@ def main():
         create_tsne_visualizations(Config, args.input_dir, features_dir, filtered_patches_df, logger)
         
         print("\n" + "="*60)
-        print("Pipeline completed successfully!")
+        print("Pipeline completed successfully")
         print("Model used: CONCH (supports feature extraction + zero-shot)")
         print(f"Total patches processed: {len(filtered_patches_df)}")
         print(f"Results saved in: {args.input_dir}")
@@ -508,7 +492,7 @@ def main():
         
         if logger:
             logger.info("="*60)
-            logger.info("Pipeline completed successfully!")
+            logger.info("Pipeline completed successfully")
             logger.info("Model used: CONCH (supports feature extraction + zero-shot)")
             logger.info(f"Total patches processed: {len(filtered_patches_df)}")
             logger.info(f"Results saved in: {args.input_dir}")
