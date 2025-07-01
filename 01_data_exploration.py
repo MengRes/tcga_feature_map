@@ -204,7 +204,7 @@ class DataExplorer:
         self.analyze_demographics(show=show)
         self.analyze_label_distribution(show=show)
         self.visualize_random_patches(show=show)
-        print("\nAnalysis completed!")
+        print("\nAnalysis completed")
 
 def main(dataset_type="tcga-brca"):
     """
