@@ -34,7 +34,7 @@ class Config:
     feature_dim = 768  # Will be updated based on actual model output
     
     # WSI path
-    wsi_dir = "/home/mxz3935/dataset_folder/tcga-luad/"
+    wsi_dir = "/home/mxz3935/dataset_folder/tcga-brca/"
     
     # t-SNE parameters
     tsne_perplexity = 30

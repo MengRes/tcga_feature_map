@@ -22,7 +22,7 @@ class Config:
     accept_label = ["IDC", "ILC"]            # Labels to be balanced
     accept_hosp_list = ["AR", "A2", "D8", "BH"]   # Only accept these hosp sources
     n_per_hosp = 10                          # Number of WSIs to select per hosp
-    num_sampled_patches = 100                # Maximum number of patches per WSI
+    num_sampled_patches = 200                # Maximum number of patches per WSI
     patch_size = 256
     
     # Additional filtering conditions
