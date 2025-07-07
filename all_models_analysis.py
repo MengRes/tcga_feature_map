@@ -6,7 +6,7 @@ import torch
 import glob
 from sklearn.model_selection import StratifiedKFold
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_recall_fscore_support
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_recall_fscore_support, roc_auc_score, average_precision_score
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -102,10 +102,13 @@ def analyze_single_model(features, metadata_df, model_name):
             print(f"    Warning: Insufficient data")
             continue
         
+        print(f"    Debug: {len(diag_features)} samples, {len(unique_hospitals)} hospitals: {unique_hospitals}")
+        
         skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
         cv_scores = []
         all_true_labels = []
         all_predictions = []
+        all_pred_proba = []
         
         for train_idx, test_idx in skf.split(diag_features, diag_hospitals):
             X_train = diag_features[train_idx]
@@ -117,10 +120,12 @@ def analyze_single_model(features, metadata_df, model_name):
             clf.fit(X_train, y_train)
             
             y_pred = clf.predict(X_test)
+            y_pred_proba = clf.predict_proba(X_test)
             cv_scores.append(accuracy_score(y_test, y_pred))
             
             all_true_labels.extend(y_test)
             all_predictions.extend(y_pred)
+            all_pred_proba.extend(y_pred_proba)
         
         mean_accuracy = np.mean(cv_scores)
         std_accuracy = np.std(cv_scores)
@@ -130,6 +135,29 @@ def analyze_single_model(features, metadata_df, model_name):
         precision, recall, f1, support = precision_recall_fscore_support(
             all_true_labels, all_predictions, average=None, zero_division=0
         )
+        
+        # Calculate AUC metrics using probability predictions
+        if len(all_pred_proba) > 0:
+            try:
+                # Convert list of arrays to single array
+                pred_proba_array = np.vstack(all_pred_proba)
+                
+                if len(unique_hospitals) == 2:
+                    # Binary classification - use probability of positive class
+                    roc_auc = roc_auc_score(all_true_labels, pred_proba_array[:, 1])
+                    avg_precision = average_precision_score(all_true_labels, pred_proba_array[:, 1])
+                else:
+                    # Multi-class classification - use one-vs-rest
+                    roc_auc = roc_auc_score(all_true_labels, pred_proba_array, multi_class='ovr', average='macro')
+                    avg_precision = average_precision_score(all_true_labels, pred_proba_array, average='macro')
+            except Exception as e:
+                print(f"      Warning: AUC calculation failed: {e}")
+                roc_auc = None
+                avg_precision = None
+        else:
+            print(f"      Warning: No probability predictions available for AUC calculation")
+            roc_auc = None
+            avg_precision = None
         
         # Get hospital names from label encoder
         hospital_names = le_hosp.classes_
@@ -149,6 +177,8 @@ def analyze_single_model(features, metadata_df, model_name):
             'mean_accuracy': mean_accuracy,
             'std_accuracy': std_accuracy,
             'cv_scores': cv_scores,
+            'roc_auc': roc_auc,
+            'average_precision': avg_precision,
             'n_samples': len(diag_features),
             'n_hospitals': len(unique_hospitals),
             'y_true': all_true_labels,
@@ -158,7 +188,8 @@ def analyze_single_model(features, metadata_df, model_name):
             'hospital_names': hospital_names
         }
         
-        print(f"    {diagnosis}: {mean_accuracy:.3f} ± {std_accuracy:.3f}")
+        auc_info = f" (AUC: {roc_auc:.3f})" if roc_auc is not None else " (AUC: N/A)"
+        print(f"    {diagnosis}: {mean_accuracy:.3f} ± {std_accuracy:.3f}{auc_info}")
     
     # Store label encoders for later use
     results['label_encoders'] = {'hospital': le_hosp, 'diagnosis': le_diag}
@@ -370,6 +401,23 @@ def save_results(all_results, output_dir):
         for rank, (model, avg_accuracy) in enumerate(sorted_models, 1):
             f.write(f"{rank:2d}. {model:<15} {avg_accuracy:.3f}\n")
         
+        # Add AUC rankings
+        model_avg_auc = {}
+        for model in models:
+            if 'hospital_classification' in all_results[model]:
+                aucs = [result['roc_auc'] 
+                       for result in all_results[model]['hospital_classification'].values()
+                       if result['roc_auc'] is not None]
+                if aucs:
+                    model_avg_auc[model] = np.mean(aucs)
+        
+        if model_avg_auc:
+            sorted_models_auc = sorted(model_avg_auc.items(), key=lambda x: x[1], reverse=True)
+            f.write("\nModel Rankings (Hospital Source Classification AUC):\n")
+            f.write("-" * 50 + "\n")
+            for rank, (model, avg_auc) in enumerate(sorted_models_auc, 1):
+                f.write(f"{rank:2d}. {model:<15} {avg_auc:.3f}\n")
+        
         f.write("\n\nDetailed Results:\n")
         f.write("="*30 + "\n")
         
@@ -380,7 +428,8 @@ def save_results(all_results, output_dir):
             if 'hospital_classification' in model_results:
                 f.write("  Hospital Source Classification by Diagnosis:\n")
                 for diagnosis, result in model_results['hospital_classification'].items():
-                    f.write(f"    {diagnosis}: {result['mean_accuracy']:.3f} ± {result['std_accuracy']:.3f}\n")
+                    auc_info = f", AUC: {result['roc_auc']:.3f}" if result['roc_auc'] is not None else ", AUC: N/A"
+                    f.write(f"    {diagnosis}: {result['mean_accuracy']:.3f} ± {result['std_accuracy']:.3f}{auc_info}\n")
                     f.write(f"      (n_samples={result['n_samples']}, n_hospitals={result['n_hospitals']})\n")
                     
                     # Add detailed per-hospital metrics
@@ -429,6 +478,8 @@ def save_results(all_results, output_dir):
                     'diagnosis': diagnosis,
                     'mean_accuracy': result['mean_accuracy'],
                     'std_accuracy': result['std_accuracy'],
+                    'roc_auc': result['roc_auc'],
+                    'average_precision': result['average_precision'],
                     'n_samples': result['n_samples'],
                     'n_hospitals': result['n_hospitals']
                 })
@@ -507,10 +558,27 @@ def main():
         for rank, (model, avg_accuracy) in enumerate(sorted_models, 1):
             print(f"  {rank:2d}. {model:<15} {avg_accuracy:.3f}")
         
+        # Print AUC rankings
+        model_avg_auc = {}
+        for model in models:
+            if 'hospital_classification' in all_results[model]:
+                aucs = [result['roc_auc'] 
+                       for result in all_results[model]['hospital_classification'].values()
+                       if result['roc_auc'] is not None]
+                if aucs:
+                    model_avg_auc[model] = np.mean(aucs)
+        
+        if model_avg_auc:
+            sorted_models_auc = sorted(model_avg_auc.items(), key=lambda x: x[1], reverse=True)
+            print(f"\nFINAL MODEL RANKINGS (by AUC):")
+            for rank, (model, avg_auc) in enumerate(sorted_models_auc, 1):
+                print(f"  {rank:2d}. {model:<15} {avg_auc:.3f}")
+        
         print(f"\nANALYSIS COMPLETED:")
         print(f"  - {len(all_results)} models analyzed")
         print(f"  - Hospital source classification by diagnosis")
         print(f"  - 5-fold cross-validation for each diagnosis")
+        print(f"  - AUC and Average Precision metrics included")
         print(f"  - Comprehensive visualizations and reports generated")
         
     except Exception as e:
