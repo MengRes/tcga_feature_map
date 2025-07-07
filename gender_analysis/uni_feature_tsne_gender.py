@@ -14,6 +14,9 @@ from sklearn.manifold import TSNE
 from timm.layers import SwiGLUPacked
 
 # Import t-SNE plotting function
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.tsne_plot_function import create_tsne_visualization
 
 # Configuration class

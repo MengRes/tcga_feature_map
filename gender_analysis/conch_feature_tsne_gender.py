@@ -7,14 +7,18 @@ import logging
 import numpy as np
 import pandas as pd
 import torch
-import torch.nn as nn
-import torchvision.models as models
-import torchvision.transforms as transforms
 from tqdm import tqdm
 from PIL import Image
 import openslide
 from sklearn.manifold import TSNE
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.tsne_plot_function import create_tsne_visualization
+
+# Import CONCH model related modules
+from CONCH.conch.open_clip_custom import create_model_from_pretrained
+from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
 
 # Configuration class
 class Config:
@@ -23,10 +27,12 @@ class Config:
         self.tsne_perplexity = args.tsne_perplexity
         self.tsne_max_iter = args.tsne_max_iter
         self.max_tsne_points = args.max_tsne_points
+        self.conch_ckpt = args.conch_ckpt
+        self.conch_cfg = args.conch_cfg
 
 # Logging setup
 def setup_logging(output_dir):
-    log_file = os.path.join(output_dir, "resnet50_feature_tsne_gender.log")
+    log_file = os.path.join(output_dir, "conch_feature_tsne_gender.log")
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
@@ -37,41 +43,38 @@ def setup_logging(output_dir):
     )
     logger = logging.getLogger(__name__)
     logger.info("=" * 60)
-    logger.info("ResNet50 Feature Extraction and t-SNE Visualization (Gender) Started")
+    logger.info("CONCH Feature Extraction and t-SNE Visualization (Gender) Started")
     logger.info("=" * 60)
     return logger
 
-# ResNet50 model loading
-def initialize_resnet50_model(device, logger=None):
+# CONCH model loading
+def initialize_conch_model(config, device, logger=None):
     if logger:
-        logger.info("Initializing pretrained ResNet50 model...")
-    print("Initializing pretrained ResNet50 model...")
-    model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
-    model = nn.Sequential(*list(model.children())[:-1])  # Remove fc layer
+        logger.info("Initializing CONCH model...")
+    print("Initializing CONCH model...")
+    model, preprocess = create_model_from_pretrained(
+        config.conch_cfg,
+        config.conch_ckpt,
+        device=device
+    )
     model.eval()
-    model.to(device)
-    transform = transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    ])
     if logger:
-        logger.info("ResNet50 model initialized successfully")
-    print("ResNet50 model initialized successfully")
-    return model, transform
+        logger.info("CONCH model initialized successfully")
+    print("CONCH model initialized successfully")
+    return model, preprocess
 
-def extract_features_with_resnet50(model, transform, image, device):
-    image_tensor = transform(image).unsqueeze(0).to(device)
+def extract_features_with_conch(model, preprocess, image, device):
+    image_tensor = preprocess(image).unsqueeze(0).to(device)
     with torch.no_grad():
-        features = model(image_tensor)
-        features = features.view(features.size(0), -1)  # [1, 2048]
+        features = model.encode_image(image_tensor)
     return features
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="ResNet50 Feature Extraction and t-SNE Visualization by Gender")
+    parser = argparse.ArgumentParser(description="CONCH Feature Extraction and t-SNE Visualization by Gender")
     parser.add_argument('--input_dir', type=str, required=True, help='Input result folder, e.g. results/wsi_patch_filter_luad_20250701_231340')
     parser.add_argument('--wsi_dir', type=str, required=True, help='WSI image folder')
+    parser.add_argument('--conch_ckpt', type=str, required=True, help='Path to CONCH checkpoint, e.g. ./checkpoints/conch/pytorch_model.bin')
+    parser.add_argument('--conch_cfg', type=str, required=True, help='CONCH model config, e.g. conch_ViT-B-16')
     parser.add_argument('--tsne_perplexity', type=int, default=30, help='t-SNE perplexity')
     parser.add_argument('--tsne_max_iter', type=int, default=1000, help='t-SNE max iterations')
     parser.add_argument('--max_tsne_points', type=int, default=10000, help='Max points for t-SNE')
@@ -88,13 +91,13 @@ if __name__ == "__main__":
     wsi_meta_df = pd.read_csv(wsi_meta_csv)
     wsi2gender = dict(zip(wsi_meta_df['filename'], wsi_meta_df['gender']))
 
-    # ========== Feature extraction and save to features_ResNet50 folder ==========
-    features_dir = os.path.join(output_dir, "features_ResNet50")
+    # ========== Feature extraction and save to features_conch folder ==========
+    features_dir = os.path.join(output_dir, "features_conch")
     os.makedirs(features_dir, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model, transform = initialize_resnet50_model(device, logger)
+    model, preprocess = initialize_conch_model(config, device, logger)
     wsi_groups = patches_df.groupby('wsi_id')
-    for wsi_id, wsi_patches in tqdm(wsi_groups, desc="Extracting ResNet50 features"):
+    for wsi_id, wsi_patches in tqdm(wsi_groups, desc="Extracting CONCH features"):
         features_list = []
         for idx, row in wsi_patches.iterrows():
             patch_x = row['patch_x']
@@ -108,7 +111,7 @@ if __name__ == "__main__":
                 patch = slide.read_region((patch_x, patch_y), 0, (patch_size, patch_size))
                 patch = patch.convert('RGB')
                 slide.close()
-                features = extract_features_with_resnet50(model, transform, patch, device)
+                features = extract_features_with_conch(model, preprocess, patch, device)
                 features_list.append(features.cpu().numpy().squeeze())
             except Exception as e:
                 logger.error(f"Error extracting features for {wsi_id}_{patch_x}_{patch_y}: {e}")
@@ -147,7 +150,7 @@ if __name__ == "__main__":
         all_wsi_ids = [all_wsi_ids[i] for i in indices]
     viz_dir = os.path.join(output_dir, "visualizations")
     os.makedirs(viz_dir, exist_ok=True)
-    model_name = "resnet50"
+    model_name = "conch"
     tsne_out_csv = os.path.join(viz_dir, f'tsne_gender_result_{model_name}.csv')
     tsne_fig_path = os.path.join(viz_dir, f'tsne_by_gender_{model_name}.png')
     df_tsne = create_tsne_visualization(all_features, all_genders, all_wsi_ids, tsne_fig_path, title=f"t-SNE by Gender ({model_name.upper()})")
