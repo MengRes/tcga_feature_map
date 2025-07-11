@@ -48,9 +48,6 @@ class Config:
 
 # Import stain normalization functions from utils
 
-def setup_logging(output_dir):
-    return setup_logging(output_dir, "phikon_feature_tsne_stain_norm.log")
-
 # Phikon model loading and feature extraction
 
 def initialize_phikon_model(config, device, logger=None):
@@ -128,9 +125,10 @@ def extract_features_from_patches(config, filtered_patches_df, output_dir, logge
     model, processor = initialize_phikon_model(config, device, logger)
     model_name = config.phikon_model_name.upper().replace("-", "")
     if config.enable_stain_normalization:
-        features_dir = os.path.join(output_dir, f"features_{model_name}_{config.stain_normalization_method}")
+        filename_prefix = f"tsne_{model_name}_{config.stain_normalization_method}"
     else:
-        features_dir = os.path.join(output_dir, f"features_{model_name}")
+        filename_prefix = f"tsne_{model_name}"
+    features_dir = os.path.join(output_dir, f"features_{model_name}")
     os.makedirs(features_dir, exist_ok=True)
     wsi_groups = filtered_patches_df.groupby('wsi_id')
     desc = f"Extracting {config.phikon_model_name.upper()} features"
@@ -230,49 +228,96 @@ def create_tsne_visualizations(config, output_dir, features_dir, filtered_patche
     all_features = np.vstack(all_features)
     print(f"Total features: {len(all_features)}")
     print(f"Feature dimension: {all_features.shape[1]}")
-    
-    # Random sampling for acceleration
-    if len(all_features) > config.max_tsne_points:
-        np.random.seed(config.random_seed)
-        indices = np.random.choice(len(all_features), config.max_tsne_points, replace=False)
-        all_features = all_features[indices]
-        all_labels = [all_labels[i] for i in indices]
-        all_hospitals = [all_hospitals[i] for i in indices]
-        print(f"Sampled features: {len(all_features)}")
-    
-    # Create visualization directory
-    viz_dir = os.path.join(output_dir, "visualizations")
-    os.makedirs(viz_dir, exist_ok=True)
-    
-    # Model name for filename
+    labels = all_labels
     model_name = config.phikon_model_name.upper().replace("-", "")
     if config.enable_stain_normalization:
-        filename_suffix = f"{model_name}_{config.stain_normalization_method}"
+        filename_prefix = f"tsne_{model_name}_{config.stain_normalization_method}"
     else:
-        filename_suffix = model_name
-    
-    # Create title with model and stain normalization info
-    title = f"t-SNE Visualization ({model_name})"
-    if config.enable_stain_normalization:
-        title += f" [StainNorm: {config.stain_normalization_method}]"
-    
-    # Create t-SNE visualizations using unified functions
-    print("Creating t-SNE visualizations...")
-    
-    # 1. By label
-    label_viz_file = os.path.join(viz_dir, f"tsne_{filename_suffix}_by_label.png")
-    create_tsne_visualization(all_features, all_labels, all_hospitals, label_viz_file, title)
-    print(f"Label-grouped t-SNE plot saved: {label_viz_file}")
-    
-    # 2. By hospital
-    hosp_viz_file = os.path.join(viz_dir, f"tsne_{filename_suffix}_by_hospital.png")
-    create_hospital_tsne_visualization(all_features, all_labels, all_hospitals, hosp_viz_file, title)
+        filename_prefix = f"tsne_{model_name}"
+    viz_dir = os.path.join(output_dir, "visualizations")
+    os.makedirs(viz_dir, exist_ok=True)
+    # 1. 全部patch整体t-SNE，按医院上色
+    print("Starting t-SNE dimensionality reduction (all patches)...")
+    from sklearn.manifold import TSNE
+    import matplotlib.pyplot as plt
+    tsne = TSNE(n_components=2, random_state=getattr(config, 'random_seed', 42), perplexity=getattr(config, 'tsne_perplexity', 30), max_iter=1000)
+    features_2d = tsne.fit_transform(all_features)
+    df_tsne = pd.DataFrame({
+        'TSNE1': features_2d[:, 0],
+        'TSNE2': features_2d[:, 1],
+        'Hosp': all_hospitals,
+        'Label': labels
+    })
+    unique_hosps = sorted(set(all_hospitals))
+    colors = plt.cm.Set3(np.linspace(0, 1, len(unique_hosps)))
+    color_map = dict(zip(unique_hosps, colors))
+    # by_hosp
+    plt.figure(figsize=(12, 10))
+    for hosp in unique_hosps:
+        mask = df_tsne['Hosp'] == hosp
+        plt.scatter(df_tsne[mask]['TSNE1'], df_tsne[mask]['TSNE2'], c=[color_map[hosp]], label=hosp, alpha=0.7, s=50)
+    plt.title(f't-SNE Visualization ({model_name}, {config.stain_normalization_method}) - Grouped by Hospital', fontsize=16, fontweight='bold')
+    plt.xlabel('TSNE1', fontsize=12)
+    plt.ylabel('TSNE2', fontsize=12)
+    plt.legend(loc='upper right', fontsize=10)
+    plt.tight_layout()
+    hosp_viz_file = os.path.join(viz_dir, f"{filename_prefix}_by_hosp.png")
+    plt.savefig(hosp_viz_file, dpi=300, bbox_inches='tight')
+    plt.close()
     print(f"Hospital-grouped t-SNE plot saved: {hosp_viz_file}")
-    
-    # 3. Combined (label + hospital)
-    combined_viz_file = os.path.join(viz_dir, f"tsne_{filename_suffix}_combined.png")
-    create_label_hospital_tsne_visualization(all_features, all_labels, all_hospitals, combined_viz_file, title)
-    print(f"Combined t-SNE plot saved: {combined_viz_file}")
+    if logger:
+        logger.info(f"Hospital-grouped t-SNE plot saved: {hosp_viz_file}")
+    # 2. by_label
+    unique_labels = sorted(set(labels))
+    label_colors = plt.cm.Set1(np.linspace(0, 1, len(unique_labels)))
+    label_color_map = dict(zip(unique_labels, label_colors))
+    plt.figure(figsize=(12, 10))
+    for label in unique_labels:
+        mask = df_tsne['Label'] == label
+        plt.scatter(df_tsne[mask]['TSNE1'], df_tsne[mask]['TSNE2'], c=[label_color_map[label]], label=label, alpha=0.7, s=50)
+    plt.title(f't-SNE Visualization ({model_name}, {config.stain_normalization_method}) - Grouped by Label', fontsize=16, fontweight='bold')
+    plt.xlabel('TSNE1', fontsize=12)
+    plt.ylabel('TSNE2', fontsize=12)
+    plt.legend(loc='upper right', fontsize=10)
+    plt.tight_layout()
+    label_viz_file = os.path.join(viz_dir, f"{filename_prefix}_by_label.png")
+    plt.savefig(label_viz_file, dpi=300, bbox_inches='tight')
+    plt.close()
+    print(f"Label-grouped t-SNE plot saved: {label_viz_file}")
+    if logger:
+        logger.info(f"Label-grouped t-SNE plot saved: {label_viz_file}")
+    # 3. by_hosp_IDC/ILC
+    for subtype in ["IDC", "ILC"]:
+        mask = [l == subtype for l in labels]
+        if sum(mask) == 0:
+            continue
+        features_sub = all_features[mask]
+        hosps_sub = [all_hospitals[i] for i, flag in enumerate(mask) if flag]
+        tsne = TSNE(n_components=2, random_state=getattr(config, 'random_seed', 42), perplexity=getattr(config, 'tsne_perplexity', 30), max_iter=1000)
+        features_2d = tsne.fit_transform(features_sub)
+        df = pd.DataFrame({
+            'TSNE1': features_2d[:, 0],
+            'TSNE2': features_2d[:, 1],
+            'Hosp': hosps_sub
+        })
+        unique_hosps_sub = sorted(set(hosps_sub))
+        colors_sub = plt.cm.Set3(np.linspace(0, 1, len(unique_hosps_sub)))
+        color_map_sub = dict(zip(unique_hosps_sub, colors_sub))
+        plt.figure(figsize=(12, 10))
+        for hosp in unique_hosps_sub:
+            mask_h = df['Hosp'] == hosp
+            plt.scatter(df[mask_h]['TSNE1'], df[mask_h]['TSNE2'], c=[color_map_sub[hosp]], label=hosp, alpha=0.7, s=50)
+        plt.title(f't-SNE ({model_name}, {config.stain_normalization_method}) - {subtype} by Hospital', fontsize=16, fontweight='bold')
+        plt.xlabel('TSNE1', fontsize=12)
+        plt.ylabel('TSNE2', fontsize=12)
+        plt.legend(loc='upper right', fontsize=10)
+        plt.tight_layout()
+        out_file = os.path.join(viz_dir, f"{filename_prefix}_by_hosp_{subtype}.png")
+        plt.savefig(out_file, dpi=300, bbox_inches='tight')
+        plt.close()
+        print(f"{subtype} by hospital t-SNE plot saved: {out_file}")
+        if logger:
+            logger.info(f"{subtype} by hospital t-SNE plot saved: {out_file}")
     
     # Statistics
     print(f"\n=== Visualization statistics ===")
@@ -281,10 +326,11 @@ def create_tsne_visualizations(config, output_dir, features_dir, filtered_patche
     print(f"Hospital distribution: {dict(pd.Series(all_hospitals).value_counts())}")
     print(f"Label distribution: {dict(pd.Series(all_labels).value_counts())}")
     
-    if logger:
-        logger.info(f"Label-grouped t-SNE plot saved: {label_viz_file}")
-        logger.info(f"Hospital-grouped t-SNE plot saved: {hosp_viz_file}")
-        logger.info(f"Combined t-SNE plot saved: {combined_viz_file}")
+    # 删除combined_viz_file相关logger语句
+    # if logger:
+    #     logger.info(f"Label-grouped t-SNE plot saved: {label_viz_file}")
+    #     logger.info(f"Hospital-grouped t-SNE plot saved: {hosp_viz_file}")
+    #     logger.info(f"Combined t-SNE plot saved: {combined_viz_file}")
 
 # Main pipeline
 
@@ -320,7 +366,7 @@ def main():
         print("Error: transformers library not available for Phikon model loading.")
         print("Please install transformers: pip install transformers")
         return
-    logger = setup_logging(args.input_dir)
+    logger = setup_logging(args.input_dir, "phikon_feature_tsne_stain_norm.log")
     try:
         filtered_patches_file = os.path.join(args.input_dir, "conch_filtered_patches.csv")
         if not os.path.exists(filtered_patches_file):

@@ -12,6 +12,7 @@ import torch
 from tqdm import tqdm
 from PIL import Image
 import openslide
+import matplotlib.pyplot as plt
 from utils.logging_utils import setup_logging
 from utils.stain_norm_function import preprocess_patch_with_stain_normalization
 from utils.path_utils import extract_hospital_info
@@ -20,6 +21,7 @@ from utils.tsne_plot_function import (
     create_hospital_tsne_visualization,
     create_label_hospital_tsne_visualization
 )
+from sklearn.manifold import TSNE
 
 # UNI Model Imports
 # Add UNI path
@@ -67,11 +69,14 @@ class Config:
     
     # t-SNE parameters
     max_tsne_points = 10000  # Maximum sampling points for t-SNE
+    tsne_perplexity = 30 # Default perplexity for t-SNE
+    tsne_max_iter = 1000 # Default max_iter for t-SNE
 
 # Import utility functions from utils
 
-def setup_logging(output_dir):
-    return setup_logging(output_dir, "uni_feature_tsne_stain_norm.log")
+# 删除或注释掉自定义的 setup_logging 包装函数
+# def setup_logging(output_dir):
+#     return setup_logging(output_dir, "uni_feature_tsne_stain_norm.log")
 
 # UNI Model Functions
 def initialize_uni_model(config, device, logger=None):
@@ -284,120 +289,155 @@ def extract_features_from_patches(config, filtered_patches_df, output_dir, logge
 
 # t-SNE Visualization Functions
 def create_tsne_visualizations(config, output_dir, features_dir, filtered_patches_df, logger=None):
-    """Create t-SNE visualizations using unified functions
-    
-    Args:
-        config: Configuration object
-        output_dir: Output directory
-        features_dir: Directory containing feature files
-        filtered_patches_df: DataFrame with original patch information
-        logger: Logger instance
-    """
+    """Create t-SNE visualizations (uni_feature_tsne.py风格)"""
     print("\n" + "="*60)
     print("t-SNE Visualization")
     print("="*60)
-    
-    # Ensure output directory exists
     os.makedirs(output_dir, exist_ok=True)
-    
-    # Load all feature files
     feature_files = glob.glob(os.path.join(features_dir, "*_features.pt"))
     print(f"Found {len(feature_files)} feature files")
-    
     if logger:
         logger.info(f"Found {len(feature_files)} feature files")
-    
     all_features = []
-    all_labels = []
-    all_hospitals = []
-    
+    all_hosps = []
+    all_wsi_ids = []
+    all_patch_info = []
     for pt_file in tqdm(feature_files, desc="Loading features"):
         try:
-            # Load features
             features = torch.load(pt_file, weights_only=True)
-            
-            # Get WSI ID from filename
             wsi_id = os.path.basename(pt_file).replace("_features.pt", "")
-            
-            # Get patch info from original DataFrame
             wsi_patches = filtered_patches_df[filtered_patches_df['wsi_id'] == wsi_id]
             if len(wsi_patches) == 0:
                 print(f"Warning: No patch info found for {wsi_id} in original data")
                 continue
-            
-            hospital = extract_hospital_info(wsi_id)
-            
-            # Add features and metadata
+            hosp = extract_hospital_info(wsi_id)
             all_features.append(features)
-            all_labels.extend(wsi_patches['patch_label'].tolist())
-            all_hospitals.extend([hospital] * len(features))
-                
+            all_hosps.extend([hosp] * len(features))
+            all_wsi_ids.extend([wsi_id] * len(features))
+            for _, row in wsi_patches.iterrows():
+                all_patch_info.append({
+                    'wsi_id': wsi_id,
+                    'hosp': hosp,
+                    'patch_x': row['patch_x'],
+                    'patch_y': row['patch_y'],
+                    'patch_label': row['patch_label'],
+                    'patch_probability': row.get('patch_probability', None)
+                })
         except Exception as e:
             print(f"Error loading file {pt_file}: {e}")
             continue
-    
     if not all_features:
         print("No valid feature files found")
         return
-    
-    # Merge all features
     all_features = np.vstack(all_features)
     print(f"Total features: {len(all_features)}")
     print(f"Feature dimension: {all_features.shape[1]}")
-    
-    # Random sampling for acceleration
+    labels = [info['patch_label'] for info in all_patch_info]
     if len(all_features) > config.max_tsne_points:
         indices = np.random.choice(len(all_features), config.max_tsne_points, replace=False)
         all_features = all_features[indices]
-        all_labels = [all_labels[i] for i in indices]
-        all_hospitals = [all_hospitals[i] for i in indices]
+        all_hosps = [all_hosps[i] for i in indices]
+        all_wsi_ids = [all_wsi_ids[i] for i in indices]
+        all_patch_info = [all_patch_info[i] for i in indices]
         print(f"Sampled features: {len(all_features)}")
-    
-    # Create visualization directory
     viz_dir = os.path.join(output_dir, "visualizations")
     os.makedirs(viz_dir, exist_ok=True)
-    
-    # Model name for filename
+    plt.rcParams['font.sans-serif'] = ['SimHei', 'DejaVu Sans']
+    plt.rcParams['axes.unicode_minus'] = False
     model_name = config.uni_model_name.upper()
+    # 文件名前缀
     if config.enable_stain_normalization:
-        filename_suffix = f"{model_name}_{config.stain_normalization_method}"
+        filename_prefix = f"tsne_{model_name}_{config.stain_normalization_method}"
     else:
-        filename_suffix = model_name
-    
-    # Create title with model and stain normalization info
-    title = f"t-SNE Visualization ({model_name})"
-    if config.enable_stain_normalization:
-        title += f" [StainNorm: {config.stain_normalization_method}]"
-    
-    # Create t-SNE visualizations using unified functions
-    print("Creating t-SNE visualizations...")
-    
-    # 1. By label
-    label_viz_file = os.path.join(viz_dir, f"tsne_{filename_suffix}_by_label.png")
-    create_tsne_visualization(all_features, all_labels, all_hospitals, label_viz_file, title)
-    print(f"Label-grouped t-SNE plot saved: {label_viz_file}")
-    
-    # 2. By hospital
-    hosp_viz_file = os.path.join(viz_dir, f"tsne_{filename_suffix}_by_hospital.png")
-    create_hospital_tsne_visualization(all_features, all_labels, all_hospitals, hosp_viz_file, title)
+        filename_prefix = f"tsne_{model_name}"
+
+    # 1. 全部patch整体t-SNE，按医院上色
+    print("Starting t-SNE dimensionality reduction (all patches)...")
+    tsne = TSNE(n_components=2, random_state=42, perplexity=getattr(config, 'tsne_perplexity', 30), max_iter=getattr(config, 'tsne_max_iter', 1000))
+    features_2d = tsne.fit_transform(all_features)
+    df_tsne = pd.DataFrame({
+        'TSNE1': features_2d[:, 0],
+        'TSNE2': features_2d[:, 1],
+        'Hosp': all_hosps,
+        'Label': labels
+    })
+    unique_hosps = sorted(set(all_hosps))
+    colors = plt.cm.Set3(np.linspace(0, 1, len(unique_hosps)))
+    color_map = dict(zip(unique_hosps, colors))
+    # by_hosp
+    plt.figure(figsize=(12, 10))
+    for hosp in unique_hosps:
+        mask = df_tsne['Hosp'] == hosp
+        plt.scatter(df_tsne[mask]['TSNE1'], df_tsne[mask]['TSNE2'], c=[color_map[hosp]], label=hosp, alpha=0.7, s=50)
+    plt.title(f't-SNE Visualization ({model_name}, {config.stain_normalization_method}) - Grouped by Hospital', fontsize=16, fontweight='bold')
+    plt.xlabel('TSNE1', fontsize=12)
+    plt.ylabel('TSNE2', fontsize=12)
+    plt.legend(loc='upper right', fontsize=10)
+    plt.tight_layout()
+    hosp_viz_file = os.path.join(viz_dir, f"{filename_prefix}_by_hosp.png")
+    plt.savefig(hosp_viz_file, dpi=300, bbox_inches='tight')
+    plt.close()
     print(f"Hospital-grouped t-SNE plot saved: {hosp_viz_file}")
-    
-    # 3. Combined (label + hospital)
-    combined_viz_file = os.path.join(viz_dir, f"tsne_{filename_suffix}_combined.png")
-    create_label_hospital_tsne_visualization(all_features, all_labels, all_hospitals, combined_viz_file, title)
-    print(f"Combined t-SNE plot saved: {combined_viz_file}")
-    
-    # Statistics
-    print(f"\n=== Visualization statistics ===")
-    print(f"Total patches: {len(all_features)}")
-    print(f"Hospital count: {len(set(all_hospitals))}")
-    print(f"Hospital distribution: {dict(pd.Series(all_hospitals).value_counts())}")
-    print(f"Label distribution: {dict(pd.Series(all_labels).value_counts())}")
-    
+    if logger:
+        logger.info(f"Hospital-grouped t-SNE plot saved: {hosp_viz_file}")
+    # 2. by_label
+    unique_labels = sorted(set(labels))
+    label_colors = plt.cm.Set1(np.linspace(0, 1, len(unique_labels)))
+    label_color_map = dict(zip(unique_labels, label_colors))
+    plt.figure(figsize=(12, 10))
+    for label in unique_labels:
+        mask = df_tsne['Label'] == label
+        plt.scatter(df_tsne[mask]['TSNE1'], df_tsne[mask]['TSNE2'], c=[label_color_map[label]], label=label, alpha=0.7, s=50)
+    plt.title(f't-SNE Visualization ({model_name}, {config.stain_normalization_method}) - Grouped by Label', fontsize=16, fontweight='bold')
+    plt.xlabel('TSNE1', fontsize=12)
+    plt.ylabel('TSNE2', fontsize=12)
+    plt.legend(loc='upper right', fontsize=10)
+    plt.tight_layout()
+    label_viz_file = os.path.join(viz_dir, f"{filename_prefix}_by_label.png")
+    plt.savefig(label_viz_file, dpi=300, bbox_inches='tight')
+    plt.close()
+    print(f"Label-grouped t-SNE plot saved: {label_viz_file}")
     if logger:
         logger.info(f"Label-grouped t-SNE plot saved: {label_viz_file}")
-        logger.info(f"Hospital-grouped t-SNE plot saved: {hosp_viz_file}")
-        logger.info(f"Combined t-SNE plot saved: {combined_viz_file}")
+    # 3. by_hosp_IDC
+    for subtype in ["IDC", "ILC"]:
+        mask = [l == subtype for l in labels]
+        if sum(mask) == 0:
+            continue
+        features_sub = all_features[mask]
+        hosps_sub = [all_hosps[i] for i, flag in enumerate(mask) if flag]
+        tsne = TSNE(n_components=2, random_state=42, perplexity=getattr(config, 'tsne_perplexity', 30), max_iter=getattr(config, 'tsne_max_iter', 1000))
+        features_2d = tsne.fit_transform(features_sub)
+        df = pd.DataFrame({
+            'TSNE1': features_2d[:, 0],
+            'TSNE2': features_2d[:, 1],
+            'Hosp': hosps_sub
+        })
+        unique_hosps_sub = sorted(set(hosps_sub))
+        colors_sub = plt.cm.Set3(np.linspace(0, 1, len(unique_hosps_sub)))
+        color_map_sub = dict(zip(unique_hosps_sub, colors_sub))
+        plt.figure(figsize=(12, 10))
+        for hosp in unique_hosps_sub:
+            mask_h = df['Hosp'] == hosp
+            plt.scatter(df[mask_h]['TSNE1'], df[mask_h]['TSNE2'], c=[color_map_sub[hosp]], label=hosp, alpha=0.7, s=50)
+        plt.title(f't-SNE ({model_name}, {config.stain_normalization_method}) - {subtype} by Hospital', fontsize=16, fontweight='bold')
+        plt.xlabel('TSNE1', fontsize=12)
+        plt.ylabel('TSNE2', fontsize=12)
+        plt.legend(loc='upper right', fontsize=10)
+        plt.tight_layout()
+        out_file = os.path.join(viz_dir, f"{filename_prefix}_by_hosp_{subtype}.png")
+        plt.savefig(out_file, dpi=300, bbox_inches='tight')
+        plt.close()
+        print(f"{subtype} by hospital t-SNE plot saved: {out_file}")
+        if logger:
+            logger.info(f"{subtype} by hospital t-SNE plot saved: {out_file}")
+    # 统计信息
+    print(f"\n=== Visualization statistics ===")
+    print(f"Total patches: {len(all_features)}")
+    print(f"WSI count: {len(set(all_wsi_ids))}")
+    print(f"Hospital count: {len(set(all_hosps))}")
+    print(f"Hospital distribution: {dict(pd.Series(all_hosps).value_counts())}")
+    print(f"Label distribution: {dict(pd.Series(labels).value_counts())}")
 
 # Main Pipeline
 def main():
@@ -451,7 +491,7 @@ def main():
         return
     
     # Setup logging
-    logger = setup_logging(args.input_dir)
+    logger = setup_logging(args.input_dir, "uni_feature_tsne_stain_norm.log")
     
     try:
         # Load filtered patches

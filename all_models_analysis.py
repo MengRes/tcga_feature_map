@@ -6,7 +6,7 @@ import torch
 import glob
 from sklearn.model_selection import StratifiedKFold
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_recall_fscore_support, roc_auc_score, average_precision_score
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_recall_fscore_support, roc_auc_score, average_precision_score, f1_score
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -76,78 +76,83 @@ def analyze_single_model(features, metadata_df, model_name):
     
     scaler = StandardScaler()
     features_scaled = scaler.fit_transform(features)
-    
+
     le_hosp = LabelEncoder()
     hospital_encoded = le_hosp.fit_transform(metadata_df['hosp'])
     le_diag = LabelEncoder()
     diagnosis_encoded = le_diag.fit_transform(metadata_df['patch_label'])
-    
+
+    wsi_ids = metadata_df['wsi_id'].values
+
     results = {'hospital_classification': {}}
-    
-    # Hospital Source Classification by Diagnosis (5-Fold CV)
-    print("\nHospital Source Classification by Diagnosis (5-Fold CV)")
+
+    # Hospital Source Classification by Diagnosis (5-Fold CV, WSI-level split)
+    print("\nHospital Source Classification by Diagnosis (5-Fold CV, WSI-level split)")
     print("-" * 50)
-    
+
     diagnoses = metadata_df['patch_label'].unique()
-    
+
     for diagnosis in diagnoses:
         print(f"\n  {diagnosis} diagnosis...")
-        
         diag_mask = metadata_df['patch_label'] == diagnosis
         diag_features = features_scaled[diag_mask]
         diag_hospitals = hospital_encoded[diag_mask]
-        
-        unique_hospitals = np.unique(diag_hospitals)
-        if len(unique_hospitals) < 2 or len(diag_features) < 20:
+        diag_wsi_ids = wsi_ids[diag_mask]
+        diag_metadata = metadata_df[diag_mask]
+
+        # 以WSI为单位做分层
+        wsi_to_hosp = diag_metadata.groupby('wsi_id')['hosp'].first().to_dict()
+        wsi_list = np.array(list(wsi_to_hosp.keys()))
+        wsi_hosp_labels = np.array(list(wsi_to_hosp.values()))
+        unique_hospitals = np.unique(wsi_hosp_labels)
+        if len(unique_hospitals) < 2 or len(wsi_list) < 10:
             print(f"    Warning: Insufficient data")
             continue
-        
         print(f"    Debug: {len(diag_features)} samples, {len(unique_hospitals)} hospitals: {unique_hospitals}")
-        
+
         skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
         cv_scores = []
         all_true_labels = []
         all_predictions = []
         all_pred_proba = []
-        
-        for train_idx, test_idx in skf.split(diag_features, diag_hospitals):
-            X_train = diag_features[train_idx]
-            X_test = diag_features[test_idx]
-            y_train = diag_hospitals[train_idx]
-            y_test = diag_hospitals[test_idx]
-            
+
+        for wsi_train_idx, wsi_test_idx in skf.split(wsi_list, wsi_hosp_labels):
+            train_wsi = wsi_list[wsi_train_idx]
+            test_wsi = wsi_list[wsi_test_idx]
+            train_mask = np.isin(diag_wsi_ids, train_wsi)
+            test_mask = np.isin(diag_wsi_ids, test_wsi)
+            X_train = diag_features[train_mask]
+            X_test = diag_features[test_mask]
+            y_train = diag_hospitals[train_mask]
+            y_test = diag_hospitals[test_mask]
+            if len(np.unique(y_train)) < 2 or len(np.unique(y_test)) < 2:
+                continue
             clf = LogisticRegression(random_state=42, max_iter=1000, solver='liblinear')
             clf.fit(X_train, y_train)
-            
             y_pred = clf.predict(X_test)
             y_pred_proba = clf.predict_proba(X_test)
             cv_scores.append(accuracy_score(y_test, y_pred))
-            
             all_true_labels.extend(y_test)
             all_predictions.extend(y_pred)
             all_pred_proba.extend(y_pred_proba)
-        
+
         mean_accuracy = np.mean(cv_scores)
         std_accuracy = np.std(cv_scores)
-        
+
         # Calculate detailed per-hospital metrics
         cm = confusion_matrix(all_true_labels, all_predictions)
         precision, recall, f1, support = precision_recall_fscore_support(
             all_true_labels, all_predictions, average=None, zero_division=0
         )
-        
+
         # Calculate AUC metrics using probability predictions
         if len(all_pred_proba) > 0:
             try:
-                # Convert list of arrays to single array
                 pred_proba_array = np.vstack(all_pred_proba)
-                
                 if len(unique_hospitals) == 2:
-                    # Binary classification - use probability of positive class
                     roc_auc = roc_auc_score(all_true_labels, pred_proba_array[:, 1])
                     avg_precision = average_precision_score(all_true_labels, pred_proba_array[:, 1])
                 else:
-                    # Multi-class classification - use one-vs-rest
                     roc_auc = roc_auc_score(all_true_labels, pred_proba_array, multi_class='ovr', average='macro')
                     avg_precision = average_precision_score(all_true_labels, pred_proba_array, average='macro')
             except Exception as e:
@@ -158,21 +163,18 @@ def analyze_single_model(features, metadata_df, model_name):
             print(f"      Warning: No probability predictions available for AUC calculation")
             roc_auc = None
             avg_precision = None
-        
-        # Get hospital names from label encoder
+
         hospital_names = le_hosp.classes_
-        
-        # Create detailed metrics dictionary
         hospital_metrics = {}
         for i, hosp_name in enumerate(hospital_names):
-            if i < len(precision):  # Check if this hospital exists in predictions
+            if i < len(precision):
                 hospital_metrics[hosp_name] = {
                     'precision': precision[i],
-                    'recall': recall[i], 
+                    'recall': recall[i],
                     'f1_score': f1[i],
                     'support': support[i]
                 }
-        
+
         results['hospital_classification'][diagnosis] = {
             'mean_accuracy': mean_accuracy,
             'std_accuracy': std_accuracy,
@@ -187,14 +189,58 @@ def analyze_single_model(features, metadata_df, model_name):
             'hospital_metrics': hospital_metrics,
             'hospital_names': hospital_names
         }
-        
         auc_info = f" (AUC: {roc_auc:.3f})" if roc_auc is not None else " (AUC: N/A)"
         print(f"    {diagnosis}: {mean_accuracy:.3f} ± {std_accuracy:.3f}{auc_info}")
-    
-    # Store label encoders for later use
+
     results['label_encoders'] = {'hospital': le_hosp, 'diagnosis': le_diag}
-    
+
+    # Patch-level Disease Classification (5-Fold CV, WSI-level split)
+    print("\nPatch Disease Classification (5-Fold CV, WSI-level split)")
+    print("-" * 50)
+    y_true = diagnosis_encoded
+    X = features_scaled
+    # 以WSI为单位做分层
+    wsi_to_diag = metadata_df.groupby('wsi_id')['patch_label'].first().to_dict()
+    wsi_list = np.array(list(wsi_to_diag.keys()))
+    wsi_diag_labels = np.array(list(wsi_to_diag.values()))
+    skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    accs, aucs, f1s = [], [], []
+    for wsi_train_idx, wsi_test_idx in skf.split(wsi_list, wsi_diag_labels):
+        train_wsi = wsi_list[wsi_train_idx]
+        test_wsi = wsi_list[wsi_test_idx]
+        train_mask = np.isin(wsi_ids, train_wsi)
+        test_mask = np.isin(wsi_ids, test_wsi)
+        X_train, X_test = X[train_mask], X[test_mask]
+        y_train, y_test = y_true[train_mask], y_true[test_mask]
+        if len(np.unique(y_train)) < 2 or len(np.unique(y_test)) < 2:
+            continue
+        clf = LogisticRegression(random_state=42, max_iter=1000, solver='liblinear')
+        clf.fit(X_train, y_train)
+        y_pred = clf.predict(X_test)
+        y_proba = clf.predict_proba(X_test)
+        accs.append(accuracy_score(y_test, y_pred))
+        f1s.append(f1_score(y_test, y_pred, average='macro'))
+        try:
+            if y_proba.shape[1] == len(np.unique(y_true)):
+                aucs.append(roc_auc_score(y_test, y_proba, multi_class='ovr', average='macro'))
+            else:
+                aucs.append(np.nan)
+        except Exception:
+            aucs.append(np.nan)
+    mean_acc = np.mean(accs)
+    mean_auc = np.nanmean(aucs)
+    mean_f1 = np.mean(f1s)
+    print(f"  Patch Disease Prediction: Accuracy={mean_acc:.3f}, AUC={mean_auc:.3f}, F1={mean_f1:.3f}")
+    results['disease_classification'] = {
+        'mean_accuracy': mean_acc,
+        'mean_auc': mean_auc,
+        'mean_f1': mean_f1,
+        'cv_accuracy': accs,
+        'cv_auc': aucs,
+        'cv_f1': f1s
+    }
     return results
+
 
 def analyze_all_models(input_dir):
     """Analyze all available models"""
@@ -235,6 +281,21 @@ def analyze_all_models(input_dir):
             print(f"Error analyzing {model_name}: {e}")
             continue
     
+    # Patch disease prediction ranking
+    print("\nModel Ranking by Patch Disease Prediction (Accuracy, AUC, F1):")
+    disease_results = []
+    for model, res in all_results.items():
+        if 'disease_classification' in res:
+            disease_results.append({
+                'model': model,
+                'accuracy': res['disease_classification']['mean_accuracy'],
+                'auc': res['disease_classification']['mean_auc'],
+                'f1': res['disease_classification']['mean_f1']
+            })
+    # 按AUC排序
+    disease_results = sorted(disease_results, key=lambda x: (x['auc'], x['f1'], x['accuracy']), reverse=True)
+    for i, r in enumerate(disease_results, 1):
+        print(f"{i:2d}. {r['model']:<15} Accuracy={r['accuracy']:.3f}  AUC={r['auc']:.3f}  F1={r['f1']:.3f}")
     return all_results
 
 def create_visualizations(all_results, output_dir):
@@ -508,6 +569,20 @@ def save_results(all_results, output_dir):
     detailed_csv = os.path.join(results_dir, "detailed_hospital_metrics.csv")
     pd.DataFrame(detailed_csv_data).to_csv(detailed_csv, index=False)
     print(f"Detailed hospital metrics CSV saved: {detailed_csv}")
+
+    # Patch disease prediction summary
+    disease_csv_data = []
+    for model, model_results in all_results.items():
+        if 'disease_classification' in model_results:
+            disease_csv_data.append({
+                'model': model,
+                'mean_accuracy': model_results['disease_classification']['mean_accuracy'],
+                'mean_auc': model_results['disease_classification']['mean_auc'],
+                'mean_f1': model_results['disease_classification']['mean_f1']
+            })
+    disease_csv = os.path.join(results_dir, "patch_disease_classification_results.csv")
+    pd.DataFrame(disease_csv_data).to_csv(disease_csv, index=False)
+    print(f"Patch disease classification CSV saved: {disease_csv}")
 
 def main():
     """Main function"""
