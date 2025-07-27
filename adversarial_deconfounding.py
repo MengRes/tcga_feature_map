@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-对抗训练去混淆模型
-目标：
-- maximize 疾病预测准确率
-- minimize 医院分类准确率（对抗）
+Adversarial training for deconfounding model
+Objective:
+- maximize disease prediction accuracy
+- minimize hospital classification accuracy (adversarial)
 
-结构：
+Structure:
 patch image → frozen encoder → feature f → disease head
                               ↘ GRL → domain classifier (hospital)
 """
@@ -31,7 +31,7 @@ warnings.filterwarnings('ignore')
 
 class GradientReversalFunction(torch.autograd.Function):
     """
-    梯度反转函数的实现
+    Gradient reversal function implementation
     """
     @staticmethod
     def forward(ctx, x, alpha):
@@ -45,7 +45,7 @@ class GradientReversalFunction(torch.autograd.Function):
 
 class GradientReversalLayer(nn.Module):
     """
-    梯度反转层
+    Gradient reversal layer
     """
     def __init__(self, alpha=1.0):
         super(GradientReversalLayer, self).__init__()
@@ -57,7 +57,7 @@ class GradientReversalLayer(nn.Module):
 
 class DiseaseHead(nn.Module):
     """
-    疾病预测头
+    Disease prediction head
     """
     def __init__(self, input_dim, num_classes, hidden_dim=512):
         super(DiseaseHead, self).__init__()
@@ -77,7 +77,7 @@ class DiseaseHead(nn.Module):
 
 class HospitalClassifier(nn.Module):
     """
-    医院分类器（对抗）
+    Hospital classifier (adversarial)
     """
     def __init__(self, input_dim, num_hospitals, hidden_dim=256):
         super(HospitalClassifier, self).__init__()
@@ -95,36 +95,45 @@ class HospitalClassifier(nn.Module):
         return self.classifier(x)
 
 
-class AdversarialModel(nn.Module):
+class ProjectionHead(nn.Module):
     """
-    对抗训练模型
+    Projection head to map frozen features to a new space (trainable)
     """
-    def __init__(self, feature_dim, num_diseases, num_hospitals, grl_alpha=1.0):
-        super(AdversarialModel, self).__init__()
-        
-        # 疾病预测头
-        self.disease_head = DiseaseHead(feature_dim, num_diseases)
-        
-        # 梯度反转层
+    def __init__(self, input_dim, proj_dim=256, hidden_dim=512, nonlinear=True):
+        super(ProjectionHead, self).__init__()
+        if nonlinear:
+            self.proj = nn.Sequential(
+                nn.Linear(input_dim, hidden_dim),
+                nn.ReLU(),
+                nn.Linear(hidden_dim, proj_dim)
+            )
+        else:
+            self.proj = nn.Linear(input_dim, proj_dim)
+    def forward(self, x):
+        return self.proj(x)
+
+class AdversarialProjectionModel(nn.Module):
+    """
+    Adversarial model with trainable projection head on frozen features
+    Only projection head and domain classifier are trainable
+    """
+    def __init__(self, feature_dim, proj_dim, num_diseases, num_hospitals, grl_alpha=1.0, nonlinear=True):
+        super(AdversarialProjectionModel, self).__init__()
+        self.projection = ProjectionHead(feature_dim, proj_dim, nonlinear=nonlinear)
+        self.disease_head = DiseaseHead(proj_dim, num_diseases)
         self.grl = GradientReversalLayer(alpha=grl_alpha)
-        
-        # 医院分类器（对抗）
-        self.hospital_classifier = HospitalClassifier(feature_dim, num_hospitals)
-        
+        self.hospital_classifier = HospitalClassifier(proj_dim, num_hospitals)
     def forward(self, features):
-        # 疾病预测
-        disease_logits = self.disease_head(features)
-        
-        # 医院对抗分类
-        reversed_features = self.grl(features)
-        hospital_logits = self.hospital_classifier(reversed_features)
-        
+        proj = self.projection(features)
+        disease_logits = self.disease_head(proj)
+        reversed_proj = self.grl(proj)
+        hospital_logits = self.hospital_classifier(reversed_proj)
         return disease_logits, hospital_logits
 
 
 class PatchDataset(Dataset):
     """
-    补丁数据集
+    Patch dataset
     """
     def __init__(self, features, disease_labels, hospital_labels, wsi_ids):
         self.features = torch.FloatTensor(features)
@@ -146,14 +155,14 @@ class PatchDataset(Dataset):
 
 def load_features_and_metadata(features_dir, patches_csv_path):
     """
-    加载特征和元数据
+    Load features and metadata
     """
     print(f"Loading features from {features_dir}")
     
-    # 加载补丁信息
+    # Load patch information
     patches_df = pd.read_csv(patches_csv_path)
     
-    # 从文件名提取医院信息
+    # Extract hospital information from filename
     def extract_hosp_from_filename(filename):
         parts = filename.split('-')
         if len(parts) >= 3:
@@ -162,7 +171,7 @@ def load_features_and_metadata(features_dir, patches_csv_path):
     
     patches_df['hosp'] = patches_df['wsi_id'].apply(extract_hosp_from_filename)
     
-    # 加载特征文件
+    # Load feature files
     feature_files = sorted(glob.glob(os.path.join(features_dir, "*_features.pt")))
     
     if len(feature_files) == 0:
@@ -204,7 +213,7 @@ def load_features_and_metadata(features_dir, patches_csv_path):
 def train_epoch(model, dataloader, disease_criterion, hospital_criterion, 
                 disease_optimizer, hospital_optimizer, device, lambda_adv=1.0):
     """
-    训练一个epoch
+    Train one epoch
     """
     model.train()
     total_disease_loss = 0
@@ -218,24 +227,24 @@ def train_epoch(model, dataloader, disease_criterion, hospital_criterion,
         disease_labels = batch['disease_label'].to(device)
         hospital_labels = batch['hospital_label'].to(device)
         
-        # 前向传播
+        # Forward pass
         disease_logits, hospital_logits = model(features)
         
-        # 计算损失
+        # Calculate loss
         disease_loss = disease_criterion(disease_logits, disease_labels)
         hospital_loss = hospital_criterion(hospital_logits, hospital_labels)
         
-        # 总损失：疾病损失 - λ * 医院损失（对抗）
+        # Total loss: disease loss - λ * hospital loss (adversarial)
         total_loss = disease_loss - lambda_adv * hospital_loss
         
-        # 反向传播
+        # Backward pass
         disease_optimizer.zero_grad()
         hospital_optimizer.zero_grad()
         total_loss.backward()
         disease_optimizer.step()
         hospital_optimizer.step()
         
-        # 统计
+        # Statistics
         total_disease_loss += disease_loss.item()
         total_hospital_loss += hospital_loss.item()
         
@@ -256,7 +265,7 @@ def train_epoch(model, dataloader, disease_criterion, hospital_criterion,
 
 def evaluate(model, dataloader, disease_criterion, hospital_criterion, device):
     """
-    评估模型
+    Evaluate model
     """
     model.eval()
     total_disease_loss = 0
@@ -301,7 +310,7 @@ def evaluate(model, dataloader, disease_criterion, hospital_criterion, device):
     disease_acc = accuracy_score(all_disease_labels, all_disease_preds)
     hospital_acc = accuracy_score(all_hospital_labels, all_hospital_preds)
     
-    # 计算AUC
+    # Calculate AUC
     try:
         disease_auc = roc_auc_score(all_disease_labels, all_disease_probs, multi_class='ovr', average='macro')
     except:
@@ -326,12 +335,12 @@ def train_adversarial_model(features, metadata_df, output_dir,
                           num_epochs=50, batch_size=32, learning_rate=1e-3, 
                           lambda_adv=1.0, grl_alpha=1.0):
     """
-    训练对抗模型
+    Train adversarial model
     """
     print("Training Adversarial Model")
     print("="*50)
     
-    # 数据预处理
+    # Data preprocessing
     le_disease = LabelEncoder()
     le_hospital = LabelEncoder()
     
@@ -344,10 +353,10 @@ def train_adversarial_model(features, metadata_df, output_dir,
     print(f"Number of diseases: {len(le_disease.classes_)}")
     print(f"Number of hospitals: {len(le_hospital.classes_)}")
     
-    # 创建数据集
+    # Create dataset
     dataset = PatchDataset(features, disease_labels, hospital_labels, wsi_ids)
     
-    # WSI级别的分层交叉验证
+    # WSI-level stratified cross-validation
     wsi_to_disease = metadata_df.groupby('wsi_id')['patch_label'].first().to_dict()
     wsi_list = np.array(list(wsi_to_disease.keys()))
     wsi_disease_labels = np.array(list(wsi_to_disease.values()))
@@ -364,11 +373,11 @@ def train_adversarial_model(features, metadata_df, output_dir,
         train_wsi = wsi_list[train_wsi_idx]
         val_wsi = wsi_list[val_wsi_idx]
         
-        # 创建训练和验证掩码
+        # Create training and validation masks
         train_mask = np.isin(wsi_ids, train_wsi)
         val_mask = np.isin(wsi_ids, val_wsi)
         
-        # 分割数据
+        # Split data
         train_features = features[train_mask]
         val_features = features[val_mask]
         train_disease_labels = disease_labels[train_mask]
@@ -378,7 +387,7 @@ def train_adversarial_model(features, metadata_df, output_dir,
         train_wsi_ids = wsi_ids[train_mask]
         val_wsi_ids = wsi_ids[val_mask]
         
-        # 创建数据加载器
+        # Create data loaders
         train_dataset = PatchDataset(train_features, train_disease_labels, 
                                    train_hospital_labels, train_wsi_ids)
         val_dataset = PatchDataset(val_features, val_disease_labels, 
@@ -387,37 +396,39 @@ def train_adversarial_model(features, metadata_df, output_dir,
         train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
         val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
         
-        # 创建模型
+        # Create model
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        model = AdversarialModel(
+        model = AdversarialProjectionModel(
             feature_dim=features.shape[1],
+            proj_dim=512, # Example projection dimension
             num_diseases=len(le_disease.classes_),
             num_hospitals=len(le_hospital.classes_),
             grl_alpha=grl_alpha
         ).to(device)
         
-        # 损失函数和优化器
+        # Loss functions and optimizers
         disease_criterion = nn.CrossEntropyLoss()
         hospital_criterion = nn.CrossEntropyLoss()
         
-        disease_optimizer = optim.Adam(model.disease_head.parameters(), lr=learning_rate)
+        # Only optimize projection head and domain classifier
+        projection_optimizer = optim.Adam(model.projection.parameters(), lr=learning_rate)
         hospital_optimizer = optim.Adam(model.hospital_classifier.parameters(), lr=learning_rate)
         
-        # 训练循环
+        # Training loop
         best_disease_acc = 0
-        best_hospital_acc = 1.0  # 对抗目标：最小化医院分类准确率
+        best_hospital_acc = 1.0  # Adversarial objective: minimize hospital classification accuracy
         patience = 10
         patience_counter = 0
         
         train_history = []
         
         for epoch in range(num_epochs):
-            # 训练
+            # Training
             train_disease_loss, train_hospital_loss, train_disease_acc, train_hospital_acc = \
                 train_epoch(model, train_loader, disease_criterion, hospital_criterion,
-                          disease_optimizer, hospital_optimizer, device, lambda_adv)
+                          projection_optimizer, hospital_optimizer, device, lambda_adv)
             
-            # 验证
+            # Validation
             val_results = evaluate(model, val_loader, disease_criterion, hospital_criterion, device)
             
             train_history.append({
@@ -434,12 +445,12 @@ def train_adversarial_model(features, metadata_df, output_dir,
                 'val_hospital_auc': val_results['hospital_auc']
             })
             
-            # 早停检查
+            # Early stopping check
             if val_results['disease_acc'] > best_disease_acc and val_results['hospital_acc'] < best_hospital_acc:
                 best_disease_acc = val_results['disease_acc']
                 best_hospital_acc = val_results['hospital_acc']
                 patience_counter = 0
-                # 保存最佳模型
+                # Save best model
                 torch.save(model.state_dict(), os.path.join(output_dir, f'best_model_fold_{fold}.pth'))
             else:
                 patience_counter += 1
@@ -454,7 +465,7 @@ def train_adversarial_model(features, metadata_df, output_dir,
                 print(f"Early stopping at epoch {epoch}")
                 break
         
-        # 加载最佳模型进行评估
+        # Load best model for evaluation
         model.load_state_dict(torch.load(os.path.join(output_dir, f'best_model_fold_{fold}.pth')))
         final_results = evaluate(model, val_loader, disease_criterion, hospital_criterion, device)
         
@@ -466,11 +477,11 @@ def train_adversarial_model(features, metadata_df, output_dir,
         print(f"  Disease AUC: {final_results['disease_auc']:.3f}")
         print(f"  Hospital AUC: {final_results['hospital_auc']:.3f}")
         
-        # 保存训练历史
+        # Save training history
         train_df = pd.DataFrame(train_history)
         train_df.to_csv(os.path.join(output_dir, f'training_history_fold_{fold}.csv'), index=False)
     
-    # 计算平均结果
+    # Calculate average results
     avg_results = {}
     for key in all_results[0].keys():
         avg_results[key] = np.mean([result[key] for result in all_results])
@@ -482,20 +493,20 @@ def train_adversarial_model(features, metadata_df, output_dir,
     print(f"Disease AUC: {avg_results['disease_auc']:.3f} ± {avg_results['disease_auc_std']:.3f}")
     print(f"Hospital AUC: {avg_results['hospital_auc']:.3f} ± {avg_results['hospital_auc_std']:.3f}")
     
-    # 保存结果
+    # Save results
     results_df = pd.DataFrame(all_results)
     results_df.to_csv(os.path.join(output_dir, 'cross_validation_results.csv'), index=False)
     
-    # 保存标签编码器
+    # Save label encoders
     import pickle
     with open(os.path.join(output_dir, 'label_encoders.pkl'), 'wb') as f:
         pickle.dump({'disease': le_disease, 'hospital': le_hospital}, f)
     
-    # 提取并保存对抗训练后的特征
+    # Extract and save adversarial features
     print("\nExtracting and saving adversarial features...")
     adv_features = save_adversarial_features(features, metadata_df, output_dir, le_disease, le_hospital)
     
-    # 创建t-SNE可视化
+    # Create t-SNE visualizations
     print("\nCreating t-SNE visualizations...")
     create_tsne_visualizations(features, adv_features, metadata_df, output_dir)
     
@@ -504,48 +515,49 @@ def train_adversarial_model(features, metadata_df, output_dir,
 
 def save_adversarial_features(features, metadata_df, output_dir, le_disease, le_hospital):
     """
-    提取并保存对抗训练后的特征
+    Extract and save adversarial features
     """
     print("Extracting adversarial features...")
     
-    # 创建特征保存目录
+    # Create feature save directory
     parent_dir = os.path.dirname(output_dir.rstrip('/'))
     adv_feat_dir = os.path.join(parent_dir, 'features_ADV')
     os.makedirs(adv_feat_dir, exist_ok=True)
     
-    # 创建最终的对抗模型（使用所有数据训练）
+    # Create final adversarial model (trained on all data)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    final_model = AdversarialModel(
+    final_model = AdversarialProjectionModel(
         feature_dim=features.shape[1],
+        proj_dim=512, # Example projection dimension
         num_diseases=len(le_disease.classes_),
         num_hospitals=len(le_hospital.classes_),
         grl_alpha=1.0
     ).to(device)
     
-    # 准备数据
+    # Prepare data
     disease_labels = le_disease.transform(metadata_df['patch_label'])
     hospital_labels = le_hospital.transform(metadata_df['hosp'])
     wsi_ids = metadata_df['wsi_id'].values
     
-    # 创建数据集和数据加载器
+    # Create dataset and data loader
     dataset = PatchDataset(features, disease_labels, hospital_labels, wsi_ids)
     dataloader = DataLoader(dataset, batch_size=32, shuffle=False)
     
-    # 训练最终模型（使用所有数据）
+    # Train final model (on all data)
     print("Training final model on all data...")
     disease_criterion = nn.CrossEntropyLoss()
     hospital_criterion = nn.CrossEntropyLoss()
-    disease_optimizer = optim.Adam(final_model.disease_head.parameters(), lr=1e-3)
+    projection_optimizer = optim.Adam(final_model.projection.parameters(), lr=1e-3)
     hospital_optimizer = optim.Adam(final_model.hospital_classifier.parameters(), lr=1e-3)
     
-    # 简单训练几个epoch
+    # Simple training for a few epochs
     for epoch in range(20):
         train_epoch(final_model, dataloader, disease_criterion, hospital_criterion,
-                   disease_optimizer, hospital_optimizer, device, lambda_adv=1.0)
+                   projection_optimizer, hospital_optimizer, device, lambda_adv=1.0)
         if epoch % 5 == 0:
             print(f"Final training epoch {epoch}/20")
     
-    # 提取特征
+    # Extract features
     print("Extracting features...")
     final_model.eval()
     all_extracted_features = []
@@ -557,14 +569,15 @@ def save_adversarial_features(features, metadata_df, output_dir, le_disease, le_
             features_batch = batch['features'].to(device)
             wsi_ids_batch = batch['wsi_id']
             
-            # 获取疾病预测头的中间特征（在最后的线性层之前）
-            disease_features = final_model.disease_head.classifier[:-1](features_batch)
-            all_extracted_features.append(disease_features.cpu().numpy())
+            # Get intermediate features of the disease prediction head (before the last linear layer)
+            # These are the features after the projection head
+            proj_features = final_model.projection(features_batch)
+            all_extracted_features.append(proj_features.cpu().numpy())
             all_wsi_ids.extend(wsi_ids_batch)
     
     all_extracted_features = np.vstack(all_extracted_features)
     
-    # 按WSI分组保存特征
+    # Save features by WSI
     print("Saving features by WSI...")
     wsi_groups = {}
     for i, wsi_id in enumerate(all_wsi_ids):
@@ -585,21 +598,21 @@ def save_adversarial_features(features, metadata_df, output_dir, le_disease, le_
 
 def create_tsne_visualizations(original_features, adv_features, metadata_df, output_dir):
     """
-    创建t-SNE可视化，比较原始特征和对抗训练后的特征
+    Create t-SNE visualizations, comparing original features with adversarial training features
     """
     print("Creating t-SNE visualizations...")
     
     from sklearn.manifold import TSNE
     
-    # 创建可视化目录
+    # Create visualization directory
     viz_dir = os.path.join(output_dir, 'visualizations')
     os.makedirs(viz_dir, exist_ok=True)
     
-    # 准备标签
+    # Prepare labels
     hospital_labels = metadata_df['hosp'].values
     disease_labels = metadata_df['patch_label'].values
     
-    # 计算t-SNE
+    # Compute t-SNE
     print("Computing t-SNE for original features...")
     tsne_original = TSNE(n_components=2, random_state=42, n_jobs=-1, perplexity=30)
     tsne_coords_original = tsne_original.fit_transform(original_features)
@@ -608,14 +621,14 @@ def create_tsne_visualizations(original_features, adv_features, metadata_df, out
     tsne_adv = TSNE(n_components=2, random_state=42, n_jobs=-1, perplexity=30)
     tsne_coords_adv = tsne_adv.fit_transform(adv_features)
     
-    # 1. 按医院的可视化对比
+    # 1. Visualization comparison by hospital
     print("Creating hospital-based t-SNE comparison...")
     unique_hospitals = np.unique(hospital_labels)
     colors = plt.cm.Set1(np.linspace(0, 1, len(unique_hospitals)))
     
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 8))
     
-    # 原始特征按医院
+    # Original features by hospital
     for i, hospital in enumerate(unique_hospitals):
         mask = hospital_labels == hospital
         ax1.scatter(tsne_coords_original[mask, 0], tsne_coords_original[mask, 1], 
@@ -625,7 +638,7 @@ def create_tsne_visualizations(original_features, adv_features, metadata_df, out
     ax1.set_ylabel('t-SNE 2')
     ax1.legend(title='Hospital', bbox_to_anchor=(1.05, 1), loc='upper left')
     
-    # 对抗特征按医院
+    # Adversarial features by hospital
     for i, hospital in enumerate(unique_hospitals):
         mask = hospital_labels == hospital
         ax2.scatter(tsne_coords_adv[mask, 0], tsne_coords_adv[mask, 1], 
@@ -640,14 +653,14 @@ def create_tsne_visualizations(original_features, adv_features, metadata_df, out
     plt.close()
     print(f"Saved: {os.path.join(viz_dir, 'tsne_hospital_comparison.png')}")
     
-    # 2. 按疾病的可视化对比
+    # 2. Visualization comparison by disease
     print("Creating disease-based t-SNE comparison...")
     unique_diseases = np.unique(disease_labels)
     colors_disease = plt.cm.tab10(np.linspace(0, 1, len(unique_diseases)))
     
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 8))
     
-    # 原始特征按疾病
+    # Original features by disease
     for i, disease in enumerate(unique_diseases):
         mask = disease_labels == disease
         ax1.scatter(tsne_coords_original[mask, 0], tsne_coords_original[mask, 1], 
@@ -657,7 +670,7 @@ def create_tsne_visualizations(original_features, adv_features, metadata_df, out
     ax1.set_ylabel('t-SNE 2')
     ax1.legend(title='Disease', bbox_to_anchor=(1.05, 1), loc='upper left')
     
-    # 对抗特征按疾病
+    # Adversarial features by disease
     for i, disease in enumerate(unique_diseases):
         mask = disease_labels == disease
         ax2.scatter(tsne_coords_adv[mask, 0], tsne_coords_adv[mask, 1], 
@@ -672,10 +685,10 @@ def create_tsne_visualizations(original_features, adv_features, metadata_df, out
     plt.close()
     print(f"Saved: {os.path.join(viz_dir, 'tsne_disease_comparison.png')}")
     
-    # 3. 单独的医院可视化
+    # 3. Individual hospital visualization
     print("Creating individual hospital t-SNE plots...")
     
-    # 原始特征按医院
+    # Original features by hospital
     plt.figure(figsize=(12, 8))
     for i, hospital in enumerate(unique_hospitals):
         mask = hospital_labels == hospital
@@ -690,7 +703,7 @@ def create_tsne_visualizations(original_features, adv_features, metadata_df, out
     plt.close()
     print(f"Saved: {os.path.join(viz_dir, 'tsne_original_by_hospital.png')}")
     
-    # 对抗特征按医院
+    # Adversarial features by hospital
     plt.figure(figsize=(12, 8))
     for i, hospital in enumerate(unique_hospitals):
         mask = hospital_labels == hospital
@@ -705,10 +718,10 @@ def create_tsne_visualizations(original_features, adv_features, metadata_df, out
     plt.close()
     print(f"Saved: {os.path.join(viz_dir, 'tsne_adversarial_by_hospital.png')}")
     
-    # 4. 单独的疾病可视化
+    # 4. Individual disease visualization
     print("Creating individual disease t-SNE plots...")
     
-    # 原始特征按疾病
+    # Original features by disease
     plt.figure(figsize=(12, 8))
     for i, disease in enumerate(unique_diseases):
         mask = disease_labels == disease
@@ -723,7 +736,7 @@ def create_tsne_visualizations(original_features, adv_features, metadata_df, out
     plt.close()
     print(f"Saved: {os.path.join(viz_dir, 'tsne_original_by_disease.png')}")
     
-    # 对抗特征按疾病
+    # Adversarial features by disease
     plt.figure(figsize=(12, 8))
     for i, disease in enumerate(unique_diseases):
         mask = disease_labels == disease
@@ -762,13 +775,13 @@ def main():
     
     args = parser.parse_args()
     
-    # 创建输出目录
+    # Create output directory
     os.makedirs(args.output_dir, exist_ok=True)
     
-    # 加载数据
+    # Load data
     features, metadata_df = load_features_and_metadata(args.features_dir, args.patches_csv)
     
-    # 训练模型
+    # Train model
     avg_results, all_results = train_adversarial_model(
         features, metadata_df, args.output_dir,
         num_epochs=args.num_epochs,

@@ -5,6 +5,7 @@
 /TITAN
 /MUSK
 /checkpoints
+/model_ckpt
 
 # Pipeline results
 results/
